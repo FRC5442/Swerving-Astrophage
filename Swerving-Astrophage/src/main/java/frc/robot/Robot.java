@@ -62,6 +62,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    RobotContainer.calibrateGyro.schedule();
+
   }
 
   /** This function is called periodically during autonomous. */
@@ -77,6 +80,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    RobotContainer.drive.schedule();
+    
   }
 
   /** This function is called periodically during operator control. */
