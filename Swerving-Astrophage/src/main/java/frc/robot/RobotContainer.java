@@ -7,6 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -18,16 +19,20 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+
 //import com.revrobotics.CANSparkMax;
 //import com.revrobotics.CANSparkMaxLowLevel;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.FrontLeftModule;
 import frc.robot.subsystems.FrontRightModule;
 import frc.robot.subsystems.BackLeftModule;
 import frc.robot.subsystems.BackRightModule;
 import frc.robot.subsystems.SwerveGroup;
 import frc.robot.subsystems.SwerveModule;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Drive;
 import frc.robot.commands.CalibrateModules;
 import frc.robot.commands.CalibrateGyro;
@@ -51,6 +56,8 @@ public class RobotContainer {
   //CONTROLLER\\
   public static Joystick xboxController;
   public static JoystickButton xboxControllerA;
+  public static JoystickButton xboxControllerB;
+  public static JoystickButton xboxControllerX;
 
 
   //DRIVE\\
@@ -72,15 +79,19 @@ public class RobotContainer {
 
   //INTAKE\\
   /***********************************************************/
-
-
-
+  public static WPI_VictorSPX intakeMotor;
+  public static Intake intake;
+  public static IntakeCommand intakeCommand;
+  public static IntakeCommand reverseIntakeCommand;
+ /***********************************************************/
 
   public RobotContainer() {
 
     /************************* JOYSTICKS *************************/
     xboxController = new Joystick(0);
     xboxControllerA = new JoystickButton(xboxController, 1);
+    xboxControllerB = new JoystickButton(xboxController, 2);
+    xboxControllerX = new JoystickButton(xboxController, 3);
     /***********************************************************/
 
 
@@ -110,7 +121,16 @@ public class RobotContainer {
     
 
     /************************* INTAKE *************************/
+    intakeMotor = new WPI_VictorSPX(11);
+    intake = new Intake();
+    intakeCommand = new IntakeCommand(0.5);
+    reverseIntakeCommand = new IntakeCommand(-0.5);
     /***********************************************************/
+
+   
+
+
+
 
 
 
@@ -132,7 +152,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    xboxControllerB.whileHeld(intakeCommand);
+    xboxControllerX.whileHeld(reverseIntakeCommand);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
