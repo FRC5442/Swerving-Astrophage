@@ -25,17 +25,8 @@ import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.FrontLeftModule;
-import frc.robot.subsystems.FrontRightModule;
-import frc.robot.subsystems.BackLeftModule;
-import frc.robot.subsystems.BackRightModule;
-import frc.robot.subsystems.SwerveGroup;
-import frc.robot.subsystems.SwerveModule;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.Drive;
-import frc.robot.commands.CalibrateModules;
-import frc.robot.commands.CalibrateGyro;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 /***********************************************************/
 
 /**
@@ -51,7 +42,6 @@ public class RobotContainer {
 
   public static AHRS navX;
   public static PowerDistribution pdp;
-
 
   //CONTROLLER\\
   public static Joystick xboxController;
@@ -166,6 +156,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return new DefaultAutoPath();
   }
 }

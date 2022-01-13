@@ -16,6 +16,10 @@ public class Drive extends CommandBase {
   private double leftX ;//0
   private double leftY ;
 
+  double xValue;
+  double yValue;
+  double rValue;
+
   private boolean useAuto = false;
 
 
@@ -30,7 +34,9 @@ public class Drive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.swerveGroup);
     useAuto = true;
-    leftX = _leftX;
+    xValue = _leftX;
+    yValue = _leftY;
+    rValue = _rightX;
 
   }
 
@@ -57,11 +63,14 @@ public class Drive extends CommandBase {
       RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
     }
     else{
-      leftX = 0.0; //0
-      leftY = 0.5;  //1
+      //leftX = _leftX; //0
+      //leftY = _leftY;  //1
+      leftX = xValue;
+      leftY = yValue;
+      rightX = rValue;
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
-      rightX = 0.0;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
+      //rightX = 0.0;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
 
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
