@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-//import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-//import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
-//import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,8 +23,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-//import com.revrobotics.CANSparkMax;
-//import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.FrontLeftModule;
 import frc.robot.subsystems.FrontRightModule;
@@ -115,6 +115,7 @@ public class RobotContainer {
     frontLeftModule = new FrontLeftModule(driveMotor3, driveMotor4, frontLeftAbsEncoder);
     backLeftModule = new BackLeftModule(driveMotor5, driveMotor6, backLeftAbsEncoder);
     backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
+    swerveGroup = new SwerveGroup();
     drive = new Drive();
     /***********************************************************/
 
@@ -135,6 +136,7 @@ public class RobotContainer {
 
 
     /************************* OTHER *************************/
+    navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new CalibrateGyro();
     calibrateModules = new CalibrateModules();
     /***********************************************************/
