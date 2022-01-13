@@ -147,6 +147,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
+    //xboxControllerX.whenPressed(new DefaultAutoPath());
   }
 
   /**
@@ -157,5 +158,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new DefaultAutoPath();
+    //return m_autoCommand;
   }
 }
