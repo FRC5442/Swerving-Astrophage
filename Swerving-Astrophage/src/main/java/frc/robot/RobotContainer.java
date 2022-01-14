@@ -7,7 +7,8 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -43,11 +44,17 @@ public class RobotContainer {
   public static AHRS navX;
   public static PowerDistribution pdp;
 
+  //AUTONOMOUS\\
+  private final DefaultAutoPath autoDefault;
+  private final ComplexAutoPath autoComplex;
+
   //CONTROLLER\\
   public static Joystick xboxController;
   public static JoystickButton xboxControllerA;
   public static JoystickButton xboxControllerB;
   public static JoystickButton xboxControllerX;
+
+  SendableChooser<Command> autoChooser;
 
 
   //DRIVE\\
@@ -131,6 +138,15 @@ public class RobotContainer {
     calibrateModules = new CalibrateModules();
     /***********************************************************/
 
+    /************************* AUTO *************************/
+    autoDefault = new DefaultAutoPath();
+    autoComplex = new ComplexAutoPath();
+    autoChooser = new SendableChooser<>();
+    autoChooser.setDefaultOption("Default Auto", autoDefault);
+    autoChooser.addOption("Complex Auto", autoComplex);
+    SmartDashboard.putData(autoChooser);
+    /***********************************************************/
+
 
 
     /************************* BUTTON BINDING METHOD(S) *************************/
@@ -147,7 +163,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
-    //xboxControllerX.whenPressed(new DefaultAutoPath());
+    xboxControllerX.whenPressed(new DefaultAutoPath());
   }
 
   /**
@@ -157,7 +173,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new DefaultAutoPath();
+    //return new DefaultAutoPath();
     //return m_autoCommand;
+    return autoChooser.getSelected();
   }
 }

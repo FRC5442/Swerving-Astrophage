@@ -47,6 +47,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void move(double speed, double angle) {
+    //By rotating both the top gear and the bottom gear at equal and opposite speeds, the wheel will drive in a straight direction.
     topGearSpeed = 0;
     bottomGearSpeed = 0;
 
