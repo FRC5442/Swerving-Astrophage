@@ -42,6 +42,7 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static AHRS navX;
+  public static AHRS turretGyro;
   public static PowerDistribution pdp;
 
   //AUTONOMOUS\\
@@ -53,6 +54,7 @@ public class RobotContainer {
   public static JoystickButton xboxControllerA;
   public static JoystickButton xboxControllerB;
   public static JoystickButton xboxControllerX;
+  public static JoystickButton xboxControllerLBumper, xboxControllerRBumper;
 
   SendableChooser<Command> autoChooser;
 
@@ -82,6 +84,9 @@ public class RobotContainer {
   public static IntakeCommand reverseIntakeCommand;
  /***********************************************************/
 
+ public static WPI_VictorSPX turretMotor;
+ public static Turret turret;
+
   public RobotContainer() {
 
     /************************* JOYSTICKS *************************/
@@ -89,6 +94,10 @@ public class RobotContainer {
     xboxControllerA = new JoystickButton(xboxController, 1);
     xboxControllerB = new JoystickButton(xboxController, 2);
     xboxControllerX = new JoystickButton(xboxController, 3);
+    xboxControllerLBumper = new JoystickButton(xboxController, 6); //need to update before implementation
+    xboxControllerRBumper = new JoystickButton(xboxController, 7); //need to update before implementation
+
+    
     /***********************************************************/
 
 
@@ -124,6 +133,14 @@ public class RobotContainer {
     intakeCommand = new IntakeCommand(0.5);
     reverseIntakeCommand = new IntakeCommand(-0.5);
     /***********************************************************/
+
+    /************************* TURRET *************************/
+    turretGyro = new AHRS(SerialPort.Port.kUSB);  //update when this is implemented
+    turretMotor = new WPI_VictorSPX(10);  //update the device number before implementing
+    turret = new Turret();
+    /***********************************************************/
+
+
 
    
 
@@ -164,6 +181,8 @@ public class RobotContainer {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
     xboxControllerX.whenPressed(new DefaultAutoPath());
+    xboxControllerLBumper.whenPressed(() -> turret.variableSetpoint += 1);
+    xboxControllerRBumper.whenPressed(() -> turret.variableSetpoint -= 1);
 
   }
 
