@@ -15,12 +15,11 @@ public class Turret extends PIDSubsystem {
   /** Creates a new Turret. */
   WPI_VictorSPX turretMotor = RobotContainer.turretMotor;
   AHRS turretGyro = RobotContainer.turretGyro;
-  public double variableSetpoint;
+  public double variableSetpoint = 0;
 
   public Turret() {
-    super(
-        // The PIDController used by the subsystem
-        new PIDController(0, 0, 0));
+    super(new PIDController(0, 0, 0));        // The PIDController used by the subsystem
+    setSetpoint(variableSetpoint);
   }
 
   @Override

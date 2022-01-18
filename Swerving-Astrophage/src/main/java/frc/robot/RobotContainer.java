@@ -7,6 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -51,9 +52,7 @@ public class RobotContainer {
 
   //CONTROLLER\\
   public static Joystick xboxController;
-  public static JoystickButton xboxControllerA;
-  public static JoystickButton xboxControllerB;
-  public static JoystickButton xboxControllerX;
+  public static JoystickButton xboxControllerA, xboxControllerB, xboxControllerX, xboxControllerY;
   public static JoystickButton xboxControllerLBumper, xboxControllerRBumper;
 
   SendableChooser<Command> autoChooser;
@@ -91,11 +90,12 @@ public class RobotContainer {
 
     /************************* JOYSTICKS *************************/
     xboxController = new Joystick(0);
-    xboxControllerA = new JoystickButton(xboxController, 1);
-    xboxControllerB = new JoystickButton(xboxController, 2);
-    xboxControllerX = new JoystickButton(xboxController, 3);
-    xboxControllerLBumper = new JoystickButton(xboxController, 6); //need to update before implementation
-    xboxControllerRBumper = new JoystickButton(xboxController, 7); //need to update before implementation
+    xboxControllerA = new JoystickButton(xboxController, Button.kA.value);
+    xboxControllerB = new JoystickButton(xboxController, Button.kB.value);
+    xboxControllerX = new JoystickButton(xboxController, Button.kX.value);
+    xboxControllerY = new JoystickButton(xboxController, Button.kY.value);
+    xboxControllerLBumper = new JoystickButton(xboxController, Button.kLeftBumper.value);
+    xboxControllerRBumper = new JoystickButton(xboxController, Button.kRightBumper.value);
 
     
     /***********************************************************/
@@ -128,15 +128,15 @@ public class RobotContainer {
     
 
     /************************* INTAKE *************************/
-    intakeMotor = new WPI_VictorSPX(11);
+    intakeMotor = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR);
     intake = new Intake();
-    intakeCommand = new IntakeCommand(0.5);
-    reverseIntakeCommand = new IntakeCommand(-0.5);
+    intakeCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_SPEED);
+    reverseIntakeCommand = new IntakeCommand(-1 * Constants.IntakeConstants.INTAKE_SPEED);
     /***********************************************************/
 
     /************************* TURRET *************************/
     turretGyro = new AHRS(SerialPort.Port.kUSB);  //update when this is implemented
-    turretMotor = new WPI_VictorSPX(10);  //update the device number before implementing
+    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);  
     turret = new Turret();
     /***********************************************************/
 
@@ -181,8 +181,8 @@ public class RobotContainer {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
     xboxControllerX.whenPressed(new DefaultAutoPath());
-    xboxControllerLBumper.whenPressed(() -> turret.variableSetpoint += 1);
-    xboxControllerRBumper.whenPressed(() -> turret.variableSetpoint -= 1);
+    xboxControllerLBumper.whenPressed(() -> turret.variableSetpoint += 1); //Uses a lambda expression to change the value of the setpoint of the turret
+    xboxControllerRBumper.whenPressed(() -> turret.variableSetpoint -= 1); //""
 
   }
 
