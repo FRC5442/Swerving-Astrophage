@@ -122,7 +122,7 @@ public class RobotContainer {
     intakeMotor = new WPI_VictorSPX(11);
     intake = new Intake();
     intakeCommand = new IntakeCommand(0.5);
-    reverseIntakeCommand = new IntakeCommand(-0.5);
+    reverseIntakeCommand = new IntakeCommand(-0.75);
     /***********************************************************/
 
    
@@ -163,7 +163,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
-    xboxControllerX.whenPressed(new DefaultAutoPath());
+    //xboxControllerX.whenPressed(new DefaultAutoPath());
 
   }
 
@@ -175,7 +175,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new DefaultAutoPath();
-    //return m_autoCommand;
-    return autoChooser.getSelected();
+    return m_autoCommand;
+    //return autoChooser.getSelected();
   }
 }
