@@ -20,6 +20,10 @@ public final class Constants {
 
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 10;
+        
+        public static final double TURRET_kP = 1;
+        public static final double TURRET_kI = 0;
+        public static final double TURRET_kD = 0;
     }
 
     public static final class RobotConstants {

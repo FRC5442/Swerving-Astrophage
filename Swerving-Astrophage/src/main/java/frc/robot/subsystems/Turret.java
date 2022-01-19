@@ -9,6 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Turret extends PIDSubsystem {
@@ -18,7 +19,7 @@ public class Turret extends PIDSubsystem {
   public double variableSetpoint = 0;
 
   public Turret() {
-    super(new PIDController(0, 0, 0));        // The PIDController used by the subsystem
+    super(new PIDController(Constants.TurretConstants.TURRET_kP, Constants.TurretConstants.TURRET_kI, Constants.TurretConstants.TURRET_kD));// The PIDController used by the subsystem
     setSetpoint(variableSetpoint);
   }
 

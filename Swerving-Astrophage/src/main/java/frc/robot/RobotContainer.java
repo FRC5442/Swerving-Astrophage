@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -25,8 +23,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 /***********************************************************/
@@ -49,13 +45,14 @@ public class RobotContainer {
   //AUTONOMOUS\\
   private final DefaultAutoPath autoDefault;
   private final ComplexAutoPath autoComplex;
+  SendableChooser<Command> autoChooser;
+
 
   //CONTROLLER\\
   public static Joystick xboxController;
   public static JoystickButton xboxControllerA, xboxControllerB, xboxControllerX, xboxControllerY;
   public static JoystickButton xboxControllerLBumper, xboxControllerRBumper;
 
-  SendableChooser<Command> autoChooser;
 
 
   //DRIVE\\
@@ -96,8 +93,6 @@ public class RobotContainer {
     xboxControllerY = new JoystickButton(xboxController, Button.kY.value);
     xboxControllerLBumper = new JoystickButton(xboxController, Button.kLeftBumper.value);
     xboxControllerRBumper = new JoystickButton(xboxController, Button.kRightBumper.value);
-
-    
     /***********************************************************/
 
 
@@ -194,7 +189,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new DefaultAutoPath();
-    //return m_autoCommand;
-    return autoChooser.getSelected();
+    return m_autoCommand;
+    //return autoChooser.getSelected();
   }
 }
