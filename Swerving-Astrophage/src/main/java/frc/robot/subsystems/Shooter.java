@@ -26,6 +26,7 @@ public class Shooter extends SubsystemBase {
   SparkMaxPIDController wheel1PIDController, wheel2PIDController;
   
   public Shooter() {
+    //Shooter Wheel 1
     shooterWheel1 = RobotContainer.shooterWheel1;
     wheel1Encoder = shooterWheel1.getEncoder();
     wheel1PIDController = shooterWheel1.getPIDController();
@@ -38,6 +39,7 @@ public class Shooter extends SubsystemBase {
     wheel1PIDController.setFF(0.000015);
     wheel1PIDController.setOutputRange(-1, 1);
 
+    //Shooter Wheel 2
     shooterWheel2 = RobotContainer.shooterWheel2;
     wheel2Encoder = shooterWheel2.getEncoder();
     wheel2PIDController = shooterWheel2.getPIDController();

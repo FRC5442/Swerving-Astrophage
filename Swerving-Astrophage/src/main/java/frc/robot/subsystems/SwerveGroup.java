@@ -28,25 +28,25 @@ public class SwerveGroup extends SubsystemBase {
   }
 
   public void moveCrab(Vector2d translation, double rotation) {
-    double yawAngle = RobotContainer.navX.getAngle()/* - Constants.GYRO_OFFSET*/;
+    double yawAngle = RobotContainer.navX.getAngle()/* - Constants.GYRO_OFFSET*/;  //get the yaw angle from the RoboRio gyroscope
     SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle());
 
-    double joystickAngle = (Math.atan2(-translation.y, translation.x) * (180/Math.PI)) + 180 + yawAngle;
+    double joystickAngle = (Math.atan2(-translation.y, translation.x) * (180/Math.PI)) + 180 + yawAngle;   //preform fancy math to find the angle the joystick is at
 
-    if (Math.abs(translation.magnitude()) > Constants.RobotConstants.JOYSTICK_DEAD_ZONE) {
+    if (Math.abs(translation.magnitude()) > Constants.RobotConstants.JOYSTICK_DEAD_ZONE) {  //If the joystick angle is greater then the deadzone (engaged), preform translation
       frontRightModule.move(translation.magnitude(), joystickAngle);
       frontLeftModule.move(translation.magnitude(), joystickAngle);
       backLeftModule.move(translation.magnitude(), joystickAngle);
       backRightModule.move(translation.magnitude(), joystickAngle);
     }
-    else if (Math.abs(rotation) > Constants.RobotConstants.JOYSTICK_DEAD_ZONE) {
+    else if (Math.abs(rotation) > Constants.RobotConstants.JOYSTICK_DEAD_ZONE) {  //else if joystick angle is greater then deadzone for rotation axis, preform rotation
       frontLeftModule.move(rotation, 225);
       backRightModule.move(rotation, 45);
 
       frontRightModule.move(rotation, 135);
       backLeftModule.move(rotation, 315);
     }
-    else {
+    else {  //else, don't move
       frontRightModule.stop();
       frontLeftModule.stop();
       backLeftModule.stop();
@@ -63,7 +63,7 @@ public class SwerveGroup extends SubsystemBase {
     double RCW = -rotation * ((-0.75 * translation.magnitude()) + 1);
     /**
      * rotation linearly adjusted for translation speed
-     * states that the rotation is 1x is the translation speed is 0
+     * states that the rotation is 1x if the translation speed is 0
      *  and 0.25x is the translation speed = full (1)
      *  based on the equation of a line (0.75x + 1), where x is the translation speed
     */

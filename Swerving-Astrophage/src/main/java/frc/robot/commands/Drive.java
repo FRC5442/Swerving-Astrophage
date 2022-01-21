@@ -13,12 +13,12 @@ public class Drive extends CommandBase {
 
   public static double rightX; //The variable to be accessed by "MoveCrabButton" Command with a + or - value
 
-  private double leftX ;//0
-  private double leftY ;
+  private double leftX;//0
+  private double leftY;
 
-  double xValue;
-  double yValue;
-  double rValue;
+  double xValue;  //variable to store x translation value
+  double yValue;  //variable to store y translation value
+  double rValue;  //variable to store rotation value
 
   private boolean useAuto = false;
 
@@ -33,6 +33,7 @@ public class Drive extends CommandBase {
   public Drive(double _leftX, double _leftY, double _rightX) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.swerveGroup);
+    //update class specific values with parsed values
     useAuto = true;
     xValue = _leftX;
     yValue = _leftY;
@@ -48,7 +49,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!useAuto)
+    if(!useAuto) //If auto is not being used, get input from the controller
     {
       Joystick driveStick = RobotContainer.xboxController;
 
@@ -62,7 +63,7 @@ public class Drive extends CommandBase {
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
       RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
     }
-    else{
+    else{  //If auto is being used, set parsed values to variables being sent into translation and rotation methods
       //leftX = _leftX; //0
       //leftY = _leftY;  //1
       leftX = xValue;

@@ -22,9 +22,9 @@ public class Intake extends SubsystemBase {
     intakeMotorElevator2 = RobotContainer.intakeMotorElevator2;
   }
 
-  public void moveIntake(double speed, WPI_VictorSPX motor) {
+  public void moveIntake(double speed, WPI_VictorSPX motor) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed
     motor.set(speed);
-  }
+  }   //Not confident about the conventions relating to doing this, not sure if it will work.
 
 
 
