@@ -19,7 +19,7 @@ public class ComplexAutoPath extends SequentialCommandGroup {
     addCommands(
 
       new SequentialCommandGroup(
-        new ParallelRaceGroup(new WaitCommand(2), new IntakeCommand(Constants.IntakeConstants.INTAKE_SPEED, RobotContainer.intakeMotorField))
+        new ParallelRaceGroup(new WaitCommand(2), new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, RobotContainer.intakeMotorField))
       )
 
     );
