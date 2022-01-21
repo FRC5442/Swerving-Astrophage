@@ -14,8 +14,14 @@ package frc.robot;
  */
 public final class Constants {
     public static final class IntakeConstants {
-        public static final double INTAKE_SPEED = 0.75;
-        public static final int INTAKE_MOTOR = 11;
+        public static final double INTAKE_FIELD_SPEED = 0.75;
+        public static final double INTAKE_PIVOT_SPEED = 0.75;
+        public static final double INTAKE_ELEVATOR_SPEED = 0.75;
+
+        public static final int INTAKE_MOTOR_FIELD = 0;
+        public static final int INTAKE_MOTOR_PIVOT = 0;
+        public static final int INTAKE_MOTOR_ELEVATOR_ONE = 0;
+        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 0;
     }
 
     public static final class TurretConstants {

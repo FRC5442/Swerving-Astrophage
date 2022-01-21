@@ -76,10 +76,15 @@ public class RobotContainer {
 
   //INTAKE\\
   /***********************************************************/
-  public static WPI_VictorSPX intakeMotor;
+  public static WPI_VictorSPX intakeMotorField;
+  public static WPI_VictorSPX intakeMotorPivot;
+  public static WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
   public static Intake intake;
-  public static IntakeCommand intakeCommand;
-  public static IntakeCommand reverseIntakeCommand;
+  public static IntakeCommand intakeFieldCommand, reverseIntakeFieldCommand;
+  public static IntakeCommand intakePivotCommand, reverseIntakePivotCommand;
+  public static IntakeCommand intakeElevator1Command, reverseIntakeElevator1Command;
+  public static IntakeCommand intakeElevator2Command, reverseIntakeElevator2Command;
+
  /***********************************************************/
 
   public RobotContainer() {
@@ -119,10 +124,20 @@ public class RobotContainer {
     
 
     /************************* INTAKE *************************/
-    intakeMotor = new WPI_VictorSPX(11);
+    intakeMotorField = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_FIELD);
+    intakeMotorPivot = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
+    intakeMotorElevator1 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
+    intakeMotorElevator2 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
+
     intake = new Intake();
-    intakeCommand = new IntakeCommand(0.5);
-    reverseIntakeCommand = new IntakeCommand(-0.75);
+    intakeFieldCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
+    reverseIntakeFieldCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
+    intakePivotCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
+    reverseIntakePivotCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
+    intakeElevator1Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
+    intakeElevator2Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
     /***********************************************************/
 
    
@@ -161,8 +176,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerB.whileHeld(intakeCommand);
-    xboxControllerX.whileHeld(reverseIntakeCommand);
+    xboxControllerB.whileHeld(intakeFieldCommand);
+    xboxControllerX.whileHeld(reverseIntakeFieldCommand);
     //xboxControllerX.whenPressed(new DefaultAutoPath());
 
   }
