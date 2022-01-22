@@ -146,8 +146,10 @@ public class RobotContainer {
     intake = new Intake();
     intakeFieldCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
     reverseIntakeFieldCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
+
     intakePivotCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
     reverseIntakePivotCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
+    
     intakeElevator1Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
     reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
     intakeElevator2Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
