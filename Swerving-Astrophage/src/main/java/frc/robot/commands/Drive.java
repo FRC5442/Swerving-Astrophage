@@ -33,7 +33,7 @@ public class Drive extends CommandBase {
   public Drive(double _leftX, double _leftY, double _rightX) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.swerveGroup);
-    useAuto = true;
+    useAuto = true; //alterd, normally true
     xValue = _leftX;
     yValue = _leftY;
     rValue = _rightX;

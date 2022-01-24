@@ -47,14 +47,16 @@ public class RobotContainer {
   //AUTONOMOUS\\
   private final DefaultAutoPath autoDefault;
   private final ComplexAutoPath autoComplex;
+  SendableChooser<Command> autoChooser;
 
   //CONTROLLER\\
   public static Joystick xboxController;
   public static JoystickButton xboxControllerA;
   public static JoystickButton xboxControllerB;
   public static JoystickButton xboxControllerX;
+  public static JoystickButton xboxControllerStart;
 
-  SendableChooser<Command> autoChooser;
+  
 
 
   //DRIVE\\
@@ -89,6 +91,7 @@ public class RobotContainer {
     xboxControllerA = new JoystickButton(xboxController, 1);
     xboxControllerB = new JoystickButton(xboxController, 2);
     xboxControllerX = new JoystickButton(xboxController, 3);
+    xboxControllerStart = new JoystickButton(xboxController, 8);
     /***********************************************************/
 
 
@@ -163,7 +166,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
-    //xboxControllerX.whenPressed(new DefaultAutoPath());
+    xboxControllerStart.whenPressed(calibrateGyro);
 
   }
 
@@ -175,7 +178,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new DefaultAutoPath();
-    return m_autoCommand;
-    //return autoChooser.getSelected();
+    //return m_autoCommand;
+    return autoChooser.getSelected();
   }
 }
