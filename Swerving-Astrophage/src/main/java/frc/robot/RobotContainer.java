@@ -78,10 +78,10 @@ public class RobotContainer {
 
   //INTAKE\\
   /***********************************************************/
-  public static WPI_VictorSPX intakeMotor;
-  public static Intake intake;
-  public static IntakeCommand intakeCommand;
-  public static IntakeCommand reverseIntakeCommand;
+  public static WPI_VictorSPX hoodMotor;
+  public static Hood hood;
+  public static HoodCommand hoodCommand;
+  public static HoodCommand reverseHoodCommand;
  /***********************************************************/
 
   public RobotContainer() {
@@ -122,10 +122,10 @@ public class RobotContainer {
     
 
     /************************* INTAKE *************************/
-    intakeMotor = new WPI_VictorSPX(11);
-    intake = new Intake();
-    intakeCommand = new IntakeCommand(0.5);
-    reverseIntakeCommand = new IntakeCommand(-0.75);
+    hoodMotor = new WPI_VictorSPX(11);
+    hood = new Hood();
+    hoodCommand = new HoodCommand(0.5);
+    reverseHoodCommand = new HoodCommand(-0.75);
     /***********************************************************/
 
    
@@ -164,8 +164,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerB.whileHeld(intakeCommand);
-    xboxControllerX.whileHeld(reverseIntakeCommand);
+    xboxControllerB.whileHeld(hoodCommand);
+    xboxControllerX.whileHeld(reverseHoodCommand);
     xboxControllerStart.whenPressed(calibrateGyro);
 
   }

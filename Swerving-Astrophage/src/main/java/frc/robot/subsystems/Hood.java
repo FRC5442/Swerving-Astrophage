@@ -9,16 +9,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
-public class Intake extends SubsystemBase {
+public class Hood extends SubsystemBase {
   /** Creates a new Intake. */
-  WPI_VictorSPX intakeMotor;
+  WPI_VictorSPX hoodMotor;
 
-  public Intake() {
-    intakeMotor = RobotContainer.intakeMotor;
+  public Hood() {
+    hoodMotor = RobotContainer.hoodMotor;
   }
 
-  public void moveIntake(double speed) {
-    intakeMotor.set(speed);
+  public void moveHood(double speed) {
+    hoodMotor.set(speed);
   }
 
   @Override
