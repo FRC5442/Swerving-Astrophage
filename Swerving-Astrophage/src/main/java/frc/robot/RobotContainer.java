@@ -55,6 +55,7 @@ public class RobotContainer {
   public static JoystickButton xboxControllerB;
   public static JoystickButton xboxControllerX;
   public static JoystickButton xboxControllerStart;
+  public static JoystickButton xboxControllerLBumper, xboxControllerRBumper;
 
   
 
@@ -76,12 +77,13 @@ public class RobotContainer {
   public static CalibrateModules calibrateModules;
 
 
-  //INTAKE\\
+  //HOOD\\
   /***********************************************************/
   public static WPI_VictorSPX hoodMotor;
   public static Hood hood;
   public static HoodCommand hoodCommand;
   public static HoodCommand reverseHoodCommand;
+  public static Encoder hoodEncoder;
  /***********************************************************/
 
   public RobotContainer() {
@@ -92,6 +94,8 @@ public class RobotContainer {
     xboxControllerB = new JoystickButton(xboxController, 2);
     xboxControllerX = new JoystickButton(xboxController, 3);
     xboxControllerStart = new JoystickButton(xboxController, 8);
+    xboxControllerLBumper = new JoystickButton(xboxController, 5);
+    xboxControllerRBumper = new JoystickButton(xboxController, 6);
     /***********************************************************/
 
 
@@ -121,11 +125,14 @@ public class RobotContainer {
 
     
 
-    /************************* INTAKE *************************/
-    hoodMotor = new WPI_VictorSPX(11);
+    /************************* HOOD *************************/
+    hoodMotor = new WPI_VictorSPX(9);
     hood = new Hood();
-    hoodCommand = new HoodCommand(0.5);
-    reverseHoodCommand = new HoodCommand(-0.75);
+    hoodCommand = new HoodCommand(0.1);
+    reverseHoodCommand = new HoodCommand(-0.1);
+    hoodEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+    hoodEncoder.setDistancePerPulse(1/360);
+
     /***********************************************************/
 
    
@@ -164,9 +171,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerB.whileHeld(hoodCommand);
-    xboxControllerX.whileHeld(reverseHoodCommand);
+    xboxControllerLBumper.whileHeld(hoodCommand);
+    xboxControllerRBumper.whileHeld(reverseHoodCommand);
     xboxControllerStart.whenPressed(calibrateGyro);
+    
 
   }
 
@@ -178,7 +186,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new DefaultAutoPath();
-    //return m_autoCommand;
-    return autoChooser.getSelected();
+    return m_autoCommand;
+    //return autoChooser.getSelected();
   }
 }

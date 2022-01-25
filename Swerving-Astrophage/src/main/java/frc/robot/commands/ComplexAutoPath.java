@@ -17,7 +17,7 @@ public class ComplexAutoPath extends SequentialCommandGroup {
     addCommands(
 
       new SequentialCommandGroup(
-        new ParallelRaceGroup(new WaitCommand(2), new IntakeCommand(.5))
+        new ParallelRaceGroup(new WaitCommand(2), new HoodCommand(.5))
   
       )
 
