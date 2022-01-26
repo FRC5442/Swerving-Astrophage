@@ -52,11 +52,11 @@ public class Drive extends CommandBase {
     {
       Joystick driveStick = RobotContainer.xboxController;
 
-      leftX = driveStick.getRawAxis(0); //0
-      leftY = driveStick.getRawAxis(1);  //1
+      leftX = driveStick.getRawAxis(4); //0
+      leftY = driveStick.getRawAxis(5);  //1
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
-      rightX = driveStick.getRawAxis(4);   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
+      rightX = driveStick.getRawAxis(1);   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
 
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));

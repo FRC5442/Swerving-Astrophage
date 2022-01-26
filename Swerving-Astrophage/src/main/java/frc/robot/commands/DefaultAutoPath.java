@@ -20,9 +20,10 @@ public class DefaultAutoPath extends SequentialCommandGroup {
     addCommands( 
 
       new SequentialCommandGroup(
-        new ParallelRaceGroup( new WaitCommand(1.0), new Drive(0, 0.75, 0) ), 
-        new ParallelRaceGroup( new WaitCommand(1.0), new Drive(0.75, 0, 0) ),
-        new ParallelRaceGroup( new WaitCommand(1.0), new Drive(0, 0, 0.75) )
+        new ParallelRaceGroup( new WaitCommand(2.5), new Drive(0, -0.5, 0) ),
+        new ParallelRaceGroup( new WaitCommand(7), new Drive(0, 0, .5) ),
+        new ParallelRaceGroup ( new WaitCommand(2.5), new Drive (0, 0.5, 0) )
+
       )
 
     );
