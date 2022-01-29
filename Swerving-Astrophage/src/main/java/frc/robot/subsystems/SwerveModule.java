@@ -17,7 +17,7 @@ public class SwerveModule extends SubsystemBase {
   TalonFX topGear, bottomGear;
   AnalogPotentiometer absEncoder;
   RelativeEncoder topEncoder, bottomEncoder;
-  double currentAngle = 0.0;
+  public double currentAngle = 0.0;
   double rawAngle = 0.0;
   double startTime = 0.0;
   double elapsedTime = 500;
@@ -26,6 +26,9 @@ public class SwerveModule extends SubsystemBase {
   double TRANSLATE_MOD = 0.4;
   double ROTATE_MOD = 0.3;
   double ERROR_BOUND = 1;
+
+  // public double topGearSpeed = 0;
+  // public double bottomGearSpeed = 0;
 
   double topGearSpeed = 0;
   double bottomGearSpeed = 0;

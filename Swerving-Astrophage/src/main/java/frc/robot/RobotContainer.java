@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -56,6 +58,12 @@ public class RobotContainer {
   public static JoystickButton xboxControllerX;
   public static JoystickButton xboxControllerStart;
 
+  public static Joystick xboxController2;
+  public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y;
+
+  public static Joystick logitechController;
+  public static JoystickButton logB1, logB2, logB3, logB4, logB5, logB6, logB7, logB8, logB9, logB10, logB11, logB12;
+
   
 
 
@@ -74,6 +82,7 @@ public class RobotContainer {
   public static Drive drive;
   public static CalibrateGyro calibrateGyro;
   public static CalibrateModules calibrateModules;
+  public static MoveSingleSwerve moveSingleSwerveFrontLeft, moveSingleSwerveFrontRight, moveSingleSwerveBackLeft, moveSingleSwerveBackRight;
 
 
   //INTAKE\\
@@ -92,6 +101,27 @@ public class RobotContainer {
     xboxControllerB = new JoystickButton(xboxController, 2);
     xboxControllerX = new JoystickButton(xboxController, 3);
     xboxControllerStart = new JoystickButton(xboxController, 8);
+
+    xboxController2 = new Joystick(2);
+    xbox2A = new JoystickButton(xboxController2, 1);
+    xbox2B = new JoystickButton(xboxController2, 2);
+    xbox2X = new JoystickButton(xboxController2, 3);
+    xbox2Y = new JoystickButton(xboxController2, 4);
+
+    logitechController = new Joystick(0);
+    logB1 = new JoystickButton(logitechController, 1);
+    logB2 = new JoystickButton(logitechController, 2);
+    logB3 = new JoystickButton(logitechController, 3);
+    logB4 = new JoystickButton(logitechController, 4);
+    logB5 = new JoystickButton(logitechController, 5);
+    logB6 = new JoystickButton(logitechController, 6);
+    logB7 = new JoystickButton(logitechController, 7);
+    logB8 = new JoystickButton(logitechController, 8);
+    logB9 = new JoystickButton(logitechController, 9);
+    logB10 = new JoystickButton(logitechController, 10);
+    logB11 = new JoystickButton(logitechController, 11);
+    logB12 = new JoystickButton(logitechController, 12);
+
     /***********************************************************/
 
 
@@ -117,6 +147,11 @@ public class RobotContainer {
     backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
     swerveGroup = new SwerveGroup();
     drive = new Drive();
+
+    moveSingleSwerveFrontLeft = new MoveSingleSwerve(frontLeftModule, 5);
+    moveSingleSwerveFrontRight = new MoveSingleSwerve(frontRightModule, 5);
+    moveSingleSwerveBackLeft = new MoveSingleSwerve(backLeftModule, 5);
+    moveSingleSwerveBackRight = new MoveSingleSwerve(backRightModule, 5);
     /***********************************************************/
 
     
@@ -164,9 +199,24 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    drive.logitechController = false;
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
     xboxControllerStart.whenPressed(calibrateGyro);
+    xbox2A.whileHeld(moveSingleSwerveBackLeft);
+    xbox2B.whileHeld(moveSingleSwerveBackRight);
+    xbox2X.whileHeld(moveSingleSwerveFrontRight);
+    xbox2Y.whileHeld(moveSingleSwerveFrontLeft);
+
+  }
+
+  private void configureLogitechBindings(){
+    drive.logitechController = true;
+    logB2.whenPressed(calibrateGyro);
+    logB3.whileHeld(moveSingleSwerveBackLeft);
+    logB4.whileHeld(moveSingleSwerveBackRight);
+    logB5.whileHeld(moveSingleSwerveFrontLeft);
+    logB6.whileHeld(moveSingleSwerveFrontRight);
 
   }
 

@@ -22,6 +22,8 @@ public class Drive extends CommandBase {
 
   private boolean useAuto = false;
 
+  public boolean logitechController = false;
+
 
   public Drive() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -50,13 +52,22 @@ public class Drive extends CommandBase {
   public void execute() {
     if(!useAuto)
     {
-      Joystick driveStick = RobotContainer.xboxController;
+      if (!logitechController){
+        Joystick driveStick = RobotContainer.xboxController;
+        leftX = driveStick.getRawAxis(0); //0
+        leftY = driveStick.getRawAxis(1);  //1
+        rightX = driveStick.getRawAxis(4);
+      } else {
+        Joystick driveStick = RobotContainer.logitechController;
+        leftX = driveStick.getRawAxis(0);
+        leftY = driveStick.getRawAxis(1);
+        rightX = driveStick.getRawAxis(2);
+      }
 
-      leftX = driveStick.getRawAxis(4); //0
-      leftY = driveStick.getRawAxis(5);  //1
+      
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
-      rightX = driveStick.getRawAxis(1);   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
+       //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
 
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
