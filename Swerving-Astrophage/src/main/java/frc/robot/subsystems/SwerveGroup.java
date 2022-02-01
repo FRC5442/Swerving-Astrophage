@@ -11,6 +11,9 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.SharedMethods;
 
+// The SwerveGroup subsystem tells each individuall swerve module how to work together to move the robot.
+// This is where the complicated math and swerve programming lies
+
 public class SwerveGroup extends SubsystemBase {
   
   SwerveModule frontRightModule;
@@ -34,12 +37,14 @@ public class SwerveGroup extends SubsystemBase {
     double joystickAngle = (Math.atan2(-translation.y, translation.x) * (180/Math.PI)) + 180 + yawAngle;
 
     if (Math.abs(translation.magnitude()) > Constants.JOYSTICK_DEAD_ZONE) {
+      //Move each module at the speed determined from the translation vector at the angle of the joystick
       frontRightModule.move(translation.magnitude(), joystickAngle);
       frontLeftModule.move(translation.magnitude(), joystickAngle);
       backLeftModule.move(translation.magnitude(), joystickAngle);
       backRightModule.move(translation.magnitude(), joystickAngle);
     }
     else if (Math.abs(rotation) > Constants.JOYSTICK_DEAD_ZONE) {
+      
       frontLeftModule.move(rotation, 225);
       backRightModule.move(rotation, 45);
 
@@ -47,6 +52,7 @@ public class SwerveGroup extends SubsystemBase {
       backLeftModule.move(rotation, 315);
     }
     else {
+      // If none of the requirements are met, make the modules stop
       frontRightModule.stop();
       frontLeftModule.stop();
       backLeftModule.stop();
@@ -58,16 +64,19 @@ public class SwerveGroup extends SubsystemBase {
     double gyroRadians = getConvertedGyroAngle() * (Math.PI / 180); //in radians
     SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle());
 
-    double STR = translation.x;
-    double FWD = translation.y;
-    double RCW = -rotation * ((-0.75 * translation.magnitude()) + 1);
+    double STR = translation.x;  //strafe variable (x-axis)
+    double FWD = translation.y;  //forward variable (y-axis)
+    double RCW = -rotation * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
     /**
      * rotation linearly adjusted for translation speed
      * states that the rotation is 1x is the translation speed is 0
      *  and 0.25x is the translation speed = full (1)
      *  based on the equation of a line (0.75x + 1), where x is the translation speed
     */
+
     
+    // field/robot oriented drive system. Consider swithcing to robot oriented to avoid gyro drift
+    // and related complications, will require more driver practice
     double temp = (FWD * Math.cos(gyroRadians)) + (STR * Math.sin(gyroRadians));
     STR = (-FWD * Math.sin(gyroRadians)) + (STR * Math.cos(gyroRadians));
     FWD = temp;
@@ -79,6 +88,11 @@ public class SwerveGroup extends SubsystemBase {
     }
     if (Math.abs(rotation) <= Constants.JOYSTICK_DEAD_ZONE) RCW = 0;
 
+
+    // This section is where the speed for each swerve module is calculated
+    // variables A, B, C, and D are established
+    // If modules are inverted, switch numbers and letters around until it is fixed
+
     double A = STR - RCW * (Constants.ROBOT_LENGTH / Constants.ROBOT_RADIUS);
     double B = STR + RCW * (Constants.ROBOT_LENGTH / Constants.ROBOT_RADIUS);
     double C = FWD - RCW * (Constants.ROBOT_WIDTH / Constants.ROBOT_RADIUS);
@@ -87,7 +101,7 @@ public class SwerveGroup extends SubsystemBase {
     //B and C
     double frontRightSpeed = getMovementAttributes(A, C)[0]; //good
     double frontRightAngle = getMovementAttributes(A, C)[1];
-    double maxSpeed = frontRightSpeed;
+    double maxSpeed = frontRightSpeed;  // The module to control all speeds
 
     //B and D
     double frontLeftSpeed = getMovementAttributes(A, D)[0]; 

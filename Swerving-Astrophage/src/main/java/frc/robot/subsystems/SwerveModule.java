@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SharedMethods;
 
+// This is the parent class for each individual swerve module. Each individual swerve module extends
+// this class, so it will have these properties.
+// Specifically, this class tells the swerve module how to move at a passed speed or rotate to a 
+// given angle.
+
 public class SwerveModule extends SubsystemBase {
   TalonFX topGear, bottomGear;
   AnalogPotentiometer absEncoder;
