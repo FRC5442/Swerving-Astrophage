@@ -171,8 +171,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerLBumper.whileHeld(hoodCommand);
-    xboxControllerRBumper.whileHeld(reverseHoodCommand);
+    xboxControllerA.whileHeld(hoodCommand);
+    xboxControllerB.whileHeld(reverseHoodCommand);
     xboxControllerStart.whenPressed(calibrateGyro);
     
 
