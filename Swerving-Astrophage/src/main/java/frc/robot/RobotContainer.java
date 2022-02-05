@@ -7,6 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
@@ -16,6 +17,8 @@ import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -79,6 +82,8 @@ public class RobotContainer {
   public static HoodCommand hoodCommand;
   public static HoodCommand reverseHoodCommand;
   public static Encoder hoodEncoder;
+
+  public static InstantCommand resetHoodEncoderCommand;
  /***********************************************************/
 
   public RobotContainer() {
@@ -128,6 +133,8 @@ public class RobotContainer {
     hoodEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
     hoodEncoder.setDistancePerPulse(1);
 
+    resetHoodEncoderCommand = new InstantCommand(() -> hoodEncoder.reset());  //creating an in-line command to reset the hood encoer
+
     /***********************************************************/
 
    
@@ -169,6 +176,8 @@ public class RobotContainer {
     xboxControllerRBumper.whileHeld(hoodCommand);
     xboxControllerLBumper.whileHeld(reverseHoodCommand);
     xboxControllerStart.whenPressed(() -> hoodEncoder.reset());
+
+    SmartDashboard.putData("Reset Hood Encoder", resetHoodEncoderCommand);  // sending a button to the smart dashboard that allows for the running of this command
     
 
   }
