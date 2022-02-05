@@ -28,36 +28,26 @@ public class HoodCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (RobotContainer.hoodEncoder.getDistance() <= 0 && speed > 0){
-    //   RobotContainer.hood.moveHood(0);
-    // }else if (RobotContainer.hoodEncoder.getDistance() >= 10000 && speed < 0){
-    //   RobotContainer.hood.moveHood(0);
-    // } else {
-    //   RobotContainer.hood.moveHood(speed);
-    // }
 
-    double error = target - RobotContainer.hoodEncoder.getDistance()/10000;
-    double speed = -error/kP;
+    double error = target - RobotContainer.hoodEncoder.getDistance()/10000;  // Calculate the distance from the target
+    double speed = -error/kP;  // Divide the distance by a constant to get a speed value
+
+    // Control loop to keep speed from exceding a max setpoint
     if (speed >=0.15){
       speed = 0.15;
     } else if (speed <= -0.15){
       speed = -0.15;
     }
 
+    // Rumble Feature
     if (speed <= 0.1 && speed > 0.01){
       RobotContainer.xboxController.setRumble(RumbleType.kLeftRumble, 1);
     } else if (speed >= -0.1 && speed < -0.01){
       RobotContainer.xboxController.setRumble(RumbleType.kRightRumble, 1);
-
     }
 
-    SmartDashboard.putNumber("Hood PID Speed", error/kP);
+    SmartDashboard.putNumber("Hood PID Speed", speed);
     RobotContainer.hood.moveHood(speed);
-    //RobotContainer.hood.moveHood(target);
-    
-    //hoodEncoderValue = (int) Math.round(RobotContainer.hoodEncoder.getDistance()/1000);
-    
-    //SmartDashboard.putNumber("Hood Encoder", hoodEncoderValue);
   }
 
   // Called once the command ends or is interrupted.
