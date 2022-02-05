@@ -7,10 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,8 +21,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 /***********************************************************/
@@ -45,9 +40,9 @@ public class RobotContainer {
   public static PowerDistribution pdp;
 
   //AUTONOMOUS\\
-  private final DefaultAutoPath autoDefault;
-  private final ComplexAutoPath autoComplex;
-  SendableChooser<Command> autoChooser;
+  // private final DefaultAutoPath autoDefault;
+  // private final ComplexAutoPath autoComplex;
+  // SendableChooser<Command> autoChooser;
 
   //CONTROLLER\\
   public static Joystick xboxController;
@@ -149,12 +144,12 @@ public class RobotContainer {
     /***********************************************************/
 
     /************************* AUTO *************************/
-    autoDefault = new DefaultAutoPath();
-    autoComplex = new ComplexAutoPath();
-    autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Default Auto", autoDefault);
-    autoChooser.addOption("Complex Auto", autoComplex);
-    SmartDashboard.putData(autoChooser);
+    // autoDefault = new DefaultAutoPath();
+    // autoComplex = new ComplexAutoPath();
+    // autoChooser = new SendableChooser<>();
+    // autoChooser.setDefaultOption("Default Auto", autoDefault);
+    // autoChooser.addOption("Complex Auto", autoComplex);
+    // SmartDashboard.putData(autoChooser);
     /***********************************************************/
 
 

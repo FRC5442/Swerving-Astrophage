@@ -33,15 +33,15 @@ public class HoodCommand extends CommandBase {
     // }
     RobotContainer.hood.moveHood(speed);
     
-    //int hoodEncoderValue = (int) Math.round(RobotContainer.hoodEncoder.getDistance() / 20);
+    int hoodEncoderValue = (int) Math.round(RobotContainer.hoodEncoder.getDistance() / 20);
     
-    //SmartDashboard.putNumber("THE REAL HOOD ENCODER", RobotContainer.hoodEncoder.getDistance());
+    SmartDashboard.putNumber("Hood Encoder", hoodEncoderValue);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.hood.stopHood();
+    RobotContainer.hood.moveHood(0);
   }
 
   // Returns true when the command should end.
