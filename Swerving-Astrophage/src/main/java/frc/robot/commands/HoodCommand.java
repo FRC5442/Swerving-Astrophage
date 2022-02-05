@@ -10,11 +10,14 @@ import frc.robot.RobotContainer;
 
 public class HoodCommand extends CommandBase {
   /** Creates a new HoodCommand. */
-  double speed;
-  public HoodCommand(double speed) {
+  double target;
+  int hoodEncoderValue;
+  double kP = 2.5;
+
+  public HoodCommand(double target) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.hood);
-    this.speed = speed;
+    this.target = target;
   }
 
   // Called when the command is initially scheduled.
@@ -24,18 +27,28 @@ public class HoodCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (RobotContainer.hoodEncoder.getDistance() < 40 && speed > 0){
+    // if (RobotContainer.hoodEncoder.getDistance() <= 0 && speed > 0){
     //   RobotContainer.hood.moveHood(0);
-    // }else if (RobotContainer.hoodEncoder.getDistance() > 340 && speed < 0){
+    // }else if (RobotContainer.hoodEncoder.getDistance() >= 10000 && speed < 0){
     //   RobotContainer.hood.moveHood(0);
     // } else {
     //   RobotContainer.hood.moveHood(speed);
     // }
+
+    double error = target - RobotContainer.hoodEncoder.getDistance()/10000;
+    double speed = -error/kP;
+    if (speed >=0.2){
+      speed = 0.2;
+    } else if (speed <= -0.2){
+      speed = -0.2;
+    }
+    SmartDashboard.putNumber("Hood PID Speed", error/kP);
     RobotContainer.hood.moveHood(speed);
+    //RobotContainer.hood.moveHood(target);
     
-    int hoodEncoderValue = (int) Math.round(RobotContainer.hoodEncoder.getDistance() / 20);
+    //hoodEncoderValue = (int) Math.round(RobotContainer.hoodEncoder.getDistance()/1000);
     
-    SmartDashboard.putNumber("Hood Encoder", hoodEncoderValue);
+    //SmartDashboard.putNumber("Hood Encoder", hoodEncoderValue);
   }
 
   // Called once the command ends or is interrupted.

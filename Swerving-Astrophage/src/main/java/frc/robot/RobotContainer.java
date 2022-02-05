@@ -123,10 +123,10 @@ public class RobotContainer {
     /************************* HOOD *************************/
     hoodMotor = new WPI_VictorSPX(9);
     hood = new Hood();
-    hoodCommand = new HoodCommand(0.1);
-    reverseHoodCommand = new HoodCommand(-0.1);
+    hoodCommand = new HoodCommand(1.8);
+    reverseHoodCommand = new HoodCommand(0);
     hoodEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
-    hoodEncoder.setDistancePerPulse(1/360);
+    hoodEncoder.setDistancePerPulse(1);
 
     /***********************************************************/
 
@@ -166,9 +166,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerA.whileHeld(hoodCommand);
-    xboxControllerB.whileHeld(reverseHoodCommand);
-    xboxControllerStart.whenPressed(calibrateGyro);
+    xboxControllerRBumper.whileHeld(hoodCommand);
+    xboxControllerLBumper.whileHeld(reverseHoodCommand);
+    xboxControllerStart.whenPressed(() -> hoodEncoder.reset());
     
 
   }

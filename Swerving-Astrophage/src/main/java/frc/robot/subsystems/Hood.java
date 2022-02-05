@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -30,7 +31,7 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("THE REAL HOOD ENCODER", RobotContainer.hoodEncoder.getDistance() * 10000);
+    SmartDashboard.putNumber("Hood Encoder", Math.round(RobotContainer.hoodEncoder.getDistance() / 1000));
 
   }
 }
