@@ -17,12 +17,13 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -71,14 +72,25 @@ public class RobotContainer {
   public static CalibrateGyro calibrateGyro;
   public static CalibrateModules calibrateModules;
 
+  //SHOOTER\\
+  public static Shooter shooter;
+  public static ShootCommand shootCommand, reverseShootCommand;
+  public static HoodCommand raiseHood, lowerHood;
+  public static CANSparkMax shooterWheel1;
+  public static CANSparkMax shooterWheel2;
+  public static WPI_VictorSPX shooterHood;
+
 
   //INTAKE\\
-  /***********************************************************/
-  public static WPI_VictorSPX intakeMotor;
+  public static WPI_VictorSPX intakeMotorField;
+  public static WPI_VictorSPX intakeMotorPivot;
+  public static WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
   public static Intake intake;
-  public static IntakeCommand intakeCommand;
-  public static IntakeCommand reverseIntakeCommand;
- /***********************************************************/
+  public static IntakeCommand intakeFieldCommand, reverseIntakeFieldCommand;
+  public static IntakeCommand intakePivotCommand, reverseIntakePivotCommand;
+  public static IntakeCommand intakeElevator1Command, reverseIntakeElevator1Command;
+  public static IntakeCommand intakeElevator2Command, reverseIntakeElevator2Command;
+
 
    //TURRET\\
   /***********************************************************/
@@ -127,26 +139,39 @@ public class RobotContainer {
     drive = new Drive();
     /***********************************************************/
 
-    
+    /************************* SHOOTER *************************/
+    shooter = new Shooter();
+    shooterWheel1 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ONE, CANSparkMaxLowLevel.MotorType.kBrushless);
+    shooterWheel2 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_TWO, CANSparkMaxLowLevel.MotorType.kBrushless);
+    shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
+
+    shootCommand = new ShootCommand(Constants.ShooterConstants.SHOOTER_RPM);
+    reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
+
+    raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_SPEED);
+    lowerHood = new HoodCommand(-Constants.ShooterConstants.HOOD_SPEED);
+    /***********************************************************/
 
     /************************* INTAKE *************************/
-    intakeMotor = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR);
+    intakeMotorField = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_FIELD);
+    intakeMotorPivot = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
+    intakeMotorElevator1 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
+    intakeMotorElevator2 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
+
     intake = new Intake();
-    intakeCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_SPEED);
-    reverseIntakeCommand = new IntakeCommand(-1 * Constants.IntakeConstants.INTAKE_SPEED);
+    intakeFieldCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
+    reverseIntakeFieldCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
+
+    intakePivotCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
+    reverseIntakePivotCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
+    
+    intakeElevator1Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
+    intakeElevator2Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
     /***********************************************************/
 
-    /************************* TURRET *************************/
-    turretGyro = new AHRS(SerialPort.Port.kUSB);  //update when this is implemented
-    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
-    turretEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
-    turretEncoder.setDistancePerPulse(1);
-    turret = new Turret();
-    /***********************************************************/
-
-
-
-   
+    
 
 
 
@@ -182,9 +207,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerB.whileHeld(intakeCommand);
-    xboxControllerX.whileHeld(reverseIntakeCommand);
-    xboxControllerX.whenPressed(new DefaultAutoPath());
+    xboxControllerB.whileHeld(intakeFieldCommand);
+    xboxControllerX.whileHeld(reverseIntakeFieldCommand);
+    //xboxControllerX.whenPressed(new DefaultAutoPath());
 
   }
 

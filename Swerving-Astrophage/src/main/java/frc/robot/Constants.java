@@ -13,9 +13,25 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final class ShooterConstants {
+        public static final int SHOOTER_MOTOR_ONE = 20;
+        public static final int SHOOTER_MOTOR_TWO = 21;
+        public static final int SHOOTER_MOTOR_HOOD = 9;
+
+        public static final double SHOOTER_RPM = 2700;
+        public static final double HOOD_SPEED = 0.5;
+    }
+
     public static final class IntakeConstants {
-        public static final double INTAKE_SPEED = 0.75;
-        public static final int INTAKE_MOTOR = 11;
+        public static final double INTAKE_FIELD_SPEED = 0.75;
+        public static final double INTAKE_PIVOT_SPEED = 0.75;
+        public static final double INTAKE_ELEVATOR_SPEED = 0.75;
+
+        public static final int INTAKE_MOTOR_FIELD = 0;
+        public static final int INTAKE_MOTOR_PIVOT = 0;
+        public static final int INTAKE_MOTOR_ELEVATOR_ONE = 0;
+        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 0;
     }
 
     public static final class TurretConstants {
@@ -37,14 +53,6 @@ public final class Constants {
         public static final double ROBOT_LENGTH = 28; //in inches
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
-
-
-    
-    
-
-    
-
-    
 
     public static enum DRIVE_STATE {
         HIGH_GEAR(0.5), LOW_GEAR(0.2);
