@@ -5,37 +5,47 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class Turret extends PIDSubsystem {
+public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
-  WPI_VictorSPX turretMotor = RobotContainer.turretMotor;
-  AHRS turretGyro = RobotContainer.turretGyro;
-  public double variableSetpoint = 0;
+  WPI_VictorSPX turretMotor;
+  Encoder turretEncoder;
 
   public Turret() {
-    super(new PIDController(Constants.TurretConstants.TURRET_kP, Constants.TurretConstants.TURRET_kI, Constants.TurretConstants.TURRET_kD));// The PIDController used by the subsystem
-    setSetpoint(variableSetpoint);
+    turretMotor = RobotContainer.turretMotor;
+    turretEncoder = RobotContainer.turretEncoder;
+  }
+
+  public void moveTurret(double speed){
+    turretMotor.set(speed);
+  }
+
+  public void moveTurretToAngle(double desiredAngle){
+    double error = desiredAngle - turretEncoder.getDistance();
+    double speed = -error/Constants.TurretConstants.TURRET_kP;
+
+    // Control loop to keep the speed from exceding a certain value
+    if (speed >= Constants.TurretConstants.MAX_SPEED){
+      speed = Constants.TurretConstants.MAX_SPEED;
+    } else if (speed <= -Constants.TurretConstants.MAX_SPEED){
+      speed = -Constants.TurretConstants.MAX_SPEED;
+    }
+
+    // Control loop to stop speed signal below a specified threshold
+    if (Constants.TurretConstants.MIN_SPEED >= speed && speed >= -Constants.TurretConstants.MIN_SPEED){
+      speed = 0;
+    }
+
+    moveTurret(speed);
   }
 
   @Override
-  public void useOutput(double output, double setpoint) {
-    // Use the output here
-    turretMotor.set(output);
-  }
-
-  @Override
-  public double getMeasurement() {
-    // Return the process variable measurement here
-    return (turretGyro.getAngle() - m_controller.getSetpoint());
-  }
-
-  public boolean atSetpoint() {
-    return m_controller.atSetpoint();
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
 }

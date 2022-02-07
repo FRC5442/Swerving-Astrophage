@@ -24,6 +24,9 @@ public final class Constants {
         public static final double TURRET_kP = 1;
         public static final double TURRET_kI = 0;
         public static final double TURRET_kD = 0;
+
+        public static final double MAX_SPEED = 1.5;
+        public static final double MIN_SPEED = 0.1;
     }
 
     public static final class RobotConstants {

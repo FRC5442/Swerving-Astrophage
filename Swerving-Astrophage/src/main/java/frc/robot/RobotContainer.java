@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -39,7 +40,6 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static AHRS navX;
-  public static AHRS turretGyro;
   public static PowerDistribution pdp;
 
   //AUTONOMOUS\\
@@ -80,8 +80,15 @@ public class RobotContainer {
   public static IntakeCommand reverseIntakeCommand;
  /***********************************************************/
 
- public static WPI_VictorSPX turretMotor;
- public static Turret turret;
+   //TURRET\\
+  /***********************************************************/
+  public static WPI_VictorSPX turretMotor;
+  public static AHRS turretGyro;
+  public static Turret turret;
+  public static Encoder turretEncoder;
+ /***********************************************************/
+
+ 
 
   public RobotContainer() {
 
@@ -131,7 +138,9 @@ public class RobotContainer {
 
     /************************* TURRET *************************/
     turretGyro = new AHRS(SerialPort.Port.kUSB);  //update when this is implemented
-    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);  
+    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
+    turretEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+    turretEncoder.setDistancePerPulse(1);
     turret = new Turret();
     /***********************************************************/
 
@@ -176,8 +185,6 @@ public class RobotContainer {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
     xboxControllerX.whenPressed(new DefaultAutoPath());
-    xboxControllerLBumper.whenPressed(() -> turret.variableSetpoint += 1); //Uses a lambda expression to change the value of the setpoint of the turret
-    xboxControllerRBumper.whenPressed(() -> turret.variableSetpoint -= 1); //""
 
   }
 
