@@ -54,6 +54,10 @@ public class RobotContainer {
   public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y;
   public static JoystickButton xbox1LB, xbox1RB;
 
+  public static Joystick xbox2;
+  public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y;
+  public static JoystickButton xbox2LB, xbox2RB;
+
 
 
   //DRIVE\\
@@ -79,7 +83,7 @@ public class RobotContainer {
   public static CANSparkMax shooterWheel2;
   public static WPI_VictorSPX shooterHood;
 
-  //SHOOTER\\
+  //HOOD\\
   public static HoodCommand raiseHood, lowerHood;
   public static Encoder hoodEncoder;
 
@@ -101,6 +105,13 @@ public class RobotContainer {
   public static Turret turret;
   public static Encoder turretEncoder;
 
+   //CLIMBER\\
+  public static ClimberLeft climberLeft;
+  public static ClimberRight climberRight;
+  public static TalonFX winchLeft, winchRight;
+  public static TalonFX pivotLeft, pivotRight;
+
+
  
 
   public RobotContainer() {
@@ -113,6 +124,14 @@ public class RobotContainer {
     xbox1Y = new JoystickButton(xbox1, Button.kY.value);
     xbox1LB = new JoystickButton(xbox1, Button.kLeftBumper.value);
     xbox1RB = new JoystickButton(xbox1, Button.kRightBumper.value);
+
+    xbox2 = new Joystick(1);
+    xbox2A = new JoystickButton(xbox2, Button.kA.value);
+    xbox2B = new JoystickButton(xbox2, Button.kB.value);
+    xbox2X = new JoystickButton(xbox2, Button.kX.value);
+    xbox2Y = new JoystickButton(xbox2, Button.kY.value);
+    xbox2LB = new JoystickButton(xbox2, Button.kLeftBumper.value);
+    xbox2RB = new JoystickButton(xbox2, Button.kRightBumper.value);
     /***********************************************************/
 
 
@@ -151,8 +170,8 @@ public class RobotContainer {
 
     /************************* HOOD *************************/
     shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
-    raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_SPEED);
-    lowerHood = new HoodCommand(-Constants.ShooterConstants.HOOD_SPEED);
+    raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_HIGH);
+    lowerHood = new HoodCommand(Constants.ShooterConstants.HOOD_LOW);
     /***********************************************************/
 
 
@@ -175,11 +194,16 @@ public class RobotContainer {
     reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
     /***********************************************************/
 
-    
 
+    /************************* CLIMBER *************************/
+    winchLeft = new TalonFX(Constants.ClimberConstants.WINCH_LEFT);
+    winchRight = new TalonFX(Constants.ClimberConstants.WINCH_RIGHT);
+    pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
+    pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
+    climberLeft = new ClimberLeft(pivotLeft, winchLeft);
+    climberRight = new ClimberRight(pivotRight, winchRight);
 
-
-
+    /***********************************************************/
 
 
     /************************* OTHER *************************/
@@ -187,6 +211,7 @@ public class RobotContainer {
     calibrateGyro = new CalibrateGyro();
     calibrateModules = new CalibrateModules();
     /***********************************************************/
+
 
     /************************* AUTO *************************/
     autoDefault = new DefaultAutoPath();
@@ -211,9 +236,20 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xbox1A.whileHeld(intakeFieldCommand);
-    xbox1B.whileHeld(reverseIntakeFieldCommand);
+    // Primary driver controls: intake, drive(not initialized here), climb?
+    xbox1LB.whileHeld(intakeFieldCommand);
+    xbox1RB.whileHeld(reverseIntakeFieldCommand);
     //xboxControllerX.whenPressed(new DefaultAutoPath());
+
+
+    // Second driver controls: shooter, turret, and hood
+    // xbox2LB.whileHeld(TurretCommandLeft);
+    // xbox2RB.whileHeld(TurretCommandRight); 
+    xbox2B.whileHeld(shootCommand);
+    xbox2X.whileHeld(reverseShootCommand);
+    xbox2A.whileHeld(lowerHood);
+    xbox2Y.whileHeld(raiseHood);
+
 
   }
 

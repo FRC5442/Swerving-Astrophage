@@ -20,7 +20,8 @@ public final class Constants {
         public static final int SHOOTER_MOTOR_HOOD = 9;
 
         public static final double SHOOTER_RPM = 2700;
-        public static final double HOOD_SPEED = 0.5;
+        public static final double HOOD_HIGH = 15;
+        public static final double HOOD_LOW = 0;
 
         public static final double HOOD_kP = 1;
     }
@@ -54,6 +55,13 @@ public final class Constants {
         public static final double ROBOT_WIDTH = 28; //in inches
         public static final double ROBOT_LENGTH = 28; //in inches
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
+    }
+
+    public static final class ClimberConstants {
+        public static final int PIVOT_LEFT = 0;
+        public static final int PIVOT_RIGHT = 0;
+        public static final int WINCH_LEFT = 0;
+        public static final int WINCH_RIGHT = 0;
     }
 
     public static enum DRIVE_STATE {
