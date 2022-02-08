@@ -21,6 +21,8 @@ public final class Constants {
 
         public static final double SHOOTER_RPM = 2700;
         public static final double HOOD_SPEED = 0.5;
+
+        public static final double HOOD_kP = 1;
     }
 
     public static final class IntakeConstants {

@@ -51,7 +51,7 @@ public class Drive extends CommandBase {
   public void execute() {
     if(!useAuto) //If auto is not being used, get input from the controller
     {
-      Joystick driveStick = RobotContainer.xboxController;
+      Joystick driveStick = RobotContainer.xbox1;
 
       leftX = driveStick.getRawAxis(0); //0
       leftY = driveStick.getRawAxis(1);  //1

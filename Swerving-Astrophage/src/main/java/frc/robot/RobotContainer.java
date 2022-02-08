@@ -50,9 +50,9 @@ public class RobotContainer {
 
 
   //CONTROLLER\\
-  public static Joystick xboxController;
-  public static JoystickButton xboxControllerA, xboxControllerB, xboxControllerX, xboxControllerY;
-  public static JoystickButton xboxControllerLBumper, xboxControllerRBumper;
+  public static Joystick xbox1;
+  public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y;
+  public static JoystickButton xbox1LB, xbox1RB;
 
 
 
@@ -75,10 +75,13 @@ public class RobotContainer {
   //SHOOTER\\
   public static Shooter shooter;
   public static ShootCommand shootCommand, reverseShootCommand;
-  public static HoodCommand raiseHood, lowerHood;
   public static CANSparkMax shooterWheel1;
   public static CANSparkMax shooterWheel2;
   public static WPI_VictorSPX shooterHood;
+
+  //SHOOTER\\
+  public static HoodCommand raiseHood, lowerHood;
+  public static Encoder hoodEncoder;
 
 
   //INTAKE\\
@@ -93,25 +96,23 @@ public class RobotContainer {
 
 
    //TURRET\\
-  /***********************************************************/
   public static WPI_VictorSPX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
   public static Encoder turretEncoder;
- /***********************************************************/
 
  
 
   public RobotContainer() {
 
     /************************* JOYSTICKS *************************/
-    xboxController = new Joystick(0);
-    xboxControllerA = new JoystickButton(xboxController, Button.kA.value);
-    xboxControllerB = new JoystickButton(xboxController, Button.kB.value);
-    xboxControllerX = new JoystickButton(xboxController, Button.kX.value);
-    xboxControllerY = new JoystickButton(xboxController, Button.kY.value);
-    xboxControllerLBumper = new JoystickButton(xboxController, Button.kLeftBumper.value);
-    xboxControllerRBumper = new JoystickButton(xboxController, Button.kRightBumper.value);
+    xbox1 = new Joystick(0);
+    xbox1A = new JoystickButton(xbox1, Button.kA.value);
+    xbox1B = new JoystickButton(xbox1, Button.kB.value);
+    xbox1X = new JoystickButton(xbox1, Button.kX.value);
+    xbox1Y = new JoystickButton(xbox1, Button.kY.value);
+    xbox1LB = new JoystickButton(xbox1, Button.kLeftBumper.value);
+    xbox1RB = new JoystickButton(xbox1, Button.kRightBumper.value);
     /***********************************************************/
 
 
@@ -143,14 +144,17 @@ public class RobotContainer {
     shooter = new Shooter();
     shooterWheel1 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ONE, CANSparkMaxLowLevel.MotorType.kBrushless);
     shooterWheel2 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_TWO, CANSparkMaxLowLevel.MotorType.kBrushless);
-    shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
 
     shootCommand = new ShootCommand(Constants.ShooterConstants.SHOOTER_RPM);
     reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
+    /***********************************************************/
 
+    /************************* HOOD *************************/
+    shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
     raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_SPEED);
     lowerHood = new HoodCommand(-Constants.ShooterConstants.HOOD_SPEED);
     /***********************************************************/
+
 
     /************************* INTAKE *************************/
     intakeMotorField = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_FIELD);
@@ -207,8 +211,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xboxControllerB.whileHeld(intakeFieldCommand);
-    xboxControllerX.whileHeld(reverseIntakeFieldCommand);
+    xbox1A.whileHeld(intakeFieldCommand);
+    xbox1B.whileHeld(reverseIntakeFieldCommand);
     //xboxControllerX.whenPressed(new DefaultAutoPath());
 
   }
