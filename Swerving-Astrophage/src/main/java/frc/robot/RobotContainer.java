@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -97,6 +98,7 @@ public class RobotContainer {
   public static IntakeCommand intakePivotCommand, reverseIntakePivotCommand;
   public static IntakeCommand intakeElevator1Command, reverseIntakeElevator1Command;
   public static IntakeCommand intakeElevator2Command, reverseIntakeElevator2Command;
+  public static DigitalInput intakeLaserSwitch;
 
 
    //TURRET\\
@@ -182,16 +184,18 @@ public class RobotContainer {
     intakeMotorElevator2 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
 
     intake = new Intake();
-    intakeFieldCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
-    reverseIntakeFieldCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField);
+    intakeFieldCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField, false);
+    reverseIntakeFieldCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField, false);
 
-    intakePivotCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
-    reverseIntakePivotCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot);
+    intakePivotCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot, false);
+    reverseIntakePivotCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot, false);
     
-    intakeElevator1Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
-    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1);
-    intakeElevator2Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
-    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2);
+    intakeElevator1Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1, false);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1, false);
+    intakeElevator2Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2, false);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2, false);
+
+    intakeLaserSwitch = new DigitalInput(Constants.IntakeConstants.INTAKE_LASER_SWITCH);
     /***********************************************************/
 
 

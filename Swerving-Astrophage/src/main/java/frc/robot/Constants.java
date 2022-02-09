@@ -35,6 +35,8 @@ public final class Constants {
         public static final int INTAKE_MOTOR_PIVOT = 0;
         public static final int INTAKE_MOTOR_ELEVATOR_ONE = 0;
         public static final int INTAKE_MOTOR_ELEVATOR_TWO = 0;
+
+        public static final int INTAKE_LASER_SWITCH = 0;
     }
 
     public static final class TurretConstants {

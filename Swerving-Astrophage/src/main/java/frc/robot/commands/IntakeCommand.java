@@ -13,11 +13,13 @@ public class IntakeCommand extends CommandBase {
   /** Creates a new IntakeCommand. */
   double speed;
   WPI_VictorSPX motor;
-  public IntakeCommand(double speed, WPI_VictorSPX motor) {
+  boolean useLimitSwitch;
+  public IntakeCommand(double speed, WPI_VictorSPX motor, boolean useLimitSwitch) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.intake);
     this.speed = speed;
     this.motor = motor;
+    this.useLimitSwitch = useLimitSwitch;
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +29,13 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.intake.moveIntake(speed, motor);
+
+    if (useLimitSwitch && RobotContainer.intakeLaserSwitch.get()){
+      RobotContainer.intake.moveIntake(0, motor);
+    } else {
+      RobotContainer.intake.moveIntake(speed, motor);
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
