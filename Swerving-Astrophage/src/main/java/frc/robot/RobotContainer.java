@@ -102,7 +102,7 @@ public class RobotContainer {
 
 
    //TURRET\\
-  public static WPI_VictorSPX turretMotor;
+  public static TalonFX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
   public static Encoder turretEncoder;

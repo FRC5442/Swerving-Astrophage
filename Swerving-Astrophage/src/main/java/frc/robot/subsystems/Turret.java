@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -13,7 +15,7 @@ import frc.robot.RobotContainer;
 
 public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
-  WPI_VictorSPX turretMotor;
+  TalonFX turretMotor;
   Encoder turretEncoder;
 
   public Turret() {
@@ -22,7 +24,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void moveTurret(double speed){
-    turretMotor.set(speed);
+    turretMotor.set(TalonFXControlMode.PercentOutput, speed);
   }
 
   public void moveTurretToAngle(double desiredAngle){
