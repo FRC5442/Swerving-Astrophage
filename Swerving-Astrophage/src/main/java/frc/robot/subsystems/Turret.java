@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,6 +15,7 @@ public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
   TalonFX turretMotor;
   Encoder turretEncoder;
+  double gyroOffset;
 
   public Turret() {
     turretMotor = RobotContainer.turretMotor;
@@ -28,7 +27,8 @@ public class Turret extends SubsystemBase {
   }
 
   public void moveTurretToAngle(double desiredAngle){
-    double error = desiredAngle - turretEncoder.getDistance();
+    double newDesiredAngle = RobotContainer.navX.getAngle() + desiredAngle;
+    double error = newDesiredAngle - turretEncoder.getDistance();
     double speed = -error/Constants.TurretConstants.TURRET_kP;
 
     // Control loop to keep the speed from exceding a certain value

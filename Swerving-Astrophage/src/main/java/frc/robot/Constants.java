@@ -48,6 +48,16 @@ public final class Constants {
 
         public static final double MAX_SPEED = 1.5;
         public static final double MIN_SPEED = 0.1;
+
+        public static final double INCREMENT_MILLIS = 100;
+        public static double TURRET_GYRO_OFFSET = 0; //in degrees
+    }
+
+    public static final class ClimberConstants {
+        public static final int PIVOT_LEFT = 0;
+        public static final int PIVOT_RIGHT = 0;
+        public static final int WINCH_LEFT = 0;
+        public static final int WINCH_RIGHT = 0;
     }
 
     public static final class RobotConstants {
@@ -59,12 +69,7 @@ public final class Constants {
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
 
-    public static final class ClimberConstants {
-        public static final int PIVOT_LEFT = 0;
-        public static final int PIVOT_RIGHT = 0;
-        public static final int WINCH_LEFT = 0;
-        public static final int WINCH_RIGHT = 0;
-    }
+
 
     public static enum DRIVE_STATE {
         HIGH_GEAR(0.5), LOW_GEAR(0.2);
