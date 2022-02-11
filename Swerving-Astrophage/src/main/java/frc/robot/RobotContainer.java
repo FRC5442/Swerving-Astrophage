@@ -106,6 +106,7 @@ public class RobotContainer {
   public static AHRS turretGyro;
   public static Turret turret;
   public static Encoder turretEncoder;
+  public static TurretAutoPositioningCommand turretAutoPositioningCommand;
 
    //CLIMBER\\
   public static ClimberLeft climberLeft;
@@ -197,6 +198,10 @@ public class RobotContainer {
 
     intakeLaserSwitch = new DigitalInput(Constants.IntakeConstants.INTAKE_LASER_SWITCH);
     /***********************************************************/
+
+    //***Turret */
+    turretAutoPositioningCommand = new TurretAutoPositioningCommand();
+    /**** */
 
 
     /************************* CLIMBER *************************/
