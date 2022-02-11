@@ -109,8 +109,6 @@ public class RobotContainer {
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
 
    //CLIMBER\\
-  public static ClimberLeft climberLeft;
-  public static ClimberRight climberRight;
   public static TalonFX winchLeft, winchRight;
   public static TalonFX pivotLeft, pivotRight;
 
@@ -209,8 +207,6 @@ public class RobotContainer {
     winchRight = new TalonFX(Constants.ClimberConstants.WINCH_RIGHT);
     pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
     pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
-    climberLeft = new ClimberLeft(pivotLeft, winchLeft);
-    climberRight = new ClimberRight(pivotRight, winchRight);
 
     /***********************************************************/
 

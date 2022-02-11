@@ -4,18 +4,11 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClimberModule extends SubsystemBase {
+public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
-  TalonFX pivotMotor, winch;
-  
-  public ClimberModule(TalonFX pivotMotor, TalonFX winch) {
-    this.pivotMotor = pivotMotor;
-    this.winch = winch;
-  }
+  public Climber() {}
 
   @Override
   public void periodic() {
