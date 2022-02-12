@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,11 +17,13 @@ public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
   TalonFX turretMotor;
   Encoder turretEncoder;
+  AHRS turretGyro;
   double gyroOffset;
 
   public Turret() {
     turretMotor = RobotContainer.turretMotor;
     turretEncoder = RobotContainer.turretEncoder;
+    turretGyro = RobotContainer.turretGyro;
   }
 
   public void moveTurret(double speed){
@@ -27,9 +31,9 @@ public class Turret extends SubsystemBase {
   }
 
   public void moveTurretToAngle(double desiredAngle){
-    double newDesiredAngle = RobotContainer.navX.getAngle() + desiredAngle;
-    double error = newDesiredAngle - turretEncoder.getDistance();
-    double speed = -error/Constants.TurretConstants.TURRET_kP;
+    double currentTurretAngle = turretGyro.getAngle();
+    double error = desiredAngle - currentTurretAngle;  // calculate the distance between the current angle and the desired angle
+    double speed = -error/Constants.TurretConstants.TURRET_kP;  // set the speed proportional to the value of the error
 
     // Control loop to keep the speed from exceding a certain value
     if (speed >= Constants.TurretConstants.MAX_SPEED){

@@ -199,6 +199,7 @@ public class RobotContainer {
 
     //***Turret */
     turretAutoPositioningCommand = new TurretAutoPositioningCommand();
+    turret.setDefaultCommand(turretAutoPositioningCommand);
     /**** */
 
 

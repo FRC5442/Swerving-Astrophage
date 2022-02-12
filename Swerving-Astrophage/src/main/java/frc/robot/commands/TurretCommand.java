@@ -13,29 +13,27 @@ public class TurretCommand extends CommandBase {
   /** Creates a new TurretCommand. */
   int incrementValue;
   double startTime;
+  double axisValue;
 
-  public TurretCommand(int incrementValue) {
+  public TurretCommand(double axisValue) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.turret);
-    this.incrementValue = incrementValue;
+    this.axisValue = axisValue;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startTime = System.currentTimeMillis();
+    startTime = System.currentTimeMillis();  // Store the time at which the command is scheduled
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentTime = System.currentTimeMillis();
-
-    // Control loop to increment TURRET_GYRO_OFFSET every constant milliseconds while button is pressed
-    if (currentTime == startTime + Constants.TurretConstants.INCREMENT_MILLIS){
-      Constants.TurretConstants.TURRET_GYRO_OFFSET = Constants.TurretConstants.TURRET_GYRO_OFFSET + incrementValue;
-      startTime = currentTime;
-    }
+    double currentTime = (System.currentTimeMillis() - startTime) / 1000;  // determine the current time in seconds
+    Constants.TurretConstants.TURRET_GYRO_OFFSET = Constants.TurretConstants.TURRET_GYRO_OFFSET + (axisValue * currentTime);
+    // This formula is the equation of a line, setting the output equal to the current offset + a value that will scale slightly every millisecond.
+    // A positive axis value will result in an increase, and a negative value a decrease.
 
     RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);
   }
@@ -43,7 +41,7 @@ public class TurretCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.turret.moveTurret(0);
+    //RobotContainer.turret.moveTurret(0);
   }
 
   // Returns true when the command should end.
