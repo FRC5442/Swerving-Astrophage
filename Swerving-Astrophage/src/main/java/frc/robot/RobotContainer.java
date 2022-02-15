@@ -54,6 +54,7 @@ public class RobotContainer {
   public static Joystick xbox1;
   public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y;
   public static JoystickButton xbox1LB, xbox1RB;
+  public static double xbox1LTrigger, xbox1RTrigger;
 
   public static Joystick xbox2;
   public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y;
@@ -107,6 +108,7 @@ public class RobotContainer {
   public static Turret turret;
   public static Encoder turretEncoder;
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
+  public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
 
    //CLIMBER\\
   public static TalonFX winchLeft, winchRight;
@@ -125,6 +127,8 @@ public class RobotContainer {
     xbox1Y = new JoystickButton(xbox1, Button.kY.value);
     xbox1LB = new JoystickButton(xbox1, Button.kLeftBumper.value);
     xbox1RB = new JoystickButton(xbox1, Button.kRightBumper.value);
+    xbox1LTrigger = xbox1.getRawAxis(2);
+    xbox1RTrigger = xbox1.getRawAxis(3);
 
     xbox2 = new Joystick(1);
     xbox2A = new JoystickButton(xbox2, Button.kA.value);
@@ -200,6 +204,8 @@ public class RobotContainer {
     //***Turret */
     turretAutoPositioningCommand = new TurretAutoPositioningCommand();
     turret.setDefaultCommand(turretAutoPositioningCommand);
+    turretMoveLeftCommand = new TurretCommand(xbox1LTrigger);
+    turretMoveLeftCommand = new TurretCommand(xbox1RTrigger);
     /**** */
 
 
@@ -246,6 +252,7 @@ public class RobotContainer {
     xbox1LB.whileHeld(intakeFieldCommand);
     xbox1RB.whileHeld(reverseIntakeFieldCommand);
     //xboxControllerX.whenPressed(new DefaultAutoPath());
+    
 
 
     // Second driver controls: shooter, turret, and hood

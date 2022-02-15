@@ -21,7 +21,14 @@ public class TurretAutoPositioningCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);
+
+    if (RobotContainer.xbox1LTrigger >= Constants.RobotConstants.TRIGGER_DEADZONE){  // If the left trigger is pressed, 
+      RobotContainer.turretMoveLeftCommand.schedule();  // Schedule the turret to move left
+    } else if (RobotContainer.xbox1LTrigger >= Constants.RobotConstants.TRIGGER_DEADZONE){    // else see if right trigger is pressed
+      RobotContainer.turretMoveRightCommand.schedule(); // schedule the turret to move right
+    } else {
+      RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);  // if none of the above are true, just update the turret position based on the gyroscope.
+    }
   }
 
   // Called once the command ends or is interrupted.

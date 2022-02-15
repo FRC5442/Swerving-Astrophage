@@ -63,6 +63,7 @@ public final class Constants {
     public static final class RobotConstants {
         public static final double ENCODER_OFFSET = 15.0; //in degrees
         public static double GYRO_OFFSET = 0; //in degrees
+        public static final double TRIGGER_DEADZONE = 0.1;
         public static final double JOYSTICK_DEAD_ZONE = 0.1; //joystick values 0-1
         public static final double ROBOT_WIDTH = 28; //in inches
         public static final double ROBOT_LENGTH = 28; //in inches

@@ -47,6 +47,6 @@ public class TurretCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (axisValue <= Constants.RobotConstants.TRIGGER_DEADZONE); // If the trigger falls below the threshlod, finish the command
   }
 }
