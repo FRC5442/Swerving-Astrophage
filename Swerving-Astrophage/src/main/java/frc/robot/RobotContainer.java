@@ -7,8 +7,6 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
@@ -34,19 +32,15 @@ import frc.robot.commands.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  /************************* Variables *************************/
+
+  /************************* VARIABLES *************************/
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static AHRS navX;
   public static PowerDistribution pdp;
 
-  //AUTONOMOUS\\
-  private final DefaultAutoPath autoDefault;
-  private final ComplexAutoPath autoComplex;
-  SendableChooser<Command> autoChooser;
-
-  //CONTROLLER\\
+  // CONTROLLER \\
   public static Joystick xboxController;
   public static JoystickButton xboxControllerA;
   public static JoystickButton xboxControllerB;
@@ -56,13 +50,8 @@ public class RobotContainer {
   public static Joystick xboxController2;
   public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y;
 
-  public static Joystick logitechController;
-  public static JoystickButton logB1, logB2, logB3, logB4, logB5, logB6, logB7, logB8, logB9, logB10, logB11, logB12;
 
-  
-
-
-  //DRIVE\\
+  // DRIVE \\
   public static TalonFX driveMotor1, driveMotor2; //front right
   public static TalonFX driveMotor3, driveMotor4; //front left
   public static TalonFX driveMotor5, driveMotor6; //back left
@@ -80,48 +69,35 @@ public class RobotContainer {
   public static MoveSingleSwerve moveSingleSwerveFrontLeft, moveSingleSwerveFrontRight, moveSingleSwerveBackLeft, moveSingleSwerveBackRight;
 
 
-  //INTAKE\\
-  /***********************************************************/
+  // INTAKE \\
   public static WPI_VictorSPX intakeMotor;
   public static Intake intake;
   public static IntakeCommand intakeCommand;
   public static IntakeCommand reverseIntakeCommand;
- /***********************************************************/
+  /************************* VARIABLES *************************/
 
   public RobotContainer() {
 
     /************************* JOYSTICKS *************************/
+    // CONTROLLER 1 \\
     xboxController = new Joystick(0);
     xboxControllerA = new JoystickButton(xboxController, 1);
     xboxControllerB = new JoystickButton(xboxController, 2);
     xboxControllerX = new JoystickButton(xboxController, 3);
     xboxControllerStart = new JoystickButton(xboxController, 8);
 
+    // CONTROLLER 2 \\
     xboxController2 = new Joystick(2);
     xbox2A = new JoystickButton(xboxController2, 1);
     xbox2B = new JoystickButton(xboxController2, 2);
     xbox2X = new JoystickButton(xboxController2, 3);
     xbox2Y = new JoystickButton(xboxController2, 4);
-
-    logitechController = new Joystick(0);
-    logB1 = new JoystickButton(logitechController, 1);
-    logB2 = new JoystickButton(logitechController, 2);
-    logB3 = new JoystickButton(logitechController, 3);
-    logB4 = new JoystickButton(logitechController, 4);
-    logB5 = new JoystickButton(logitechController, 5);
-    logB6 = new JoystickButton(logitechController, 6);
-    logB7 = new JoystickButton(logitechController, 7);
-    logB8 = new JoystickButton(logitechController, 8);
-    logB9 = new JoystickButton(logitechController, 9);
-    logB10 = new JoystickButton(logitechController, 10);
-    logB11 = new JoystickButton(logitechController, 11);
-    logB12 = new JoystickButton(logitechController, 12);
-
-    /***********************************************************/
+    /************************* JOYSTICKS *************************/
 
 
 
     /************************* DRIVE *************************/
+    // DRIVE MOTORS \\
     driveMotor1 = new TalonFX(1);
     driveMotor2 = new TalonFX(2);
     driveMotor3 = new TalonFX(3);
@@ -131,6 +107,7 @@ public class RobotContainer {
     driveMotor7 = new TalonFX(7);
     driveMotor8 = new TalonFX(8);
 
+    // ENCODERS \\
     frontRightAbsEncoder = new AnalogPotentiometer(0, 360, 0);
     frontLeftAbsEncoder = new AnalogPotentiometer(1, 360, 0);
     backLeftAbsEncoder = new AnalogPotentiometer(3, 360, 0);
@@ -143,48 +120,33 @@ public class RobotContainer {
     swerveGroup = new SwerveGroup();
     drive = new Drive();
 
+    // MOVE SINGLE SWERVE \\
     moveSingleSwerveFrontLeft = new MoveSingleSwerve(frontLeftModule, 5);
     moveSingleSwerveFrontRight = new MoveSingleSwerve(frontRightModule, 5);
     moveSingleSwerveBackLeft = new MoveSingleSwerve(backLeftModule, 5);
     moveSingleSwerveBackRight = new MoveSingleSwerve(backRightModule, 5);
-    /***********************************************************/
+    /************************* DRIVE *************************/
 
-    
+
 
     /************************* INTAKE *************************/
     intakeMotor = new WPI_VictorSPX(11);
     intake = new Intake();
     intakeCommand = new IntakeCommand(0.5);
     reverseIntakeCommand = new IntakeCommand(-0.75);
-    /***********************************************************/
-
-   
-
-
-
-
+    /************************* INTAKE *************************/
 
 
     /************************* OTHER *************************/
     navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new CalibrateGyro();
     calibrateModules = new CalibrateModules();
-    /***********************************************************/
-
-    /************************* AUTO *************************/
-    autoDefault = new DefaultAutoPath();
-    autoComplex = new ComplexAutoPath();
-    autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Default Auto", autoDefault);
-    autoChooser.addOption("Complex Auto", autoComplex);
-    SmartDashboard.putData(autoChooser);
-    /***********************************************************/
-
+    /************************* OTHER *************************/
 
 
     /************************* BUTTON BINDING METHOD(S) *************************/
     configureButtonBindings();
-    /***********************************************************/
+    /************************* BUTTON BINDING METHOD(S) *************************/
   }
 
   /**
@@ -194,25 +156,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.logitechController = false;
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
     xboxControllerStart.whenPressed(calibrateGyro);
+
+    // switch controller input to 3rd slot to move swerves individually
     xbox2A.whileHeld(moveSingleSwerveBackLeft);
     xbox2B.whileHeld(moveSingleSwerveBackRight);
     xbox2X.whileHeld(moveSingleSwerveFrontRight);
     xbox2Y.whileHeld(moveSingleSwerveFrontLeft);
-
-  }
-
-  private void configureLogitechBindings(){
-    drive.logitechController = true;
-    logB2.whenPressed(calibrateGyro);
-    logB3.whileHeld(moveSingleSwerveBackLeft);
-    logB4.whileHeld(moveSingleSwerveBackRight);
-    logB5.whileHeld(moveSingleSwerveFrontLeft);
-    logB6.whileHeld(moveSingleSwerveFrontRight);
-
   }
 
   /**
@@ -222,8 +174,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return new DefaultAutoPath();
-    //return m_autoCommand;
-    return autoChooser.getSelected();
+    return m_autoCommand;
   }
 }

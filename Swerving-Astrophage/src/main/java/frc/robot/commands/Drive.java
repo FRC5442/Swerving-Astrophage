@@ -50,30 +50,19 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!useAuto)
-    {
-      if (!logitechController){
+    if(!useAuto){
         Joystick driveStick = RobotContainer.xboxController;
         leftX = driveStick.getRawAxis(0); //0
         leftY = driveStick.getRawAxis(1);  //1
         rightX = driveStick.getRawAxis(4);
-      } else {
-        Joystick driveStick = RobotContainer.logitechController;
-        leftX = driveStick.getRawAxis(0);
-        leftY = driveStick.getRawAxis(1);
-        rightX = driveStick.getRawAxis(2);
-      }
-
-      
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
        //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
-
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
       RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
-    }
-    else{
+
+    } else {
       //leftX = _leftX; //0
       //leftY = _leftY;  //1
       leftX = xValue;
@@ -83,9 +72,9 @@ public class Drive extends CommandBase {
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       //rightX = 0.0;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
-
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
       RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
+      
     }
 
     /*
