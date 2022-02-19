@@ -29,8 +29,9 @@ import frc.robot.commands.*;
 /************************* IMPORTS *************************/
 
 public class RobotContainer {
-  /************************* Variables *************************/
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+/************************* VARIABLES *************************/
+private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static AHRS navX;
@@ -100,11 +101,11 @@ public class RobotContainer {
   // CLIMBER \\
   public static TalonFX winchLeft, winchRight;
   public static TalonFX pivotLeft, pivotRight;
-  /************************* Variables *************************/
+/************************* VARIABLES *************************/
 
   public RobotContainer() {
 
-    /************************* JOYSTICKS *************************/
+  /************************* JOYSTICKS *************************/
     xbox1 = new Joystick(0);
     xbox1A = new JoystickButton(xbox1, Button.kA.value);
     xbox1B = new JoystickButton(xbox1, Button.kB.value);
@@ -122,10 +123,10 @@ public class RobotContainer {
     xbox2Y = new JoystickButton(xbox2, Button.kY.value);
     xbox2LB = new JoystickButton(xbox2, Button.kLeftBumper.value);
     xbox2RB = new JoystickButton(xbox2, Button.kRightBumper.value);
-    /************************* JOYSTICKS *************************/
+  /************************* JOYSTICKS *************************/
 
 
-    /************************* DRIVE *************************/
+  /************************* DRIVE *************************/
     driveMotor1 = new TalonFX(1);
     driveMotor2 = new TalonFX(2);
     driveMotor3 = new TalonFX(3);
@@ -146,27 +147,27 @@ public class RobotContainer {
     backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
     swerveGroup = new SwerveGroup();
     drive = new Drive();
-    /************************* DRIVE *************************/
+  /************************* DRIVE *************************/
 
 
-    /************************* SHOOTER *************************/
+  /************************* SHOOTER *************************/
     shooter = new Shooter();
     shooterWheel1 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ONE, CANSparkMaxLowLevel.MotorType.kBrushless);
     shooterWheel2 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_TWO, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     shootCommand = new ShootCommand(Constants.ShooterConstants.SHOOTER_RPM);
     reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
-    /************************* SHOOTER *************************/
+  /************************* SHOOTER *************************/
 
 
-    /************************* HOOD *************************/
+  /************************* HOOD *************************/
     shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
     raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_HIGH);
     lowerHood = new HoodCommand(Constants.ShooterConstants.HOOD_LOW);
-    /************************* HOOD *************************/
+  /************************* HOOD *************************/
 
 
-    /************************* INTAKE *************************/
+  /************************* INTAKE *************************/
     intakeMotorField = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_FIELD);
     intakeMotorPivot = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
     intakeMotorElevator1 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
@@ -185,53 +186,53 @@ public class RobotContainer {
     reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2, false);
 
     intakeLaserSwitch = new DigitalInput(Constants.IntakeConstants.INTAKE_LASER_SWITCH);
-    /************************* INTAKE *************************/
+  /************************* INTAKE *************************/
 
 
-    /************************* TURRET *************************/
+  /************************* TURRET *************************/
     turretAutoPositioningCommand = new TurretAutoPositioningCommand();
     turret.setDefaultCommand(turretAutoPositioningCommand);
     turretMoveLeftCommand = new TurretCommand(xbox1LTrigger);
     turretMoveLeftCommand = new TurretCommand(xbox1RTrigger);
-    /************************* TURRET *************************/
+  /************************* TURRET *************************/
 
 
-    /************************* CLIMBER *************************/
+  /************************* CLIMBER *************************/
     winchLeft = new TalonFX(Constants.ClimberConstants.WINCH_LEFT);
     winchRight = new TalonFX(Constants.ClimberConstants.WINCH_RIGHT);
     pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
     pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
-    /************************* CLIMBER *************************/
+  /************************* CLIMBER *************************/
 
 
-    /************************* OTHER *************************/
+  /************************* OTHER *************************/
     navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new CalibrateGyro();
     calibrateModules = new CalibrateModules();
-    /************************* OTHER *************************/
+  /************************* OTHER *************************/
 
 
-    /************************* AUTO *************************/
+  /************************* AUTO *************************/
     autoDefault = new DefaultAutoPath();
     autoComplex = new ComplexAutoPath();
     autoChooser = new SendableChooser<>();
     autoChooser.setDefaultOption("Default Auto", autoDefault);
     autoChooser.addOption("Complex Auto", autoComplex);
     SmartDashboard.putData(autoChooser);
-    /************************* AUTO *************************/
+  /************************* AUTO *************************/
 
 
-    /************************* BUTTON BINDING METHOD(S) *************************/
+  /************************* BUTTON BINDING METHOD(S) *************************/
     configureButtonBindings();
-    /************************* BUTTON BINDING METHOD(S) *************************/
+  /************************* BUTTON BINDING METHOD(S) *************************/
   }
 
   private void configureButtonBindings() {
-    // Primary driver controls: intake, drive(not initialized here), climb?
+  // Primary driver controls: intake, drive(not initialized here), climb?
     xbox1LB.whileHeld(intakeFieldCommand);
     xbox1RB.whileHeld(reverseIntakeFieldCommand);    
 
-    // Secondary driver controls: shooter, turret, and hood
+  // Secondary driver controls: shooter, turret, and hood
     xbox2B.whileHeld(shootCommand);
     xbox2X.whileHeld(reverseShootCommand);
     xbox2A.whileHeld(lowerHood);

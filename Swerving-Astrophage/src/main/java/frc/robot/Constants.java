@@ -65,8 +65,8 @@ public final class Constants {
         public static double GYRO_OFFSET = 0; //in degrees
         public static final double TRIGGER_DEADZONE = 0.1;
         public static final double JOYSTICK_DEAD_ZONE = 0.1; //joystick values 0-1
-        public static final double ROBOT_WIDTH = 28; //in inches
-        public static final double ROBOT_LENGTH = 28; //in inches
+        public static final double ROBOT_WIDTH = 24; //in inches
+        public static final double ROBOT_LENGTH = 32; //in inches
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
 
