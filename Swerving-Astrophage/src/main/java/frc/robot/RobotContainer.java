@@ -5,8 +5,6 @@
 package frc.robot;
 
 /************************* IMPORTS *************************/
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +26,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-/***********************************************************/
+/************************* IMPORTS *************************/
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -102,7 +100,7 @@ public class RobotContainer {
   public static DigitalInput intakeLaserSwitch;
 
 
-   //TURRET\\
+  //TURRET\\
   public static TalonFX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
@@ -110,7 +108,7 @@ public class RobotContainer {
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
   public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
 
-   //CLIMBER\\
+  //CLIMBER\\
   public static TalonFX winchLeft, winchRight;
   public static TalonFX pivotLeft, pivotRight;
 
@@ -241,12 +239,6 @@ public class RobotContainer {
     /***********************************************************/
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
     // Primary driver controls: intake, drive(not initialized here), climb?
     xbox1LB.whileHeld(intakeFieldCommand);
