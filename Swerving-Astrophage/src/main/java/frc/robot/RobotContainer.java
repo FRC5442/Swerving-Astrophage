@@ -28,12 +28,6 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 /************************* IMPORTS *************************/
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
   /************************* Variables *************************/
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -42,13 +36,12 @@ public class RobotContainer {
   public static AHRS navX;
   public static PowerDistribution pdp;
 
-  //AUTONOMOUS\\
+  // AUTO \\
   private final DefaultAutoPath autoDefault;
   private final ComplexAutoPath autoComplex;
   SendableChooser<Command> autoChooser;
 
-
-  //CONTROLLER\\
+  // CONTROLLER \\
   public static Joystick xbox1;
   public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y;
   public static JoystickButton xbox1LB, xbox1RB;
@@ -58,9 +51,7 @@ public class RobotContainer {
   public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y;
   public static JoystickButton xbox2LB, xbox2RB;
 
-
-
-  //DRIVE\\
+  // DRIVE \\
   public static TalonFX driveMotor1, driveMotor2; //front right
   public static TalonFX driveMotor3, driveMotor4; //front left
   public static TalonFX driveMotor5, driveMotor6; //back left
@@ -76,19 +67,18 @@ public class RobotContainer {
   public static CalibrateGyro calibrateGyro;
   public static CalibrateModules calibrateModules;
 
-  //SHOOTER\\
+  // SHOOTER \\
   public static Shooter shooter;
   public static ShootCommand shootCommand, reverseShootCommand;
   public static CANSparkMax shooterWheel1;
   public static CANSparkMax shooterWheel2;
   public static WPI_VictorSPX shooterHood;
 
-  //HOOD\\
+  // HOOD \\
   public static HoodCommand raiseHood, lowerHood;
   public static Encoder hoodEncoder;
 
-
-  //INTAKE\\
+  // INTAKE \\
   public static WPI_VictorSPX intakeMotorField;
   public static WPI_VictorSPX intakeMotorPivot;
   public static WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
@@ -99,8 +89,7 @@ public class RobotContainer {
   public static IntakeCommand intakeElevator2Command, reverseIntakeElevator2Command;
   public static DigitalInput intakeLaserSwitch;
 
-
-  //TURRET\\
+  // TURRET \\
   public static TalonFX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
@@ -108,12 +97,10 @@ public class RobotContainer {
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
   public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
 
-  //CLIMBER\\
+  // CLIMBER \\
   public static TalonFX winchLeft, winchRight;
   public static TalonFX pivotLeft, pivotRight;
-
-
- 
+  /************************* Variables *************************/
 
   public RobotContainer() {
 
@@ -135,8 +122,7 @@ public class RobotContainer {
     xbox2Y = new JoystickButton(xbox2, Button.kY.value);
     xbox2LB = new JoystickButton(xbox2, Button.kLeftBumper.value);
     xbox2RB = new JoystickButton(xbox2, Button.kRightBumper.value);
-    /***********************************************************/
-
+    /************************* JOYSTICKS *************************/
 
 
     /************************* DRIVE *************************/
@@ -160,7 +146,8 @@ public class RobotContainer {
     backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
     swerveGroup = new SwerveGroup();
     drive = new Drive();
-    /***********************************************************/
+    /************************* DRIVE *************************/
+
 
     /************************* SHOOTER *************************/
     shooter = new Shooter();
@@ -169,13 +156,14 @@ public class RobotContainer {
 
     shootCommand = new ShootCommand(Constants.ShooterConstants.SHOOTER_RPM);
     reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
-    /***********************************************************/
+    /************************* SHOOTER *************************/
+
 
     /************************* HOOD *************************/
     shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
     raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_HIGH);
     lowerHood = new HoodCommand(Constants.ShooterConstants.HOOD_LOW);
-    /***********************************************************/
+    /************************* HOOD *************************/
 
 
     /************************* INTAKE *************************/
@@ -197,14 +185,15 @@ public class RobotContainer {
     reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2, false);
 
     intakeLaserSwitch = new DigitalInput(Constants.IntakeConstants.INTAKE_LASER_SWITCH);
-    /***********************************************************/
+    /************************* INTAKE *************************/
 
-    //***Turret */
+
+    /************************* TURRET *************************/
     turretAutoPositioningCommand = new TurretAutoPositioningCommand();
     turret.setDefaultCommand(turretAutoPositioningCommand);
     turretMoveLeftCommand = new TurretCommand(xbox1LTrigger);
     turretMoveLeftCommand = new TurretCommand(xbox1RTrigger);
-    /**** */
+    /************************* TURRET *************************/
 
 
     /************************* CLIMBER *************************/
@@ -212,15 +201,14 @@ public class RobotContainer {
     winchRight = new TalonFX(Constants.ClimberConstants.WINCH_RIGHT);
     pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
     pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
-
-    /***********************************************************/
+    /************************* CLIMBER *************************/
 
 
     /************************* OTHER *************************/
     navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new CalibrateGyro();
     calibrateModules = new CalibrateModules();
-    /***********************************************************/
+    /************************* OTHER *************************/
 
 
     /************************* AUTO *************************/
@@ -230,39 +218,26 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Default Auto", autoDefault);
     autoChooser.addOption("Complex Auto", autoComplex);
     SmartDashboard.putData(autoChooser);
-    /***********************************************************/
-
+    /************************* AUTO *************************/
 
 
     /************************* BUTTON BINDING METHOD(S) *************************/
     configureButtonBindings();
-    /***********************************************************/
+    /************************* BUTTON BINDING METHOD(S) *************************/
   }
 
   private void configureButtonBindings() {
     // Primary driver controls: intake, drive(not initialized here), climb?
     xbox1LB.whileHeld(intakeFieldCommand);
-    xbox1RB.whileHeld(reverseIntakeFieldCommand);
-    //xboxControllerX.whenPressed(new DefaultAutoPath());
-    
+    xbox1RB.whileHeld(reverseIntakeFieldCommand);    
 
-
-    // Second driver controls: shooter, turret, and hood
-    // xbox2LB.whileHeld(TurretCommandLeft);
-    // xbox2RB.whileHeld(TurretCommandRight); 
+    // Secondary driver controls: shooter, turret, and hood
     xbox2B.whileHeld(shootCommand);
     xbox2X.whileHeld(reverseShootCommand);
     xbox2A.whileHeld(lowerHood);
     xbox2Y.whileHeld(raiseHood);
-
-
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     //return new DefaultAutoPath();
