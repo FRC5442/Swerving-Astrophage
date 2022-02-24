@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class BackLeftModule extends SwerveModule {
 
     public BackLeftModule(TalonFX topGear, TalonFX bottomGear, AnalogPotentiometer absEncoder) {
-        super(topGear, bottomGear, absEncoder, true, 67);
+        super(topGear, bottomGear, absEncoder, true, 297);
     }
 
     @Override
     public void updateSmartDashboard() {
         SmartDashboard.putNumber("Back Left Encoder: ", this.currentAngle);
         SmartDashboard.putNumber("Back Left Encoder Zero Offset: ", this.zeroOffset);
+        SmartDashboard.putNumber("Back Left New Angle: ", this.rawAngle);
+
     }
 }

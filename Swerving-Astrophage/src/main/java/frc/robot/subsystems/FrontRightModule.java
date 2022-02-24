@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class FrontRightModule extends SwerveModule {
 
     public FrontRightModule(TalonFX topGear, TalonFX bottomGear, AnalogPotentiometer absEncoder) {
-        super(topGear, bottomGear, absEncoder, false, 17);
+        super(topGear, bottomGear, absEncoder, false, 188);
     }
 
     @Override
     public void updateSmartDashboard() {
         SmartDashboard.putNumber("Front Right Encoder: ", this.currentAngle);
         SmartDashboard.putNumber("Front Right Encoder Zero Offest: ", this.zeroOffset);
+        SmartDashboard.putNumber("Front Right New Angle: ", this.rawAngle);
     }
 }

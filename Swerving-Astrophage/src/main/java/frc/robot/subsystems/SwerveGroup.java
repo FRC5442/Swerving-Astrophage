@@ -98,6 +98,7 @@ public class SwerveGroup extends SubsystemBase {
     double C = FWD - RCW * (Constants.ROBOT_WIDTH / Constants.ROBOT_RADIUS);
     double D = FWD + RCW * (Constants.ROBOT_WIDTH / Constants.ROBOT_RADIUS);
 
+    /*
     //B and C
     double frontRightSpeed = getMovementAttributes(A, C)[0]; //good
     double frontRightAngle = getMovementAttributes(A, C)[1];
@@ -117,6 +118,27 @@ public class SwerveGroup extends SubsystemBase {
     double backRightSpeed = getMovementAttributes(B, C)[0];
     double backRightAngle = getMovementAttributes(B, C)[1];
     if (backRightSpeed > maxSpeed) backRightSpeed = maxSpeed;
+    */
+
+    double frontRightSpeed = getMovementAttributes(B, C)[0]; //good
+    double frontRightAngle = getMovementAttributes(B, C)[1];
+    double maxSpeed = frontRightSpeed;  // The module to control all speeds
+
+    //B and D
+    double frontLeftSpeed = getMovementAttributes(B, D)[0]; 
+    double frontLeftAngle = getMovementAttributes(B, D)[1];
+    if (frontLeftSpeed > maxSpeed) frontLeftSpeed = maxSpeed;
+
+    //A and D
+    double backLeftSpeed = getMovementAttributes(A, D)[0]; //good
+    double backLeftAngle = getMovementAttributes(A, D)[1];
+    if (backLeftSpeed > maxSpeed) backLeftSpeed = maxSpeed;
+
+    //A and C - Back Right
+    double backRightSpeed = getMovementAttributes(A, C)[0];
+    double backRightAngle = getMovementAttributes(A, C)[1];
+    if (backRightSpeed > maxSpeed) backRightSpeed = maxSpeed;
+
 
     if (Math.abs(translation.magnitude()) > Constants.JOYSTICK_DEAD_ZONE || Math.abs(rotation) > Constants.JOYSTICK_DEAD_ZONE) {
       frontRightModule.move(frontRightSpeed, frontRightAngle);
