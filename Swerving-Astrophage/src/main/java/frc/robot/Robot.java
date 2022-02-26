@@ -81,6 +81,7 @@ public class Robot extends TimedRobot {
     }
 
     RobotContainer.drive.schedule();
+    RobotContainer.turretAutoPositioningCommand.schedule();
     
   }
 

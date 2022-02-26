@@ -11,18 +11,20 @@ import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  WPI_VictorSPX intakeMotor;
-  WPI_VictorSPX elevatorMotr;
+  WPI_VictorSPX intakeMotorField;
+  WPI_VictorSPX intakeMotorPivot;
+  WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
 
   public Intake() {
-    intakeMotor = RobotContainer.intakeMotor;
-    elevatorMotr = RobotContainer.elevatorMotor;
+    intakeMotorField = RobotContainer.intakeMotorField;
+    intakeMotorPivot = RobotContainer.intakeMotorPivot;
+    intakeMotorElevator1 = RobotContainer.intakeMotorElevator1;
+    intakeMotorElevator2 = RobotContainer.intakeMotorElevator2;
   }
 
-  public void moveIntake(double speed) {
-    intakeMotor.set(speed);
-    elevatorMotr.set(speed);
-  }
+  public void moveIntake(double speed, WPI_VictorSPX motor) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed
+    motor.set(speed);
+  }   //Not confident about the conventions relating to doing this, not sure if it will work.
 
   @Override
   public void periodic() {

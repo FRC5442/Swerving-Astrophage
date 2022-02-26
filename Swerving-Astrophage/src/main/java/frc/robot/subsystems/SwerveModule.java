@@ -127,7 +127,7 @@ public class SwerveModule extends SubsystemBase {
       startTime = System.nanoTime() / 1000000;
 
       //convert absolute encoder voltage to degrees and post to smartdashboard for testing
-      rawAngle = (SharedMethods.roundTo(((absEncoder.get() - Constants.ENCODER_OFFSET) / 335) * 360, 0));
+      rawAngle = (SharedMethods.roundTo(((absEncoder.get() - Constants.RobotConstants.ENCODER_OFFSET) / 335) * 360, 0));
 
       //do if statement with 360 minus for negative numbers
       double newAngle = rawAngle - zeroOffset;

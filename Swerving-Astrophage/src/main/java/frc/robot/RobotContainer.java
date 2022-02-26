@@ -5,51 +5,52 @@
 package frc.robot;
 
 /************************* IMPORTS *************************/
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-/***********************************************************/
+/************************* IMPORTS *************************/
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
 
-  /************************* VARIABLES *************************/
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+/************************* VARIABLES *************************/
+private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static AHRS navX;
   public static PowerDistribution pdp;
 
+  // AUTO \\
+  private final ComplexAutoPath autoComplex;
+  SendableChooser<Command> autoChooser;
+
   // CONTROLLER \\
-  public static Joystick xboxController;
-  public static JoystickButton xboxControllerA;
-  public static JoystickButton xboxControllerB;
-  public static JoystickButton xboxControllerX;
-  public static JoystickButton xboxControllerStart;
+  public static Joystick xbox1;
+  public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y;
+  public static JoystickButton xbox1LB, xbox1RB;
+  public static double xbox1LTrigger, xbox1RTrigger;
 
-  public static Joystick xboxController2;
+  public static Joystick xbox2;
   public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y;
-
+  public static JoystickButton xbox2LB, xbox2RB;
 
   // DRIVE \\
   public static TalonFX driveMotor1, driveMotor2; //front right
@@ -68,37 +69,65 @@ public class RobotContainer {
   public static CalibrateModules calibrateModules;
   public static MoveSingleSwerve moveSingleSwerveFrontLeft, moveSingleSwerveFrontRight, moveSingleSwerveBackLeft, moveSingleSwerveBackRight;
 
+  // SHOOTER \\
+  public static Shooter shooter;
+  public static ShootCommand shootCommand, reverseShootCommand;
+  public static CANSparkMax shooterWheel1;
+  public static CANSparkMax shooterWheel2;
+  public static WPI_VictorSPX shooterHood;
+
+  // HOOD \\
+  public static HoodCommand raiseHood, lowerHood;
+  public static Encoder hoodEncoder;
 
   // INTAKE \\
-  public static WPI_VictorSPX intakeMotor;
-  public static WPI_VictorSPX elevatorMotor;
+  public static WPI_VictorSPX intakeMotorField;
+  public static WPI_VictorSPX intakeMotorPivot;
+  public static WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
   public static Intake intake;
-  public static IntakeCommand intakeCommand;
-  public static IntakeCommand reverseIntakeCommand;
-  /************************* VARIABLES *************************/
+  public static IntakeCommand intakeFieldCommand, reverseIntakeFieldCommand;
+  public static IntakeCommand intakePivotCommand, reverseIntakePivotCommand;
+  public static IntakeCommand intakeElevator1Command, reverseIntakeElevator1Command;
+  public static IntakeCommand intakeElevator2Command, reverseIntakeElevator2Command;
+  public static DigitalInput intakeLaserSwitch;
+
+  // TURRET \\
+  public static TalonFX turretMotor;
+  public static AHRS turretGyro;
+  public static Turret turret;
+  public static Encoder turretEncoder;
+  public static TurretAutoPositioningCommand turretAutoPositioningCommand;
+  public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
+
+  // CLIMBER \\
+  public static TalonFX winchLeft, winchRight;
+  public static TalonFX pivotLeft, pivotRight;
+/************************* VARIABLES *************************/
 
   public RobotContainer() {
 
-    /************************* JOYSTICKS *************************/
-    // CONTROLLER 1 \\
-    xboxController = new Joystick(0);
-    xboxControllerA = new JoystickButton(xboxController, 1);
-    xboxControllerB = new JoystickButton(xboxController, 2);
-    xboxControllerX = new JoystickButton(xboxController, 3);
-    xboxControllerStart = new JoystickButton(xboxController, 8);
+  /************************* JOYSTICKS *************************/
+    xbox1 = new Joystick(0);
+    xbox1A = new JoystickButton(xbox1, Button.kA.value);
+    xbox1B = new JoystickButton(xbox1, Button.kB.value);
+    xbox1X = new JoystickButton(xbox1, Button.kX.value);
+    xbox1Y = new JoystickButton(xbox1, Button.kY.value);
+    xbox1LB = new JoystickButton(xbox1, Button.kLeftBumper.value);
+    xbox1RB = new JoystickButton(xbox1, Button.kRightBumper.value);
+    xbox1LTrigger = xbox1.getRawAxis(2);
+    xbox1RTrigger = xbox1.getRawAxis(3);
 
-    // CONTROLLER 2 \\
-    xboxController2 = new Joystick(2);
-    xbox2A = new JoystickButton(xboxController2, 1);
-    xbox2B = new JoystickButton(xboxController2, 2);
-    xbox2X = new JoystickButton(xboxController2, 3);
-    xbox2Y = new JoystickButton(xboxController2, 4);
-    /************************* JOYSTICKS *************************/
+    xbox2 = new Joystick(1);
+    xbox2A = new JoystickButton(xbox2, Button.kA.value);
+    xbox2B = new JoystickButton(xbox2, Button.kB.value);
+    xbox2X = new JoystickButton(xbox2, Button.kX.value);
+    xbox2Y = new JoystickButton(xbox2, Button.kY.value);
+    xbox2LB = new JoystickButton(xbox2, Button.kLeftBumper.value);
+    xbox2RB = new JoystickButton(xbox2, Button.kRightBumper.value);
+  /************************* JOYSTICKS *************************/
 
 
-
-    /************************* DRIVE *************************/
-    // DRIVE MOTORS \\
+  /************************* DRIVE *************************/
     driveMotor1 = new TalonFX(1);
     driveMotor2 = new TalonFX(2);
     driveMotor3 = new TalonFX(3);
@@ -120,60 +149,97 @@ public class RobotContainer {
     backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
     swerveGroup = new SwerveGroup();
     drive = new Drive();
-
-    // MOVE SINGLE SWERVE \\
-    moveSingleSwerveFrontLeft = new MoveSingleSwerve(frontLeftModule, 5);
-    moveSingleSwerveFrontRight = new MoveSingleSwerve(frontRightModule, 5);
-    moveSingleSwerveBackLeft = new MoveSingleSwerve(backLeftModule, 5);
-    moveSingleSwerveBackRight = new MoveSingleSwerve(backRightModule, 5);
-    /************************* DRIVE *************************/
+  /************************* DRIVE *************************/
 
 
+  /************************* SHOOTER *************************/
+    shooter = new Shooter();
+    shooterWheel1 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ONE, CANSparkMaxLowLevel.MotorType.kBrushless);
+    shooterWheel2 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_TWO, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    /************************* INTAKE *************************/
-    intakeMotor = new WPI_VictorSPX(15);
-    elevatorMotor = new WPI_VictorSPX(16);
+    shootCommand = new ShootCommand(Constants.ShooterConstants.SHOOTER_RPM);
+    reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
+  /************************* SHOOTER *************************/
+
+
+  /************************* HOOD *************************/
+    shooterHood = new WPI_VictorSPX(Constants.ShooterConstants.SHOOTER_MOTOR_HOOD);
+    raiseHood = new HoodCommand(Constants.ShooterConstants.HOOD_HIGH);
+    lowerHood = new HoodCommand(Constants.ShooterConstants.HOOD_LOW);
+  /************************* HOOD *************************/
+
+
+  /************************* INTAKE *************************/
+    intakeMotorField = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_FIELD);
+    intakeMotorPivot = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
+    intakeMotorElevator1 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
+    intakeMotorElevator2 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
+
     intake = new Intake();
-    intakeCommand = new IntakeCommand(0.5);
-    reverseIntakeCommand = new IntakeCommand(-0.5);
-    /************************* INTAKE *************************/
+    intakeFieldCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField, false);
+    reverseIntakeFieldCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_FIELD_SPEED, intakeMotorField, false);
+
+    intakePivotCommand = new IntakeCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot, false);
+    reverseIntakePivotCommand = new IntakeCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED, intakeMotorPivot, false);
+    
+    intakeElevator1Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1, false);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator1, false);
+    intakeElevator2Command = new IntakeCommand(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2, false);
+    reverseIntakeElevator1Command = new IntakeCommand(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED, intakeMotorElevator2, false);
+
+    intakeLaserSwitch = new DigitalInput(Constants.IntakeConstants.INTAKE_LASER_SWITCH);
+  /************************* INTAKE *************************/
 
 
-    /************************* OTHER *************************/
+  /************************* TURRET *************************/
+    turretAutoPositioningCommand = new TurretAutoPositioningCommand();
+    turret.setDefaultCommand(turretAutoPositioningCommand);
+    turretMoveLeftCommand = new TurretCommand(xbox1LTrigger);
+    turretMoveLeftCommand = new TurretCommand(xbox1RTrigger);
+  /************************* TURRET *************************/
+
+
+  /************************* CLIMBER *************************/
+    winchLeft = new TalonFX(Constants.ClimberConstants.WINCH_LEFT);
+    winchRight = new TalonFX(Constants.ClimberConstants.WINCH_RIGHT);
+    pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
+    pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
+  /************************* CLIMBER *************************/
+
+
+  /************************* OTHER *************************/
     navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new CalibrateGyro();
     calibrateModules = new CalibrateModules();
-    /************************* OTHER *************************/
+  /************************* OTHER *************************/
 
 
-    /************************* BUTTON BINDING METHOD(S) *************************/
+  /************************* AUTO *************************/
+    autoComplex = new ComplexAutoPath();
+    autoChooser = new SendableChooser<>();
+    autoChooser.setDefaultOption("Default Auto", autoComplex);
+    autoChooser.addOption("Complex Auto", autoComplex);
+    SmartDashboard.putData(autoChooser);
+  /************************* AUTO *************************/
+
+
+  /************************* BUTTON BINDING METHOD(S) *************************/
     configureButtonBindings();
-    /************************* BUTTON BINDING METHOD(S) *************************/
+  /************************* BUTTON BINDING METHOD(S) *************************/
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
-    xboxControllerB.whileHeld(intakeCommand);
-    xboxControllerX.whileHeld(reverseIntakeCommand);
-    xboxControllerStart.whenPressed(calibrateModules);
+  // Primary driver controls: intake, drive(not initialized here), climb?
+    xbox1LB.whileHeld(intakeFieldCommand);
+    xbox1RB.whileHeld(reverseIntakeFieldCommand);    
 
-    // switch controller input to 3rd slot to move swerves individually
-    // xbox2A.whileHeld(moveSingleSwerveBackLeft);
-    // xbox2B.whileHeld(moveSingleSwerveBackRight);
-    // xbox2X.whileHeld(moveSingleSwerveFrontRight);
-    // xbox2Y.whileHeld(moveSingleSwerveFrontLeft);
+  // Secondary driver controls: shooter, turret, and hood
+    xbox2B.whileHeld(shootCommand);
+    xbox2X.whileHeld(reverseShootCommand);
+    xbox2A.whileHeld(lowerHood);
+    xbox2Y.whileHeld(raiseHood);
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;

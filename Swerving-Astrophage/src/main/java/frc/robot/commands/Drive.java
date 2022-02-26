@@ -13,12 +13,12 @@ public class Drive extends CommandBase {
 
   public static double rightX; //The variable to be accessed by "MoveCrabButton" Command with a + or - value
 
-  private double leftX ;//0
-  private double leftY ;
+  private double leftX;//0
+  private double leftY;
 
-  double xValue;
-  double yValue;
-  double rValue;
+  double xValue;  //variable to store x translation value
+  double yValue;  //variable to store y translation value
+  double rValue;  //variable to store rotation value
 
   private boolean useAuto = false;
 
