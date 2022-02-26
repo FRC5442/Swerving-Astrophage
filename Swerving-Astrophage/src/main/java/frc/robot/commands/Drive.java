@@ -51,7 +51,7 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     if(!useAuto){
-        Joystick driveStick = RobotContainer.xboxController;
+        Joystick driveStick = RobotContainer.xbox1;
         leftX = driveStick.getRawAxis(0)*1; //0
         leftY = driveStick.getRawAxis(1)*1;  //1
         rightX = driveStick.getRawAxis(4)*1;

@@ -13,19 +13,19 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final double ROBOT_WIDTH = 24; //in inches, origionally 28  //24
-    public static final double ROBOT_LENGTH = 32; //in inches, origionally 28  //32
-    public static final double ROBOT_RADIUS = Math.sqrt(Math.pow( (ROBOT_WIDTH), 2) + Math.pow( (ROBOT_LENGTH), 2));
 
-    public static final double FL_OFFSET = 93;  // 93
-    public static final double FR_OFFSET = 188;  // 188
-    public static final double BL_OFFSET = 297;  // 297
-    public static final double BR_OFFSET = 65;  // 65
     
-    public static final double JOYSTICK_DEAD_ZONE = 0.1; //joystick values 0-1
 
-    public static final double ENCODER_OFFSET = 15.0; //in degrees
-    public static double GYRO_OFFSET = 0; //in degrees
+    public static final class SwerveConstants {
+        public static final double FL_OFFSET = 93;  // 93
+        public static final double FR_OFFSET = 188;  // 188
+        public static final double BL_OFFSET = 297;  // 297
+        public static final double BR_OFFSET = 65;  // 65
+        public static final boolean FL_INVERTED = true;
+        public static final boolean FR_INVERTED = false;
+        public static final boolean BL_INVERTED = true;
+        public static final boolean BR_INVERTED = false;
+    }
 
     public static final class ShooterConstants {
         public static final int SHOOTER_MOTOR_ONE = 20;

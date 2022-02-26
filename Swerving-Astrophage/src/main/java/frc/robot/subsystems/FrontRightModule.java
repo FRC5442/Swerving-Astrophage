@@ -13,7 +13,7 @@ import frc.robot.Constants;
 public class FrontRightModule extends SwerveModule {
 
     public FrontRightModule(TalonFX topGear, TalonFX bottomGear, AnalogPotentiometer absEncoder) {
-        super(topGear, bottomGear, absEncoder, false, Constants.FR_OFFSET);
+        super(topGear, bottomGear, absEncoder, Constants.SwerveConstants.FR_INVERTED, Constants.SwerveConstants.FR_OFFSET);
     }
 
     @Override
