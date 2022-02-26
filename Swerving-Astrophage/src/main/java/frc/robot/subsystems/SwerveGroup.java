@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,11 +50,11 @@ public class SwerveGroup extends SubsystemBase {
     }
     else if (Math.abs(rotation) > Constants.JOYSTICK_DEAD_ZONE) {
       
-      frontLeftModule.move(rotation, 225);
-      backRightModule.move(rotation, 45);
+      frontLeftModule.move(rotation, 53); //225
+      backRightModule.move(rotation, 233);  //45
 
-      frontRightModule.move(rotation, 135);
-      backLeftModule.move(rotation, 315);
+      frontRightModule.move(rotation, 127);  //135
+      backLeftModule.move(rotation, 307);  //315
     }
     else {
       // If none of the requirements are met, make the modules stop
@@ -60,13 +65,56 @@ public class SwerveGroup extends SubsystemBase {
     }
   }
 
+  // Swerve control using the built in WPILib kinematics calculations
+  public void moveSwerveWPILib(Vector2d translation, double rotation){
+    // Establishing the location of each module relative to the center of the robot.
+    Translation2d frontLeftLocation = new Translation2d(SharedMethods.convertInchesToMeters(Constants.ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(Constants.ROBOT_LENGTH) / 2);
+    Translation2d frontRightLocation = new Translation2d(SharedMethods.convertInchesToMeters(Constants.ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(Constants.ROBOT_LENGTH) / -2);
+    Translation2d backLeftLocation = new Translation2d(SharedMethods.convertInchesToMeters(Constants.ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(Constants.ROBOT_LENGTH) / 2);
+    Translation2d backRightLocation = new Translation2d(SharedMethods.convertInchesToMeters(Constants.ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(Constants.ROBOT_LENGTH) / -2);
+
+    SwerveDriveKinematics swerveDriveKinematics = new SwerveDriveKinematics(
+      frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation
+    );
+
+    double FWD = translation.x;
+    double STR = translation.y;
+    double RCW = rotation;// * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
+
+    if (Math.abs(translation.magnitude()) <= Constants.JOYSTICK_DEAD_ZONE) {
+      FWD = 0;
+      STR = 0;
+    }
+    if (Math.abs(rotation) <= Constants.JOYSTICK_DEAD_ZONE) RCW = 0;
+
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(FWD, STR, RCW);
+
+    SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+
+    SwerveModuleState frontLeftState = moduleStates[0];
+    SwerveModuleState frontRightState = moduleStates[1];
+    SwerveModuleState backLeftState = moduleStates[2];
+    SwerveModuleState backRightState = moduleStates[3];
+
+    SmartDashboard.putNumber("FL State Angle", frontLeftState.angle.getDegrees());
+    SmartDashboard.putNumber("FR State Angle", frontRightState.angle.getDegrees());
+    SmartDashboard.putNumber("BL State Angle", backLeftState.angle.getDegrees());
+    SmartDashboard.putNumber("BR State Angle", backRightState.angle.getDegrees());
+
+    frontLeftModule.move(frontLeftState.speedMetersPerSecond, frontLeftState.angle.getDegrees());
+    frontRightModule.move(frontRightState.speedMetersPerSecond, frontRightState.angle.getDegrees());
+    backLeftModule.move(backLeftState.speedMetersPerSecond, backLeftState.angle.getDegrees());
+    backRightModule.move(backRightState.speedMetersPerSecond, backRightState.angle.getDegrees());
+
+  }
+
   public void moveSwerve(Vector2d translation, double rotation) {
     double gyroRadians = getConvertedGyroAngle() * (Math.PI / 180); //in radians
     SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle());
 
     double STR = translation.x;  //strafe variable (x-axis)
     double FWD = translation.y;  //forward variable (y-axis)
-    double RCW = -rotation * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
+    double RCW = rotation * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
     /**
      * rotation linearly adjusted for translation speed
      * states that the rotation is 1x is the translation speed is 0
@@ -87,6 +135,9 @@ public class SwerveGroup extends SubsystemBase {
       STR = 0;
     }
     if (Math.abs(rotation) <= Constants.JOYSTICK_DEAD_ZONE) RCW = 0;
+    SmartDashboard.putNumber("STR", STR);
+    SmartDashboard.putNumber("FWD", FWD);
+    SmartDashboard.putNumber("RCW", RCW);
 
 
     // This section is where the speed for each swerve module is calculated
@@ -97,6 +148,11 @@ public class SwerveGroup extends SubsystemBase {
     double B = STR + RCW * (Constants.ROBOT_LENGTH / Constants.ROBOT_RADIUS);
     double C = FWD - RCW * (Constants.ROBOT_WIDTH / Constants.ROBOT_RADIUS);
     double D = FWD + RCW * (Constants.ROBOT_WIDTH / Constants.ROBOT_RADIUS);
+
+    SmartDashboard.putNumber("A, STR - RCW", A);
+    SmartDashboard.putNumber("B, STR + RCW", B);
+    SmartDashboard.putNumber("C, FWD - RCW", C);
+    SmartDashboard.putNumber("D, FWD + RCW", D);
 
     /*
     //B and C
@@ -163,7 +219,7 @@ public class SwerveGroup extends SubsystemBase {
 
   public double[] getMovementAttributes(double c1, double c2) {
     double speed = Math.sqrt(Math.pow(c1, 2) + Math.pow(c2, 2));
-    double angle = Math.atan2(c1, c2) * (180 / Math.PI) + 90;
+    double angle = Math.atan2(c1, c2) * (180 / Math.PI) + 90;  // Math.atan2(x,y) returns the angle between the x-axis and the coordinate (x,y)
 
     return new double[] { speed, angle };
   }

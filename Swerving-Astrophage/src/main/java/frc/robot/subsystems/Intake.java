@@ -12,13 +12,16 @@ import frc.robot.RobotContainer;
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   WPI_VictorSPX intakeMotor;
+  WPI_VictorSPX elevatorMotr;
 
   public Intake() {
     intakeMotor = RobotContainer.intakeMotor;
+    elevatorMotr = RobotContainer.elevatorMotor;
   }
 
   public void moveIntake(double speed) {
     intakeMotor.set(speed);
+    elevatorMotr.set(speed);
   }
 
   @Override

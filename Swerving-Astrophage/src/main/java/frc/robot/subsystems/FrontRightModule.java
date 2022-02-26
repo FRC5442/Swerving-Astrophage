@@ -8,11 +8,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 public class FrontRightModule extends SwerveModule {
 
     public FrontRightModule(TalonFX topGear, TalonFX bottomGear, AnalogPotentiometer absEncoder) {
-        super(topGear, bottomGear, absEncoder, false, 188);
+        super(topGear, bottomGear, absEncoder, false, Constants.FR_OFFSET);
     }
 
     @Override

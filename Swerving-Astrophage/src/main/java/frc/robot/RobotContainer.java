@@ -71,6 +71,7 @@ public class RobotContainer {
 
   // INTAKE \\
   public static WPI_VictorSPX intakeMotor;
+  public static WPI_VictorSPX elevatorMotor;
   public static Intake intake;
   public static IntakeCommand intakeCommand;
   public static IntakeCommand reverseIntakeCommand;
@@ -130,10 +131,11 @@ public class RobotContainer {
 
 
     /************************* INTAKE *************************/
-    intakeMotor = new WPI_VictorSPX(11);
+    intakeMotor = new WPI_VictorSPX(15);
+    elevatorMotor = new WPI_VictorSPX(16);
     intake = new Intake();
     intakeCommand = new IntakeCommand(0.5);
-    reverseIntakeCommand = new IntakeCommand(-0.75);
+    reverseIntakeCommand = new IntakeCommand(-0.5);
     /************************* INTAKE *************************/
 
 
@@ -158,13 +160,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     xboxControllerB.whileHeld(intakeCommand);
     xboxControllerX.whileHeld(reverseIntakeCommand);
-    xboxControllerStart.whenPressed(calibrateGyro);
+    xboxControllerStart.whenPressed(calibrateModules);
 
     // switch controller input to 3rd slot to move swerves individually
-    xbox2A.whileHeld(moveSingleSwerveBackLeft);
-    xbox2B.whileHeld(moveSingleSwerveBackRight);
-    xbox2X.whileHeld(moveSingleSwerveFrontRight);
-    xbox2Y.whileHeld(moveSingleSwerveFrontLeft);
+    // xbox2A.whileHeld(moveSingleSwerveBackLeft);
+    // xbox2B.whileHeld(moveSingleSwerveBackRight);
+    // xbox2X.whileHeld(moveSingleSwerveFrontRight);
+    // xbox2Y.whileHeld(moveSingleSwerveFrontLeft);
   }
 
   /**

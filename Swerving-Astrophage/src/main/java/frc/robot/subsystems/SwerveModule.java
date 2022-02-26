@@ -62,6 +62,7 @@ public class SwerveModule extends SubsystemBase {
     topGearSpeed += (-speed * TRANSLATE_MOD);
     bottomGearSpeed += (speed * TRANSLATE_MOD);
 
+    if (angle <= -1) angle = angle + 360;
     if (Math.abs(currentAngle - angle) >= ERROR_BOUND && Math.abs(currentAngle - angle) <= 360 - ERROR_BOUND) {
       ROTATE_MOD = 0.3 - (((Math.abs(topGearSpeed) + Math.abs(bottomGearSpeed)) / 2) * 0.15);
       turnToAngle(angle);

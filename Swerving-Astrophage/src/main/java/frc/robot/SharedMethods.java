@@ -10,4 +10,8 @@ public class SharedMethods {
         double scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;
     }
+    public static double convertInchesToMeters(double inches){
+        double meters = inches / 39.37;
+        return meters;
+    }
 }
