@@ -65,7 +65,7 @@ public class SwerveGroup extends SubsystemBase {
     }
   }
 
-  // Swerve control using the built in WPILib kinematics calculations
+  // Swerve control using the built in WPILib kinematics calculations, see WPILib documentation for instructions
   public void moveSwerveWPILib(Vector2d translation, double rotation){
     // Establishing the location of each module relative to the center of the robot.
     Translation2d frontLeftLocation = new Translation2d(SharedMethods.convertInchesToMeters(Constants.ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(Constants.ROBOT_LENGTH) / 2);
