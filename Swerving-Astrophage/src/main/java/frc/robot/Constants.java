@@ -50,10 +50,12 @@ public final class Constants {
         public static final int INTAKE_MOTOR_ELEVATOR_TWO = 0;
 
         public static final int INTAKE_LASER_SWITCH = 0;
+        public static final int INTAKE_COLOR_SENSOR = 0;
     }
 
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 10;
+        public static final int TURRET_GYRO_PIN = 0;
         
         public static final double TURRET_kP = 1;
         public static final double TURRET_kI = 0;

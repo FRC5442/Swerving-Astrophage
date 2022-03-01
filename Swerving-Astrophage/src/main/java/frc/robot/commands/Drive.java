@@ -61,6 +61,8 @@ public class Drive extends CommandBase {
       
       Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
       RobotContainer.swerveGroup.moveSwerveWPILib(translation, rightX * Math.pow(Math.abs(rightX), 1));
+      //RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
+
 
     } else {
       //leftX = _leftX; //0
@@ -101,3 +103,9 @@ public class Drive extends CommandBase {
     return false;
   }
 }
+
+
+
+
+
+

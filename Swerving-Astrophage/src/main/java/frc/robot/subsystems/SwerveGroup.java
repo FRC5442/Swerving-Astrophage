@@ -87,15 +87,20 @@ public class SwerveGroup extends SubsystemBase {
     double STR = translation.y;
     double RCW = rotation;// * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
 
-    if (Math.abs(translation.magnitude()) <= Constants.RobotConstants.JOYSTICK_DEAD_ZONE) FWD = 0; STR = 0;
+    if (Math.abs(translation.magnitude()) <= Constants.RobotConstants.JOYSTICK_DEAD_ZONE){
+      FWD = 0; 
+      STR = 0;
+    }
     if (Math.abs(rotation) <= Constants.RobotConstants.JOYSTICK_DEAD_ZONE) RCW = 0;
 
     // field/robot oriented drive system.
+    /*
     double gyroRadians = getConvertedGyroAngle() * (Math.PI / 180); //in radians
     SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle()); 
     double temp = (FWD * Math.cos(gyroRadians)) + (STR * Math.sin(gyroRadians));
     STR = (-FWD * Math.sin(gyroRadians)) + (STR * Math.cos(gyroRadians));
     FWD = temp;
+    */
 
     ChassisSpeeds chassisSpeeds = new ChassisSpeeds(FWD, STR, RCW);
     SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
