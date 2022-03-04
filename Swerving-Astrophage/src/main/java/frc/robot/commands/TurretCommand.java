@@ -23,18 +23,18 @@ public class TurretCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startTime = System.currentTimeMillis();  // Store the time at which the command is scheduled
+    // startTime = System.currentTimeMillis();  // Store the time at which the command is scheduled
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentTime = (System.currentTimeMillis() - startTime) / 1000;  // determine the current time in seconds
-    Constants.TurretConstants.TURRET_GYRO_OFFSET = Constants.TurretConstants.TURRET_GYRO_OFFSET + (axisValue * currentTime);
-    // This formula is the equation of a line, setting the output equal to the current offset + a value that will scale slightly every millisecond.
-    // A positive axis value will result in an increase, and a negative value a decrease.
+    // double currentTime = (System.currentTimeMillis() - startTime) / 1000;  // determine the current time in seconds
+    // Constants.TurretConstants.TURRET_GYRO_OFFSET = Constants.TurretConstants.TURRET_GYRO_OFFSET + (axisValue * currentTime);
+    // // This formula is the equation of a line, setting the output equal to the current offset + a value that will scale slightly every millisecond.
+    // // A positive axis value will result in an increase, and a negative value a decrease.
 
-    RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);
+    // RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +46,7 @@ public class TurretCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (axisValue <= Constants.RobotConstants.TRIGGER_DEADZONE); // If the trigger falls below the threshlod, finish the command
+    // return (axisValue <= Constants.RobotConstants.TRIGGER_DEADZONE); // If the trigger falls below the threshlod, finish the command
+    return false;
   }
 }

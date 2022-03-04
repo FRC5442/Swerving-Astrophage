@@ -4,13 +4,28 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class ClimberCommand extends CommandBase {
   /** Creates a new ClimberCommand. */
-  public ClimberCommand() {
+  TalonFX motor;
+  double maxSpeed;
+  double target;
+
+  public ClimberCommand(TalonFX motor, double maxSpeed, double target) {
     // Use addRequirements() here to declare subsystem dependencies.
     // recieve which climber to move and what angle it should be at
+    this.motor = motor;
+    this.maxSpeed = maxSpeed;
+    this.target = target;
+
+
   }
 
   // Called when the command is initially scheduled.
@@ -22,11 +37,27 @@ public class ClimberCommand extends CommandBase {
   public void execute() {
     // test if climber is at desired angle using encoder
     // move motor at speed towards target
+    
+    double error = motor.getSelectedSensorPosition() - target;  // Calculate the distance from the target
+    double speed = -error/Constants.ClimberConstants.CLIMBER_kP;  // Divide the distance by a constant to get a speed value
+    // Control loop to keep speed from exceding a max setpoint
+    SmartDashboard.putNumber("Climber Error", error);
+    SmartDashboard.putNumber("Climber speed", speed);
+    if (speed >= maxSpeed){
+      speed = maxSpeed;
+    } else if (speed <= -maxSpeed){
+      speed = -maxSpeed;
+    }
+
+    RobotContainer.climber.winchClimber(motor, speed);
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.climber.stopClimber(motor);
+  }
 
   // Returns true when the command should end.
   @Override

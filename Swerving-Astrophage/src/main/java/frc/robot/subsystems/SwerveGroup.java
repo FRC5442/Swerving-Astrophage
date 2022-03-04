@@ -85,7 +85,7 @@ public class SwerveGroup extends SubsystemBase {
 
     double FWD = translation.x;
     double STR = translation.y;
-    double RCW = rotation;// * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
+    double RCW = rotation * ((-0.75 * translation.magnitude()) + 1);  //rotate variable (z-axis)
 
     if (Math.abs(translation.magnitude()) <= Constants.RobotConstants.JOYSTICK_DEAD_ZONE){
       FWD = 0; 

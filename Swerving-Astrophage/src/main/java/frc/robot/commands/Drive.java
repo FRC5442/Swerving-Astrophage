@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Drive extends CommandBase {
@@ -52,9 +53,9 @@ public class Drive extends CommandBase {
   public void execute() {
     if(!useAuto){
         Joystick driveStick = RobotContainer.xbox1;
-        leftX = driveStick.getRawAxis(0)*1; //0
-        leftY = driveStick.getRawAxis(1)*1;  //1
-        rightX = driveStick.getRawAxis(4)*1;
+        leftX = driveStick.getRawAxis(0)*Constants.SwerveConstants.X_MULTIPLIER; //0
+        leftY = driveStick.getRawAxis(1)*Constants.SwerveConstants.Y_MULTIPLIER;  //1
+        rightX = driveStick.getRawAxis(4)*Constants.SwerveConstants.R_MULTIPLIER;
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
        //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech

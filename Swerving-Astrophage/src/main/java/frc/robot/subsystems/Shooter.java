@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
    */
 
   CANSparkMax shooterWheel1, shooterWheel2;
-  WPI_VictorSPX shooterHood;
+  // WPI_VictorSPX shooterHood;
 
   RelativeEncoder wheel1Encoder, wheel2Encoder;
 
@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     //Shooter Wheel 1
     shooterWheel1 = RobotContainer.shooterWheel1;
-    wheel1Encoder = shooterWheel1.getEncoder();
+    wheel1Encoder = RobotContainer.shooterWheel1.getEncoder();
     wheel1PIDController = shooterWheel1.getPIDController();
 
     wheel1PIDController.setFeedbackDevice(wheel1Encoder);
@@ -41,7 +41,7 @@ public class Shooter extends SubsystemBase {
 
     //Shooter Wheel 2
     shooterWheel2 = RobotContainer.shooterWheel2;
-    wheel2Encoder = shooterWheel2.getEncoder();
+    wheel2Encoder = RobotContainer.shooterWheel2.getEncoder();
     wheel2PIDController = shooterWheel2.getPIDController();
 
     wheel2PIDController.setFeedbackDevice(wheel2Encoder);
@@ -52,20 +52,20 @@ public class Shooter extends SubsystemBase {
     wheel2PIDController.setFF(0.000015);
     wheel2PIDController.setOutputRange(-1, 1);
 
-    shooterHood = RobotContainer.shooterHood;
+    // shooterHood = RobotContainer.shooterHood;
   }
 
   public void shoot(double rpm) {
     wheel1PIDController.setReference(-rpm * 6, ControlType.kVelocity);
-    wheel2PIDController.setReference(rpm * 6, ControlType.kVelocity);
+    //wheel2PIDController.setReference(rpm * 6, ControlType.kVelocity);
 
-    System.out.println(wheel1Encoder.getVelocity() + ", " + wheel2Encoder.getVelocity());
+    //System.out.println(wheel1Encoder.getVelocity() + ", " + wheel2Encoder.getVelocity());
     //System.out.println(shooterWheel2.getMotorTemperature());;
   }
 
-  public void moveHood(double speed) {
-    shooterHood.set(speed);
-  }
+  // public void moveHood(double speed) {
+  //   shooterHood.set(speed);
+  // }
 
   @Override
   public void periodic() {

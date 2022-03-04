@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -22,12 +23,26 @@ public class Intake extends SubsystemBase {
     intakeMotorElevator2 = RobotContainer.intakeMotorElevator2;
   }
 
-  public void moveIntake(double speed, WPI_VictorSPX motor) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed
+  public void moveIntake(WPI_VictorSPX motor, double speed){
     motor.set(speed);
-  }   //Not confident about the conventions relating to doing this, not sure if it will work.
+  }
+
+  public void moveIntakeField(double speed) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed
+    intakeMotorField.set(speed);
+  }
+
+  public void moveIntakeElevator1(double speed){
+    intakeMotorElevator1.set(speed);
+  }
+
+  public void moveIntakeElevator2(double speed){
+    intakeMotorElevator2.set(speed);
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Intake Laser Switch", RobotContainer.intakeLaserSwitch.get());
+    SmartDashboard.putNumber("Intake Color Sensor", RobotContainer.intakeColorSensor.getVoltage());
   }
 }

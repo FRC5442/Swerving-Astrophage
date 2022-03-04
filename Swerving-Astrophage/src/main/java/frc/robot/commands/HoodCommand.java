@@ -25,24 +25,24 @@ public class HoodCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double error = target - RobotContainer.hoodEncoder.getDistance()/10000;  // Calculate the distance from the target
-    double speed = -error/Constants.ShooterConstants.HOOD_kP;  // Divide the distance by a constant to get a speed value
+    // double error = target - RobotContainer.hoodEncoder.getDistance()/10000;  // Calculate the distance from the target
+    // double speed = -error/Constants.ShooterConstants.HOOD_kP;  // Divide the distance by a constant to get a speed value
 
-    // Control loop to keep speed from exceding a max setpoint
-    if (speed >=0.15){
-      speed = 0.15;
-    } else if (speed <= -0.15){
-      speed = -0.15;
-    }
+    // // Control loop to keep speed from exceding a max setpoint
+    // if (speed >=0.15){
+    //   speed = 0.15;
+    // } else if (speed <= -0.15){
+    //   speed = -0.15;
+    // }
 
-    SmartDashboard.putNumber("Hood PID Speed", speed);
-    RobotContainer.shooter.moveHood(speed);
+    // SmartDashboard.putNumber("Hood PID Speed", speed);
+    // RobotContainer.shooter.moveHood(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooter.moveHood(0);
+    // RobotContainer.shooter.moveHood(0);
   }
 
   // Returns true when the command should end.
