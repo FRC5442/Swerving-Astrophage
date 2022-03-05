@@ -15,7 +15,7 @@ package frc.robot;
 public final class Constants {
 
     
-
+  /************************* DRIVE *************************/
     public static final class SwerveConstants {
         public static final double FL_OFFSET = 93;  // 93
         public static final double FR_OFFSET = 188;  // 188
@@ -30,34 +30,46 @@ public final class Constants {
         public static final double Y_MULTIPLIER = 1;
         public static final double R_MULTIPLIER = 1.4;
     }
+  /************************* DRIVE *************************/
 
+
+
+  /************************* SHOOTER *************************/
     public static final class ShooterConstants {
         public static final int SHOOTER_MOTOR_ONE = 19; //20
         public static final int SHOOTER_MOTOR_TWO = 21;  //21
         public static final int SHOOTER_MOTOR_HOOD = 20; //19
 
-        public static final double SHOOTER_RPM = 2700; //2700
+        public static final double SHOOTER_RPM = 0.25; //2700
         public static final double SHOOTER_RPM_HALF = SHOOTER_RPM / 2;
         public static final double HOOD_HIGH = 15;
         public static final double HOOD_LOW = 0;
 
         public static final double HOOD_kP = 1;
     }
+  /************************* SHOOTER *************************/
 
+
+
+  /************************* INTAKE *************************/
     public static final class IntakeConstants {
-        public static final double INTAKE_FIELD_SPEED = 0.5;
+        public static final double INTAKE_FIELD_SPEED = 0.75;
         public static final double INTAKE_PIVOT_SPEED = 0.5;
         public static final double INTAKE_ELEVATOR_SPEED = 0.5;
 
         public static final int INTAKE_MOTOR_FIELD = 18;
         // public static final int INTAKE_MOTOR_PIVOT = 0;
         public static final int INTAKE_MOTOR_ELEVATOR_ONE = 15;
-        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 16;
+        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 16; //16
 
         public static final int INTAKE_LASER_SWITCH = 0;
         public static final int INTAKE_COLOR_SENSOR = 4;
     }
+  /************************* INTAKE *************************/
 
+
+
+  /************************* TURRET *************************/
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 17;
         public static final int TURRET_GYRO_PIN = 5;
@@ -72,21 +84,30 @@ public final class Constants {
         public static final double INCREMENT_MILLIS = 100;
         public static double TURRET_GYRO_OFFSET = 0; //in degrees
     }
+  /************************* TURRET *************************/
 
+
+
+  /************************* CLIMBER *************************/
     public static final class ClimberConstants {
         public static final int PIVOT_LEFT = 14;
         public static final int PIVOT_RIGHT = 13;
         public static final int WINCH_LEFT = 12;
         public static final int WINCH_RIGHT = 11;
 
-        public static final double WINCH_SPEED = 0.1;
-        public static final double PIVOT_SPEED = 0.2;
-        public static final double PIVOT_FRONT_POSITION = 40000;
+        public static final double WINCH_SPEED = 0.2;
+        public static final double PIVOT_SPEED = 0.1;
+        public static final double PIVOT_FRONT_POSITION = -40000;
         public static final double PIVOT_REAR_POSITION = 0;
         public static final double PIVOT_CENTER_POSITION = 20000;
 
+        public static final double WINCH_HIGH_POSITION = 200000;
+        public static final double WINCH_LOW_POSITION = 0;
+
         public static final double CLIMBER_kP = 20000;
     }
+  /************************* CLIMBER *************************/
+
 
     public static final class RobotConstants {
         public static final double ENCODER_OFFSET = 15.0; //in degrees
@@ -97,7 +118,6 @@ public final class Constants {
         public static final double ROBOT_LENGTH = 32; //in inches
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
-
 
 
     public static enum DRIVE_STATE {

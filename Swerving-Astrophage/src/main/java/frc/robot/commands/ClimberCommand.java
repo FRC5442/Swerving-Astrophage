@@ -17,13 +17,15 @@ public class ClimberCommand extends CommandBase {
   TalonFX motor;
   double maxSpeed;
   double target;
+  double direction;
 
-  public ClimberCommand(TalonFX motor, double maxSpeed, double target) {
+  public ClimberCommand(TalonFX motor, double maxSpeed, double target, double direction) {
     // Use addRequirements() here to declare subsystem dependencies.
     // recieve which climber to move and what angle it should be at
     this.motor = motor;
     this.maxSpeed = maxSpeed;
     this.target = target;
+    this.direction = direction;
 
 
   }
@@ -38,8 +40,8 @@ public class ClimberCommand extends CommandBase {
     // test if climber is at desired angle using encoder
     // move motor at speed towards target
     
-    double error = motor.getSelectedSensorPosition() - target;  // Calculate the distance from the target
-    double speed = -error/Constants.ClimberConstants.CLIMBER_kP;  // Divide the distance by a constant to get a speed value
+    double error = Math.abs(motor.getSelectedSensorPosition()) - target;  // Calculate the distance from the target
+    double speed = Math.abs(error/Constants.ClimberConstants.CLIMBER_kP) * direction;  // Divide the distance by a constant to get a speed value
     // Control loop to keep speed from exceding a max setpoint
     SmartDashboard.putNumber("Climber Error", error);
     SmartDashboard.putNumber("Climber speed", speed);
