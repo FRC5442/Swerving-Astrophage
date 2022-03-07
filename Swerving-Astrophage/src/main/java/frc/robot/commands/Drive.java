@@ -53,8 +53,8 @@ public class Drive extends CommandBase {
   public void execute() {
     if(!useAuto){
         Joystick driveStick = RobotContainer.xbox1;
-        leftX = driveStick.getRawAxis(0)*Constants.SwerveConstants.X_MULTIPLIER; //0
-        leftY = driveStick.getRawAxis(1)*Constants.SwerveConstants.Y_MULTIPLIER;  //1
+        leftX = driveStick.getRawAxis(0)*Constants.SwerveConstants.X_MULTIPLIER * -1; //0
+        leftY = driveStick.getRawAxis(1)*Constants.SwerveConstants.Y_MULTIPLIER ;  //1
         rightX = driveStick.getRawAxis(4)*Constants.SwerveConstants.R_MULTIPLIER;
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
@@ -94,7 +94,7 @@ public class Drive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.swerveGroup.moveCrab(new Vector2d(0, 0), 0);
+    RobotContainer.swerveGroup.moveSwerveWPILib(new Vector2d(0, 0), 0);
     //rightX = 0;
   }
 

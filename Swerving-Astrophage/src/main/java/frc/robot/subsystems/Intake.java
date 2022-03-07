@@ -23,8 +23,10 @@ public class Intake extends SubsystemBase {
     intakeMotorElevator2 = RobotContainer.intakeMotorElevator2;
   }
 
-  public void moveIntake(WPI_VictorSPX motor, double speed){
-    motor.set(speed);
+  public void moveIntake(double speed){
+    intakeMotorField.set(speed);
+    intakeMotorElevator1.set(speed);
+    intakeMotorElevator2.set(speed);
   }
 
   public void moveIntakeField(double speed) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed

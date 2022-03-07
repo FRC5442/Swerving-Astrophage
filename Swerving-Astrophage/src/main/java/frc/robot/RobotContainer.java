@@ -14,10 +14,9 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -70,15 +69,15 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static SwerveGroup swerveGroup;
   public static SwerveModule frontRightModule, frontLeftModule, backLeftModule, backRightModule;
   public static Drive drive;
-  public static CalibrateGyro calibrateGyro;
-  public static CalibrateModules calibrateModules;
-  public static MoveSingleSwerve moveSingleSwerveFrontLeft, moveSingleSwerveFrontRight, moveSingleSwerveBackLeft, moveSingleSwerveBackRight;
+  public static InstantCommand calibrateGyro;
+  public static InstantCommand calibrateModules;
+  public static InstantCommand calibrateClimbers;
 
   // SHOOTER \\
   public static Shooter shooter;
   public static ShootCommand shootCommand, reverseShootCommand;
   public static CANSparkMax shooterWheel1, shooterWheel2;
-  public static WPI_VictorSPX shooterHood;
+  // public static WPI_VictorSPX shooterHood;
 
   // HOOD \\
   public static HoodCommand raiseHood, lowerHood;
@@ -93,6 +92,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static StartEndCommand intakePivotCommand, reverseIntakePivotCommand;
   public static StartEndCommand intakeElevator1Command, reverseIntakeElevator1Command;
   public static StartEndCommand intakeElevator2Command, reverseIntakeElevator2Command;
+  public static StartEndCommand intakeAllCommand, reverseIntakeAllCommand;
   
   public static DigitalInput intakeLaserSwitch;
   public static AnalogInput intakeColorSensor;
@@ -189,13 +189,13 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     intake = new Intake();
     
     intakeFieldCommand = new StartEndCommand(
-      () -> intake.moveIntake(intakeMotorField, Constants.IntakeConstants.INTAKE_FIELD_SPEED),
-      () -> intake.moveIntake(intakeMotorField, 0),
+      () -> intake.moveIntakeField(Constants.IntakeConstants.INTAKE_FIELD_SPEED),
+      () -> intake.moveIntakeField(0),
       intake
     );
     reverseIntakeFieldCommand = new StartEndCommand(
-      () -> intake.moveIntake(intakeMotorField, -Constants.IntakeConstants.INTAKE_FIELD_SPEED),
-      () -> intake.moveIntake(intakeMotorField, 0),
+      () -> intake.moveIntakeField(-Constants.IntakeConstants.INTAKE_FIELD_SPEED),
+      () -> intake.moveIntakeField(0),
       intake
     );
 
@@ -210,7 +210,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
       intake
     );
 
-      intakeElevator2Command = new StartEndCommand(
+    intakeElevator2Command = new StartEndCommand(
       () -> intake.moveIntakeElevator2(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED), 
       () -> intake.moveIntakeElevator2(0),
       intake
@@ -220,6 +220,19 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
       () -> intake.moveIntakeElevator2(0),
       intake
     );
+
+    intakeAllCommand = new StartEndCommand(
+      () -> intake.moveIntake(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED), 
+      () -> intake.moveIntake(0),
+      intake
+    );
+    reverseIntakeAllCommand = new StartEndCommand(
+      () -> intake.moveIntake(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED), 
+      () -> intake.moveIntake(0),
+      intake
+    );
+    
+
   /************************* INTAKE *************************/
 
 
@@ -238,28 +251,37 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
     pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
 
-    // winchLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40);
-    // winchRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40);
-    // pivotLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40);
-    // pivotRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40);
+    // winchLeft.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    // winchRight.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    // pivotLeft.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    // pivotRight.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+
     climber = new Climber();
 
-    winchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_SPEED, 40000, 1);
-    lowerWinchLeftCommand = new ClimberCommand(winchLeft, -Constants.ClimberConstants.WINCH_SPEED, 0, -1);
-    pivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_SPEED, Constants.ClimberConstants.PIVOT_FRONT_POSITION, 1);
-    reversePivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_SPEED, Constants.ClimberConstants.PIVOT_REAR_POSITION, -1);
+    winchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED);
+    lowerWinchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED);
+    pivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED);
+    reversePivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED);
 
-    winchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_SPEED, 80000, 1);
-    lowerWinchRightCommand = new ClimberCommand(winchRight, -Constants.ClimberConstants.WINCH_SPEED, 0, -1);
-    pivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_SPEED, Constants.ClimberConstants.PIVOT_FRONT_POSITION, 1);
-    reversePivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_SPEED, Constants.ClimberConstants.PIVOT_REAR_POSITION, -1);
+    winchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED);
+    lowerWinchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED);
+    pivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED);
+    reversePivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED);
   /************************* CLIMBER *************************/
 
 
   /************************* OTHER *************************/
     navX = new AHRS(SerialPort.Port.kMXP);
-    calibrateGyro = new CalibrateGyro();
-    calibrateModules = new CalibrateModules();
+    calibrateGyro = new InstantCommand(() -> Constants.RobotConstants.GYRO_OFFSET = -navX.getAngle() + 180);
+    calibrateModules = new InstantCommand(() -> swerveGroup.calibrate());
+    calibrateClimbers = new InstantCommand(
+      () -> {
+      winchRight.setSelectedSensorPosition(Constants.ClimberConstants.WINCH_RESET_POSITION);
+      winchLeft.setSelectedSensorPosition(Constants.ClimberConstants.WINCH_RESET_POSITION);
+      pivotLeft.setSelectedSensorPosition(Constants.ClimberConstants.PIVOT_RESET_POSITION);
+      pivotRight.setSelectedSensorPosition(Constants.ClimberConstants.PIVOT_RESET_POSITION);
+      }
+    );
   /************************* OTHER *************************/
 
 
@@ -281,31 +303,32 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   // Primary driver controls: intake, drive(not initialized here), climb?
     // xbox1LB.whileHeld(pivotRightCommand);
     // xbox1RB.whileHeld(reversePivotRightCommand);
-    // xbox1Back.whenPressed(() -> winchRight.setSelectedSensorPosition(0.1));
-    // xbox1Back.whenPressed(() -> winchLeft.setSelectedSensorPosition(0.1));
-    // xbox1Back.whenPressed(() -> pivotRight.setSelectedSensorPosition(Constants.ClimberConstants.PIVOT_CENTER_POSITION));
-    // xbox1Back.whenPressed(() -> pivotLeft.setSelectedSensorPosition(Constants.ClimberConstants.PIVOT_CENTER_POSITION));
+    xbox1Back.whenPressed(calibrateClimbers);
+    xbox1LB.whileHeld(pivotLeftCommand);
+    xbox1RB.whileHeld(reversePivotLeftCommand);
 
     // xbox1A.whileHeld(winchRightCommand);
     // xbox1B.whileHeld(lowerWinchRightCommand);
+    xbox1A.whileHeld(winchLeftCommand);
+    xbox1B.whileHeld(lowerWinchLeftCommand);
 
-    xbox1A.whileHeld(shootCommand);
-    xbox1B.whileHeld(reverseShootCommand);
+    xbox1X.whileHeld(intakeAllCommand);
+    xbox1Y.whileHeld(reverseIntakeAllCommand);
+    xbox1Start.whenPressed(calibrateGyro);
 
-    xbox1X.whileHeld(intakeElevator1Command);
-    xbox1Y.whileHeld(reverseIntakeElevator1Command);
-
-    // xbox1X.whileHeld(intakeElevator2Command);
-    // xbox1Y.whileHeld(reverseIntakeElevator2Command);
-
-    xbox1LB.whileHeld(intakeElevator2Command);
-    xbox1RB.whileHeld(reverseIntakeElevator2Command);
 
   // Secondary driver controls: shooter, turret, and hood
   //   xbox2B.whileHeld(shootCommand);
   //   xbox2X.whileHeld(reverseShootCommand);
   //   xbox2A.whileHeld(lowerHood);
   //   xbox2Y.whileHeld(raiseHood);
+  xbox2A.whileHeld(winchRightCommand);
+  xbox2B.whileHeld(lowerWinchRightCommand);
+  xbox2LB.whileHeld(pivotRightCommand);
+  xbox2RB.whileHeld(reversePivotRightCommand);
+
+  xbox2X.whileHeld(shootCommand);
+  xbox2Y.whileHeld(reverseShootCommand);
   }
 
   public Command getAutonomousCommand() {

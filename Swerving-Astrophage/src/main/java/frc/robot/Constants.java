@@ -17,18 +17,18 @@ public final class Constants {
     
   /************************* DRIVE *************************/
     public static final class SwerveConstants {
-        public static final double FL_OFFSET = 93;  // 93
-        public static final double FR_OFFSET = 188;  // 188
-        public static final double BL_OFFSET = 297;  // 297
-        public static final double BR_OFFSET = 65;  // 65
+        public static final double FL_OFFSET = 96;
+        public static final double FR_OFFSET = 175;
+        public static final double BL_OFFSET = 295;
+        public static final double BR_OFFSET = 56;
         public static final boolean FL_INVERTED = true;
         public static final boolean FR_INVERTED = false;
         public static final boolean BL_INVERTED = true;
         public static final boolean BR_INVERTED = false;
 
-        public static final double X_MULTIPLIER = 1;
-        public static final double Y_MULTIPLIER = 1;
-        public static final double R_MULTIPLIER = 1.4;
+        public static final double X_MULTIPLIER = 1.1;
+        public static final double Y_MULTIPLIER = 1.1;
+        public static final double R_MULTIPLIER = 1.1;
     }
   /************************* DRIVE *************************/
 
@@ -37,10 +37,10 @@ public final class Constants {
   /************************* SHOOTER *************************/
     public static final class ShooterConstants {
         public static final int SHOOTER_MOTOR_ONE = 19; //20
-        public static final int SHOOTER_MOTOR_TWO = 21;  //21
-        public static final int SHOOTER_MOTOR_HOOD = 20; //19
+        public static final int SHOOTER_MOTOR_TWO = 20;  //21
+        // public static final int SHOOTER_MOTOR_HOOD = 21; //19
 
-        public static final double SHOOTER_RPM = 0.25; //2700
+        public static final double SHOOTER_RPM = 0.5; //2700
         public static final double SHOOTER_RPM_HALF = SHOOTER_RPM / 2;
         public static final double HOOD_HIGH = 15;
         public static final double HOOD_LOW = 0;
@@ -97,14 +97,19 @@ public final class Constants {
 
         public static final double WINCH_SPEED = 0.2;
         public static final double PIVOT_SPEED = 0.1;
-        public static final double PIVOT_FRONT_POSITION = -40000;
-        public static final double PIVOT_REAR_POSITION = 0;
-        public static final double PIVOT_CENTER_POSITION = 20000;
 
-        public static final double WINCH_HIGH_POSITION = 200000;
+        public static final double PIVOT_FRONT_POSITION = 40000;
+        public static final double PIVOT_REAR_POSITION = 0;
+        public static final double PIVOT_RESET_POSITION = 20000;
+
+
+        public static final double WINCH_HIGH_POSITION = -200000;
         public static final double WINCH_LOW_POSITION = 0;
+        public static final double WINCH_RESET_POSITION = 0;
 
         public static final double CLIMBER_kP = 20000;
+
+        public static final boolean CLIMBER_RESET_LIMITS = false;
     }
   /************************* CLIMBER *************************/
 
@@ -114,8 +119,8 @@ public final class Constants {
         public static double GYRO_OFFSET = 0; //in degrees
         public static final double TRIGGER_DEADZONE = 0.1;
         public static final double JOYSTICK_DEAD_ZONE = 0.1; //joystick values 0-1
-        public static final double ROBOT_WIDTH = 24; //in inches
-        public static final double ROBOT_LENGTH = 32; //in inches
+        public static final double ROBOT_WIDTH = 19.5; //in inches
+        public static final double ROBOT_LENGTH = 27; //in inches
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
 

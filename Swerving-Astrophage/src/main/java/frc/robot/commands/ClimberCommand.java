@@ -15,17 +15,17 @@ import frc.robot.RobotContainer;
 public class ClimberCommand extends CommandBase {
   /** Creates a new ClimberCommand. */
   TalonFX motor;
-  double maxSpeed;
-  double target;
-  double direction;
+  double minPosition;
+  double maxPosition;
+  double speed;
 
-  public ClimberCommand(TalonFX motor, double maxSpeed, double target, double direction) {
+  public ClimberCommand(TalonFX motor, double minPosition, double maxPosition, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     // recieve which climber to move and what angle it should be at
     this.motor = motor;
-    this.maxSpeed = maxSpeed;
-    this.target = target;
-    this.direction = direction;
+    this.minPosition = minPosition;
+    this.maxPosition = maxPosition;
+    this.speed = speed;
 
 
   }
@@ -37,21 +37,21 @@ public class ClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // test if climber is at desired angle using encoder
-    // move motor at speed towards target
-    
-    double error = Math.abs(motor.getSelectedSensorPosition()) - target;  // Calculate the distance from the target
-    double speed = Math.abs(error/Constants.ClimberConstants.CLIMBER_kP) * direction;  // Divide the distance by a constant to get a speed value
-    // Control loop to keep speed from exceding a max setpoint
-    SmartDashboard.putNumber("Climber Error", error);
-    SmartDashboard.putNumber("Climber speed", speed);
-    if (speed >= maxSpeed){
-      speed = maxSpeed;
-    } else if (speed <= -maxSpeed){
-      speed = -maxSpeed;
-    }
 
-    RobotContainer.climber.winchClimber(motor, speed);
+    if (Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
+      RobotContainer.climber.moveClimber(motor, speed);
+
+    } else {
+      if (motor.getSelectedSensorPosition() >= maxPosition && speed > 0){
+      RobotContainer.climber.stopClimber(motor);
+
+      } else if (motor.getSelectedSensorPosition() <= minPosition && speed < 0){
+        RobotContainer.climber.stopClimber(motor);
+
+      } else {
+        RobotContainer.climber.moveClimber(motor, speed);
+      }
+    }
   }
 
 

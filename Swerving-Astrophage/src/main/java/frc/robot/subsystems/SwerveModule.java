@@ -110,8 +110,9 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void stop() {
-    topGearSpeed = 0;
     bottomGearSpeed = 0;
+    topGearSpeed = 0;
+    // bottomGearSpeed = 0;
   }
 
   @Override

@@ -23,14 +23,9 @@ public class Climber extends SubsystemBase {
     
   }
 
-  public void winchClimber(TalonFX winchMotor, double speed){
+  public void moveClimber(TalonFX winchMotor, double speed){
     winchMotor.set(TalonFXControlMode.PercentOutput, speed);
 
-  }
-
-  public void pivotClimber(TalonFX pivotMotor, double speed){
-    pivotMotor.set(TalonFXControlMode.PercentOutput, speed);;
- 
   }
 
   public void stopClimber(TalonFX motor){

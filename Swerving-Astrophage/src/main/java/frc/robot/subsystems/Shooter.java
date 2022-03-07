@@ -29,40 +29,11 @@ public class Shooter extends SubsystemBase {
     //Shooter Wheel 1
     shooterWheel1 = RobotContainer.shooterWheel1;
     wheel1Encoder = RobotContainer.shooterWheel1.getEncoder();
-    wheel1PIDController = shooterWheel1.getPIDController();
-
-    wheel1PIDController.setFeedbackDevice(wheel1Encoder);
-    wheel1PIDController.setP(6e-5);
-    wheel1PIDController.setI(0);
-    wheel1PIDController.setD(0);
-    wheel1PIDController.setIZone(0);
-    wheel1PIDController.setFF(0.000015);
-    wheel1PIDController.setOutputRange(-1, 1);
-
-    //Shooter Wheel 2
-    shooterWheel2 = RobotContainer.shooterWheel2;
-    wheel2Encoder = RobotContainer.shooterWheel2.getEncoder();
-    wheel2PIDController = shooterWheel2.getPIDController();
-
-    wheel2PIDController.setFeedbackDevice(wheel2Encoder);
-    wheel2PIDController.setP(6e-5);
-    wheel2PIDController.setI(0);
-    wheel2PIDController.setD(0);
-    wheel2PIDController.setIZone(0);
-    wheel2PIDController.setFF(0.000015);
-    wheel2PIDController.setOutputRange(-1, 1);
-
-    // shooterHood = RobotContainer.shooterHood;
   }
 
-  public void shoot(double rpm) {
-    //wheel1PIDController.setReference(-rpm * 6, ControlType.kVelocity);
-    // wheel2PIDController.setReference(rpm * 6, ControlType.kVelocity);
-    shooterWheel1.set(rpm);
-    shooterWheel2.set(-rpm);
-
-    //System.out.println(wheel1Encoder.getVelocity() + ", " + wheel2Encoder.getVelocity());
-    //System.out.println(shooterWheel2.getMotorTemperature());;
+  public void shoot(double speed) {
+    shooterWheel1.set(speed);
+    shooterWheel2.set(-speed);
   }
 
   // public void moveHood(double speed) {
