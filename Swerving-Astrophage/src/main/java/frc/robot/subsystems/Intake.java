@@ -45,6 +45,6 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("Intake Laser Switch", RobotContainer.intakeLaserSwitch.get());
-    // SmartDashboard.putNumber("Intake Color Sensor", RobotContainer.intakeColorSensor.getVoltage());
+    SmartDashboard.putNumber("Intake Color Sensor", RobotContainer.intakeColorSensor.getVoltage());
   }
 }

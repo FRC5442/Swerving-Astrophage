@@ -63,7 +63,7 @@ public final class Constants {
         public static final int INTAKE_MOTOR_ELEVATOR_TWO = 16; //16
 
         public static final int INTAKE_LASER_SWITCH = 0;
-        public static final int INTAKE_COLOR_SENSOR = 4;
+        public static final int INTAKE_COLOR_SENSOR = 5;
     }
   /************************* INTAKE *************************/
 
