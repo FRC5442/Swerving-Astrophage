@@ -17,13 +17,13 @@ public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
   TalonFX turretMotor;
   Encoder turretEncoder;
-  AHRS turretGyro;
+  AHRS robotGyro;
   double gyroOffset;
 
   public Turret() {
     turretMotor = RobotContainer.turretMotor;
     turretEncoder = RobotContainer.turretEncoder;
-    turretGyro = RobotContainer.turretGyro;
+    robotGyro = RobotContainer.navX;
   }
 
   public void moveTurret(double speed){
@@ -31,7 +31,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void moveTurretToAngle(double desiredAngle){
-    double currentTurretAngle = turretGyro.getAngle();
+    double currentTurretAngle = robotGyro.getAngle() + turretEncoder.getDistance();
     double error = desiredAngle - currentTurretAngle;  // calculate the distance between the current angle and the desired angle
     double speed = -error/Constants.TurretConstants.TURRET_kP;  // set the speed proportional to the value of the error
 

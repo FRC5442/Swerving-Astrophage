@@ -29,12 +29,12 @@ public class TurretCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double currentTime = (System.currentTimeMillis() - startTime) / 1000;  // determine the current time in seconds
-    // Constants.TurretConstants.TURRET_GYRO_OFFSET = Constants.TurretConstants.TURRET_GYRO_OFFSET + (axisValue * currentTime);
+    double currentTime = (System.currentTimeMillis() - startTime) / 1000;  // determine the current time in seconds
+    Constants.TurretConstants.TURRET_ENCODER_OFFSET = Constants.TurretConstants.TURRET_ENCODER_OFFSET + (axisValue * currentTime);
     // // This formula is the equation of a line, setting the output equal to the current offset + a value that will scale slightly every millisecond.
     // // A positive axis value will result in an increase, and a negative value a decrease.
 
-    // RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);
+    RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_ENCODER_OFFSET);
   }
 
   // Called once the command ends or is interrupted.

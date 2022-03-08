@@ -72,7 +72,7 @@ public final class Constants {
   /************************* TURRET *************************/
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 17;
-        public static final int TURRET_GYRO_PIN = 5;
+        public static final int TURRET_ENCODER = 5;
         
         public static final double TURRET_kP = 1;
         public static final double TURRET_kI = 0;
@@ -82,7 +82,8 @@ public final class Constants {
         public static final double MIN_SPEED = 0.1;
 
         public static final double INCREMENT_MILLIS = 100;
-        public static double TURRET_GYRO_OFFSET = 0; //in degrees
+        public static double TURRET_ENCODER_OFFSET = 0; //in degrees
+        public static final double TURRET_ENCODER_CENTER_POSITION = 0;
     }
   /************************* TURRET *************************/
 

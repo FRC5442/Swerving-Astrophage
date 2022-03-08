@@ -27,7 +27,7 @@ public class TurretAutoPositioningCommand extends CommandBase {
     } else if (RobotContainer.xbox1LTrigger >= Constants.RobotConstants.TRIGGER_DEADZONE){    // else see if right trigger is pressed
       RobotContainer.turretMoveRightCommand.schedule(); // schedule the turret to move right
     } else {
-      RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_GYRO_OFFSET);  // if none of the above are true, just update the turret position based on the gyroscope.
+      RobotContainer.turret.moveTurretToAngle(Constants.TurretConstants.TURRET_ENCODER_OFFSET);  // if none of the above are true, just update the turret position based on the gyroscope.
     }
   }
 
