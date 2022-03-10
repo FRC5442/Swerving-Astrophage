@@ -16,7 +16,7 @@ public class ClimberAutomation extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      //RobotContainer.winchLeftCommand.withInterrupt(RobotContainer.winchLeft.getSelectedSensorPosition() >= 200000)
+      //RobotContainer.winchLeftCommand.until((RobotContainer.winchLeft::getSelectedSensorPosition() >= 200000))
     );
   }
 }

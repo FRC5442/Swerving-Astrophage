@@ -18,14 +18,16 @@ public class ClimberCommand extends CommandBase {
   double minPosition;
   double maxPosition;
   double speed;
+  boolean useLimits;
 
-  public ClimberCommand(TalonFX motor, double minPosition, double maxPosition, double speed) {
+  public ClimberCommand(TalonFX motor, double minPosition, double maxPosition, double speed, boolean useLimits) {
     // Use addRequirements() here to declare subsystem dependencies.
     // recieve which climber to move and what angle it should be at
     this.motor = motor;
     this.minPosition = minPosition;
     this.maxPosition = maxPosition;
     this.speed = speed;
+    this.useLimits = useLimits;
 
 
   }
@@ -37,21 +39,26 @@ public class ClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
-      RobotContainer.climber.moveClimber(motor, speed);
-
-    } else {
-      if (motor.getSelectedSensorPosition() >= maxPosition && speed > 0){
-      RobotContainer.climber.stopClimber(motor);
-
-      } else if (motor.getSelectedSensorPosition() <= minPosition && speed < 0){
-        RobotContainer.climber.stopClimber(motor);
-
-      } else {
+    if (useLimits){
+      if (Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
         RobotContainer.climber.moveClimber(motor, speed);
+  
+      } else {
+        if (motor.getSelectedSensorPosition() >= maxPosition && speed > 0){
+        RobotContainer.climber.stopClimber(motor);
+  
+        } else if (motor.getSelectedSensorPosition() <= minPosition && speed < 0){
+          RobotContainer.climber.stopClimber(motor);
+  
+        } else {
+          RobotContainer.climber.moveClimber(motor, speed);
+        }
       }
+    } else {
+      RobotContainer.climber.moveClimber(motor, speed);
     }
+
+   
   }
 
 

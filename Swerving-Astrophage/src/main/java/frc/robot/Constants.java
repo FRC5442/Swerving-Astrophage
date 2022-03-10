@@ -17,10 +17,10 @@ public final class Constants {
     
   /************************* DRIVE *************************/
     public static final class SwerveConstants {
-        public static final double FL_OFFSET = 96;
-        public static final double FR_OFFSET = 175;
-        public static final double BL_OFFSET = 295;
-        public static final double BR_OFFSET = 56;
+        public static final double FL_OFFSET = 100;
+        public static final double FR_OFFSET = 179;
+        public static final double BL_OFFSET = 94;
+        public static final double BR_OFFSET = 67;
         public static final boolean FL_INVERTED = true;
         public static final boolean FR_INVERTED = false;
         public static final boolean BL_INVERTED = true;
@@ -72,7 +72,7 @@ public final class Constants {
   /************************* TURRET *************************/
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 17;
-        public static final int TURRET_ENCODER = 5;
+        public static final int TURRET_ENCODER = 7;
         
         public static final double TURRET_kP = 1;
         public static final double TURRET_kI = 0;
@@ -120,8 +120,8 @@ public final class Constants {
         public static double GYRO_OFFSET = 0; //in degrees
         public static final double TRIGGER_DEADZONE = 0.1;
         public static final double JOYSTICK_DEAD_ZONE = 0.1; //joystick values 0-1
-        public static final double ROBOT_WIDTH = 19.5; //in inches
-        public static final double ROBOT_LENGTH = 27; //in inches
+        public static final double ROBOT_WIDTH = 27; //in inches
+        public static final double ROBOT_LENGTH = 19.5; //in inches
         public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
 

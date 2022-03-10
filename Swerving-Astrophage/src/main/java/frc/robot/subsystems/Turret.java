@@ -6,17 +6,20 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
-  TalonFX turretMotor;
-  Encoder turretEncoder;
+  WPI_VictorSPX turretMotor;
+  AnalogPotentiometer turretEncoder;
   AHRS robotGyro;
   double gyroOffset;
 
@@ -27,11 +30,11 @@ public class Turret extends SubsystemBase {
   }
 
   public void moveTurret(double speed){
-    turretMotor.set(TalonFXControlMode.PercentOutput, speed);
+    turretMotor.set(speed);
   }
 
   public void moveTurretToAngle(double desiredAngle){
-    double currentTurretAngle = robotGyro.getAngle() + turretEncoder.getDistance();
+    double currentTurretAngle = robotGyro.getAngle() + turretEncoder.get();
     double error = desiredAngle - currentTurretAngle;  // calculate the distance between the current angle and the desired angle
     double speed = -error/Constants.TurretConstants.TURRET_kP;  // set the speed proportional to the value of the error
 
@@ -52,6 +55,7 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler 
+    SmartDashboard.putNumber("Turret Encoder", RobotContainer.turretEncoder.get());
   }
 }

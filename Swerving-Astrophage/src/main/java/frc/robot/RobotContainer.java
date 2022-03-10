@@ -7,6 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -28,6 +29,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -98,12 +100,13 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static AnalogInput intakeColorSensor;
 
   // TURRET \\
-  public static TalonFX turretMotor;
+  public static WPI_VictorSPX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
-  public static Encoder turretEncoder;
+  public static AnalogPotentiometer turretEncoder;
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
   public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
+  public static StartEndCommand turretRight, turretLeft;
 
   // CLIMBER \\
   public static TalonFX winchLeft, winchRight;
@@ -148,6 +151,15 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     driveMotor7 = new TalonFX(7);
     driveMotor8 = new TalonFX(8);
 
+    // driveMotor1.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor2.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor3.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor4.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor5.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor6.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor7.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    // driveMotor8.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+
     // ENCODERS \\
     frontRightAbsEncoder = new AnalogPotentiometer(0, 360, 0);
     frontLeftAbsEncoder = new AnalogPotentiometer(1, 360, 0);
@@ -168,6 +180,8 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     shooterWheel2 = new CANSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_TWO, MotorType.kBrushless);
     shooter = new Shooter();
 
+    shooterWheel1.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 500);
+    shooterWheel2.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 500);
 
     shootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
     reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM_HALF);
@@ -238,6 +252,19 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
   /************************* TURRET *************************/
+    turretEncoder = new AnalogPotentiometer(Constants.TurretConstants.TURRET_ENCODER, 360, 0);
+    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
+    turret = new Turret();
+    turretRight = new StartEndCommand(
+      () -> turret.moveTurret(0.2),
+      () -> turret.moveTurret(0),
+      turret
+    );
+    turretLeft = new StartEndCommand(
+      () -> turret.moveTurret(-0.2),
+      () -> turret.moveTurret(0),
+      turret
+    );
     // turretGyro = new AHRS(SPI.Port.kMXP);
     // turretAutoPositioningCommand = new TurretAutoPositioningCommand();
     // turret.setDefaultCommand(turretAutoPositioningCommand);
@@ -252,22 +279,23 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     pivotLeft = new TalonFX(Constants.ClimberConstants.PIVOT_LEFT);
     pivotRight = new TalonFX(Constants.ClimberConstants.PIVOT_RIGHT);
 
-    // winchLeft.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
-    // winchRight.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
-    // pivotLeft.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
-    // pivotRight.setStatusFramePeriod(StatusFrame.Status_1_General, 40);
+    winchLeft.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    winchRight.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    pivotLeft.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
+    pivotRight.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
 
     climber = new Climber();
+    boolean useLimits = true;
 
-    winchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED);
-    lowerWinchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED);
-    pivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED);
-    reversePivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED);
+    winchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED, useLimits);
+    lowerWinchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED, useLimits);
+    pivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED, useLimits);
+    reversePivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED, useLimits);
 
-    winchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED);
-    lowerWinchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED);
-    pivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED);
-    reversePivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED);
+    winchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED, useLimits);
+    lowerWinchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED, useLimits);
+    pivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED, useLimits);
+    reversePivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED, useLimits);
   /************************* CLIMBER *************************/
 
 
@@ -275,6 +303,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new InstantCommand(() -> Constants.RobotConstants.GYRO_OFFSET = -navX.getAngle() + 180);
     calibrateModules = new InstantCommand(() -> swerveGroup.calibrate());
+    SmartDashboard.putData("Calibrate Modules", calibrateModules);
     calibrateClimbers = new InstantCommand(
       () -> {
       winchRight.setSelectedSensorPosition(Constants.ClimberConstants.WINCH_RESET_POSITION);
@@ -305,8 +334,12 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     // xbox1LB.whileHeld(pivotRightCommand);
     // xbox1RB.whileHeld(reversePivotRightCommand);
     xbox1Back.whenPressed(calibrateClimbers);
-    xbox1LB.whileHeld(pivotLeftCommand);
-    xbox1RB.whileHeld(reversePivotLeftCommand);
+    xbox1LB.whileHeld(winchRightCommand);
+    xbox1RB.whileHeld(lowerWinchRightCommand);
+    // xbox1LB.whileHeld(pivotLeftCommand);
+    // xbox1RB.whileHeld(reversePivotLeftCommand);
+    // xbox1LB.whileHeld(turretLeft);
+    // xbox1RB.whileHeld(turretRight);
 
     // xbox1A.whileHeld(winchRightCommand);
     // xbox1B.whileHeld(lowerWinchRightCommand);
@@ -325,8 +358,8 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   //   xbox2Y.whileHeld(raiseHood);
   xbox2A.whileHeld(winchRightCommand);
   xbox2B.whileHeld(lowerWinchRightCommand);
-  xbox2LB.whileHeld(pivotRightCommand);
-  xbox2RB.whileHeld(reversePivotRightCommand);
+  xbox2LB.whileHeld(turretRight);
+  xbox2RB.whileHeld(turretLeft);
 
   xbox2X.whileHeld(shootCommand);
   xbox2Y.whileHeld(reverseShootCommand);

@@ -23,12 +23,13 @@ public class Shooter extends SubsystemBase {
 
   RelativeEncoder wheel1Encoder, wheel2Encoder;
 
-  SparkMaxPIDController wheel1PIDController, wheel2PIDController;
+  // SparkMaxPIDController wheel1PIDController, wheel2PIDController;
   
   public Shooter() {
     //Shooter Wheel 1
     shooterWheel1 = RobotContainer.shooterWheel1;
-    wheel1Encoder = RobotContainer.shooterWheel1.getEncoder();
+    shooterWheel2 = RobotContainer.shooterWheel2;
+    // wheel1Encoder = RobotContainer.shooterWheel1.getEncoder();
   }
 
   public void shoot(double speed) {

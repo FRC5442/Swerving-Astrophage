@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -109,6 +110,11 @@ public class SwerveGroup extends SubsystemBase {
     SwerveModuleState frontRightState = moduleStates[1];
     SwerveModuleState backLeftState = moduleStates[2];
     SwerveModuleState backRightState = moduleStates[3];
+
+    // frontLeftState = SwerveModuleState.optimize(frontLeftState, new Rotation2d(frontLeftModule.currentAngle));
+    // frontRightState = SwerveModuleState.optimize(frontRightState, new Rotation2d(frontRightModule.currentAngle));
+    // backLeftState = SwerveModuleState.optimize(backLeftState, new Rotation2d(backLeftModule.currentAngle));
+    // backRightState = SwerveModuleState.optimize(backRightState, new Rotation2d(backRightModule.currentAngle));
 
     SmartDashboard.putNumber("FL State Angle", frontLeftState.angle.getDegrees());
     SmartDashboard.putNumber("FR State Angle", frontRightState.angle.getDegrees());
