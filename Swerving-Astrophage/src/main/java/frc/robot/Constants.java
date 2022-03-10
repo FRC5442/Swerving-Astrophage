@@ -26,8 +26,8 @@ public final class Constants {
         public static final boolean BL_INVERTED = true;
         public static final boolean BR_INVERTED = false;
 
-        public static final double X_MULTIPLIER = 1.1;
-        public static final double Y_MULTIPLIER = 1.1;
+        public static final double X_MULTIPLIER = 1.3;
+        public static final double Y_MULTIPLIER = 1.3;
         public static final double R_MULTIPLIER = 1.1;
     }
   /************************* DRIVE *************************/

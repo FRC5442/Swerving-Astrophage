@@ -62,43 +62,73 @@ public class SwerveModule extends SubsystemBase {
     topGearSpeed += (-speed * TRANSLATE_MOD);
     bottomGearSpeed += (speed * TRANSLATE_MOD);
 
-    if (angle <= -1) angle = angle + 360;
-    if (Math.abs(currentAngle - angle) >= ERROR_BOUND && Math.abs(currentAngle - angle) <= 360 - ERROR_BOUND) {
+    
+
+    // if (angle > currentAngle) angle += currentAngle;
+    // if (angle < currentAngle) angle -= currentAngle;
+    //if (angle <= -1) angle = angle + 360;
+    // if (Math.abs(currentAngle - angle) >= ERROR_BOUND && Math.abs(currentAngle - angle) <= 360 - ERROR_BOUND) {
       ROTATE_MOD = 0.3 - (((Math.abs(topGearSpeed) + Math.abs(bottomGearSpeed)) / 2) * 0.15);
       turnToAngle(angle);
-    }
+    // }
+
   }
 
   public void turnToAngle(double desiredAngle) {
     //get the error
     double error = 0;
 
-    if (desiredAngle > currentAngle) {
+    // error = currentAngle - desiredAngle;
+
+    // topGearSpeed = Math.abs(currentAngle - desiredAngle) / (1500*ROTATE_MOD);
+    // bottomGearSpeed = Math.abs(currentAngle - desiredAngle) / (1500*ROTATE_MOD);
+
+    if (desiredAngle < currentAngle){
       error = desiredAngle - currentAngle;
-      if (error < 180) {
-        //move D by increasing C
-        topGearSpeed += Math.abs(error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += Math.abs(error) / 150 * ROTATE_MOD;
-      }
-      else if (error >= 180) {
-        //move towards D by decreasing C
-        topGearSpeed += -Math.abs(360 - error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += -Math.abs(360 - error) / 150 * ROTATE_MOD;
-      }
-    }
-    else if (desiredAngle < currentAngle) {
+      topGearSpeed += (error) / (1500*ROTATE_MOD);
+      bottomGearSpeed += (error) / (1500*ROTATE_MOD);
+    } else if (desiredAngle > currentAngle){
       error = currentAngle - desiredAngle;
-      if (error < 180) {
-        //move towards D decreasing C
-        topGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
-      }
-      else if (error >= 180) {
-        //move towards D by increasing C
-        topGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
-      }
+      topGearSpeed -= (error) / (1500*ROTATE_MOD);
+      bottomGearSpeed -= (error) / (1500*ROTATE_MOD);
     }
+
+    // if (error > 0){
+    //   topGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
+    //   bottomGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
+    // } else if (error < 0){
+    //   topGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
+    //   bottomGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
+    // }
+
+    
+
+    // if (desiredAngle > currentAngle) {
+    //   error = desiredAngle - currentAngle;
+    //   if (error < 180) {
+    //     //move D by increasing C
+    //     topGearSpeed += Math.abs(error) / 150 * ROTATE_MOD;
+    //     bottomGearSpeed += Math.abs(error) / 150 * ROTATE_MOD;
+    //   }
+    //   else if (error >= 180) {
+    //     //move towards D by decreasing C
+    //     topGearSpeed += -Math.abs(360 - error) / 150 * ROTATE_MOD;
+    //     bottomGearSpeed += -Math.abs(360 - error) / 150 * ROTATE_MOD;
+    //   }
+    // }
+    // else if (desiredAngle < currentAngle) {
+    //   error = currentAngle - desiredAngle;
+    //   if (error < 180) {
+    //     //move towards D decreasing C
+    //     topGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
+    //     bottomGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
+    //   }
+    //   else if (error >= 180) {
+    //     //move towards D by increasing C
+    //     topGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
+    //     bottomGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
+    //   }
+    // }
   }
 
   public void calibrate() {

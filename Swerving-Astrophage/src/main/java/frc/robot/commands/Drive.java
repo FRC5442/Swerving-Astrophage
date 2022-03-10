@@ -25,9 +25,9 @@ public class Drive extends CommandBase {
   private boolean useAuto = false;
 
   public boolean logitechController = false;
-  SlewRateLimiter xFilter = new SlewRateLimiter(0.5);
-  SlewRateLimiter yFilter = new SlewRateLimiter(0.5);
-  SlewRateLimiter rFilter = new SlewRateLimiter(0.5);
+  SlewRateLimiter xFilter = new SlewRateLimiter(0.7);
+  SlewRateLimiter yFilter = new SlewRateLimiter(0.7);
+  SlewRateLimiter rFilter = new SlewRateLimiter(0.1);
 
   
 
@@ -64,12 +64,14 @@ public class Drive extends CommandBase {
         Joystick driveStick = RobotContainer.xbox1;
         leftX = xFilter.calculate(driveStick.getRawAxis(0)*Constants.SwerveConstants.X_MULTIPLIER * -1); //0
         leftY = yFilter.calculate(driveStick.getRawAxis(1)*Constants.SwerveConstants.Y_MULTIPLIER) ;  //1
-        rightX = rFilter.calculate(driveStick.getRawAxis(4)*Constants.SwerveConstants.R_MULTIPLIER);
+        //rightX = rFilter.calculate(driveStick.getRawAxis(4)*Constants.SwerveConstants.R_MULTIPLIER);
+        rightX = driveStick.getRawAxis(4);
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
        //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
-      Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
+      // Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
+      Vector2d translation = new Vector2d(leftX, leftY);
       RobotContainer.swerveGroup.moveSwerveWPILib(translation, rightX * Math.pow(Math.abs(rightX), 1));
       // RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
 

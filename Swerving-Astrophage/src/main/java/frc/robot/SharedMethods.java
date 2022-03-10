@@ -14,4 +14,7 @@ public class SharedMethods {
         double meters = inches / 39.37;
         return meters;
     }
+    public static double convertDegreesToRadians(double degrees){
+        return (degrees * Math.PI) / 180;
+    }
 }

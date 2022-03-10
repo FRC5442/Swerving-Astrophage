@@ -111,10 +111,10 @@ public class SwerveGroup extends SubsystemBase {
     SwerveModuleState backLeftState = moduleStates[2];
     SwerveModuleState backRightState = moduleStates[3];
 
-    // frontLeftState = SwerveModuleState.optimize(frontLeftState, new Rotation2d(frontLeftModule.currentAngle));
-    // frontRightState = SwerveModuleState.optimize(frontRightState, new Rotation2d(frontRightModule.currentAngle));
-    // backLeftState = SwerveModuleState.optimize(backLeftState, new Rotation2d(backLeftModule.currentAngle));
-    // backRightState = SwerveModuleState.optimize(backRightState, new Rotation2d(backRightModule.currentAngle));
+    frontLeftState = SwerveModuleState.optimize(frontLeftState, new Rotation2d(SharedMethods.convertDegreesToRadians(frontLeftModule.currentAngle)));
+    frontRightState = SwerveModuleState.optimize(frontRightState, new Rotation2d(SharedMethods.convertDegreesToRadians(frontRightModule.currentAngle)));
+    backLeftState = SwerveModuleState.optimize(backLeftState, new Rotation2d(SharedMethods.convertDegreesToRadians(backLeftModule.currentAngle)));
+    backRightState = SwerveModuleState.optimize(backRightState, new Rotation2d(SharedMethods.convertDegreesToRadians(backRightModule.currentAngle)));
 
     SmartDashboard.putNumber("FL State Angle", frontLeftState.angle.getDegrees());
     SmartDashboard.putNumber("FR State Angle", frontRightState.angle.getDegrees());
