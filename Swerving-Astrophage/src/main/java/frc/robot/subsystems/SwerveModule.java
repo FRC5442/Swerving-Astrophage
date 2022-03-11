@@ -8,6 +8,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,6 +35,12 @@ public class SwerveModule extends SubsystemBase {
   double TRANSLATE_MOD = 0.4;
   double ROTATE_MOD = 0.3;
   double ERROR_BOUND = 1;
+
+  // private final PIDController drivePIDController = new PIDController(1, 0, 0);
+  // private final ProfiledPIDController turningPIDController = new ProfiledPIDController.Constraints(1, 0, 0, new TrapezoidProfile(Math.PI, 2 * Math.PI));
+
+  private final SimpleMotorFeedforward topGearFeedForward = new SimpleMotorFeedforward(1, 3);
+  private final SimpleMotorFeedforward bottomGearFeedForward = new SimpleMotorFeedforward(1, 0.5);
 
   // public double topGearSpeed = 0;
   // public double bottomGearSpeed = 0;
@@ -58,17 +68,38 @@ public class SwerveModule extends SubsystemBase {
     //By rotating both the top gear and the bottom gear at equal and opposite speeds, the wheel will drive in a straight direction.
     topGearSpeed = 0;
     bottomGearSpeed = 0;
+    double error = currentAngle - (angle);
+    double desiredAngle = currentAngle + angle;
+
+    //angle = SharedMethods.convertDegreesToRadians(angle);
 
     topGearSpeed += (-speed * TRANSLATE_MOD);
     bottomGearSpeed += (speed * TRANSLATE_MOD);
+
+    // topGearSpeed = ((speed * TRANSLATE_MOD) + (SharedMethods.convertDegreesToRadians(angle) * ROTATE_MOD)) / 1;
+    // bottomGearSpeed = -((speed * TRANSLATE_MOD) + (SharedMethods.convertDegreesToRadians(angle) * ROTATE_MOD)) / 1;
+
+  //  topGearSpeed = (speed * TRANSLATE_MOD);
+  //  bottomGearSpeed = -(speed * TRANSLATE_MOD);
+
+
+  //  bottomGearSpeed = -(SharedMethods.convertDegreesToRadians(angle) * ROTATE_MOD);
+   // ROTATE_MOD = 0.3 - (((Math.abs(topGearSpeed) + Math.abs(bottomGearSpeed)) / 2) * 0.15);
 
     
 
     // if (angle > currentAngle) angle += currentAngle;
     // if (angle < currentAngle) angle -= currentAngle;
-    // if (angle <= -1) angle = angle + 360;
+    if (angle <= -1) angle = angle + 360;
     if (Math.abs(currentAngle - angle) >= ERROR_BOUND && Math.abs(currentAngle - angle) <= 360 - ERROR_BOUND) {
       ROTATE_MOD = 0.3 - (((Math.abs(topGearSpeed) + Math.abs(bottomGearSpeed)) / 2) * 0.15);
+      // if (desiredAngle > currentAngle){
+      //   topGearSpeed = angle * (ROTATE_MOD / 150);
+      //   bottomGearSpeed = angle * (ROTATE_MOD / 150);
+      // } else {
+      // topGearSpeed = error * (ROTATE_MOD / 150);
+      // bottomGearSpeed = error * (ROTATE_MOD / 150);
+      // }
       turnToAngle(angle);
     }
 
