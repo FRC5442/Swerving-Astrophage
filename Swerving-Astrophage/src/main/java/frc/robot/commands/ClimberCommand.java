@@ -40,24 +40,16 @@ public class ClimberCommand extends CommandBase {
   @Override
   public void execute() {
     if (useLimits){
-      if (Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
-        RobotContainer.climber.moveClimber(motor, speed);
-  
-      } else {
+      if (!Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
         if (motor.getSelectedSensorPosition() >= maxPosition && speed > 0){
-        RobotContainer.climber.stopClimber(motor);
+          speed = 0;
   
         } else if (motor.getSelectedSensorPosition() <= minPosition && speed < 0){
-          RobotContainer.climber.stopClimber(motor);
-  
-        } else {
-          RobotContainer.climber.moveClimber(motor, speed);
+          speed = 0;  
         }
       }
-    } else {
-      RobotContainer.climber.moveClimber(motor, speed);
     }
-
+    RobotContainer.climber.moveClimber(motor, speed);
    
   }
 
@@ -71,7 +63,8 @@ public class ClimberCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // return false;
     // finish when climber is at desired position
+    return (speed == 0);
   }
 }

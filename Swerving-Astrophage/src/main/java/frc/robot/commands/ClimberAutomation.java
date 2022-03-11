@@ -15,8 +15,11 @@ public class ClimberAutomation extends SequentialCommandGroup {
   public ClimberAutomation() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    ClimberCommand pivotLeft = RobotContainer.pivotLeftCommand;
+    ClimberCommand reversePivotLeft = RobotContainer.reversePivotLeftCommand;
     addCommands(
-      //RobotContainer.winchLeftCommand.until((RobotContainer.winchLeft::getSelectedSensorPosition() >= 200000))
+      reversePivotLeft,
+      pivotLeft
     );
   }
 }

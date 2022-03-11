@@ -43,6 +43,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   public static AHRS navX;
   public static PowerDistribution pdp;
+  public static ClimberAutomation climberAutomation;
 
   // AUTO \\
   //private final ComplexAutoPath autoComplex;
@@ -114,6 +115,8 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static Climber climber;
   public static ClimberCommand winchLeftCommand, winchRightCommand, pivotLeftCommand, pivotRightCommand;
   public static ClimberCommand lowerWinchLeftCommand, lowerWinchRightCommand, reversePivotLeftCommand, reversePivotRightCommand;
+  public static ClimberCommand auto_winchLeftCommand, auto_winchRightCommand, auto_pivotLeftCommand, auto_pivotRightCommand;
+  public static ClimberCommand auto_lowerWinchLeftCommand, auto_lowerWinchRightCommand, auto_reversePivotLeftCommand, auto_reversePivotRightCommand;
 /************************* VARIABLES *************************/
 
   public RobotContainer() {
@@ -285,17 +288,20 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     pivotRight.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
 
     climber = new Climber();
-    boolean useLimits = false;
+    boolean useLimits = true;
 
     winchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED, useLimits);
     lowerWinchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED, useLimits);
     pivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED, useLimits);
     reversePivotLeftCommand = new ClimberCommand(pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED, useLimits);
 
-    winchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED, useLimits);
-    lowerWinchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED, useLimits);
+    winchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_SPEED, useLimits);
+    lowerWinchRightCommand = new ClimberCommand(winchRight, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_HIGH_POSITION, -Constants.ClimberConstants.WINCH_SPEED, useLimits);
     pivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED, useLimits);
     reversePivotRightCommand = new ClimberCommand(pivotRight, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED, useLimits);
+
+    climberAutomation = new ClimberAutomation();
+    SmartDashboard.putData(climberAutomation);
   /************************* CLIMBER *************************/
 
 
@@ -354,10 +360,10 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     // xbox2X.whileHeld(reverseShootCommand);
     // xbox2A.whileHeld(lowerHood);
     // xbox2Y.whileHeld(raiseHood);
-  xbox2A.whileHeld(winchRightCommand);
-  xbox2B.whileHeld(lowerWinchRightCommand);
-  xbox2LB.whileHeld(turretRight);
-  xbox2RB.whileHeld(turretLeft);
+  xbox2A.whileHeld(winchLeftCommand);
+  xbox2B.whileHeld(lowerWinchLeftCommand);
+  xbox2LB.whileHeld(pivotLeftCommand);
+  xbox2RB.whileHeld(reversePivotLeftCommand);
 
   xbox2X.whileHeld(shootCommand);
   xbox2Y.whileHeld(reverseShootCommand);
