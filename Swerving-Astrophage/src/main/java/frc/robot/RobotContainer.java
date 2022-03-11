@@ -237,12 +237,12 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     );
 
     intakeAllCommand = new StartEndCommand(
-      () -> intake.moveIntake(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED), 
+      () -> intake.moveIntake(1), 
       () -> intake.moveIntake(0),
       intake
     );
     reverseIntakeAllCommand = new StartEndCommand(
-      () -> intake.moveIntake(-Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED), 
+      () -> intake.moveIntake(-1), 
       () -> intake.moveIntake(0),
       intake
     );
@@ -285,7 +285,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     pivotRight.setStatusFramePeriod(StatusFrame.Status_1_General, 500);
 
     climber = new Climber();
-    boolean useLimits = true;
+    boolean useLimits = false;
 
     winchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, -Constants.ClimberConstants.WINCH_SPEED, useLimits);
     lowerWinchLeftCommand = new ClimberCommand(winchLeft, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_LOW_POSITION, Constants.ClimberConstants.WINCH_SPEED, useLimits);
@@ -331,20 +331,18 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private void configureButtonBindings() {
   // Primary driver controls: intake, drive(not initialized here), climb?
-    // xbox1LB.whileHeld(pivotRightCommand);
-    // xbox1RB.whileHeld(reversePivotRightCommand);
+    xbox1LB.whileHeld(pivotRightCommand);
+    xbox1RB.whileHeld(reversePivotRightCommand);
     xbox1Back.whenPressed(calibrateClimbers);
-    xbox1LB.whileHeld(turretLeft);
-    xbox1RB.whileHeld(turretRight);
+
     // xbox1LB.whileHeld(pivotLeftCommand);
     // xbox1RB.whileHeld(reversePivotLeftCommand);
     // xbox1LB.whileHeld(turretLeft);
     // xbox1RB.whileHeld(turretRight);
 
-    // xbox1A.whileHeld(winchRightCommand);
-    // xbox1B.whileHeld(lowerWinchRightCommand);
-    xbox1A.whileHeld(winchLeftCommand);
-    xbox1B.whileHeld(lowerWinchLeftCommand);
+    xbox1A.whileHeld(winchRightCommand);
+    xbox1B.whileHeld(lowerWinchRightCommand);
+    
 
     xbox1X.whileHeld(intakeAllCommand);
     xbox1Y.whileHeld(reverseIntakeAllCommand);
@@ -352,10 +350,10 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
   // Secondary driver controls: shooter, turret, and hood
-  //   xbox2B.whileHeld(shootCommand);
-  //   xbox2X.whileHeld(reverseShootCommand);
-  //   xbox2A.whileHeld(lowerHood);
-  //   xbox2Y.whileHeld(raiseHood);
+    // xbox2B.whileHeld(shootCommand);
+    // xbox2X.whileHeld(reverseShootCommand);
+    // xbox2A.whileHeld(lowerHood);
+    // xbox2Y.whileHeld(raiseHood);
   xbox2A.whileHeld(winchRightCommand);
   xbox2B.whileHeld(lowerWinchRightCommand);
   xbox2LB.whileHeld(turretRight);

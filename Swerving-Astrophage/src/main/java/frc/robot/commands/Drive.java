@@ -25,9 +25,9 @@ public class Drive extends CommandBase {
   private boolean useAuto = false;
 
   public boolean logitechController = false;
-  SlewRateLimiter xFilter = new SlewRateLimiter(0.7);
-  SlewRateLimiter yFilter = new SlewRateLimiter(0.7);
-  SlewRateLimiter rFilter = new SlewRateLimiter(0.1);
+  SlewRateLimiter xFilter = new SlewRateLimiter(0.9);
+  SlewRateLimiter yFilter = new SlewRateLimiter(0.9);
+  SlewRateLimiter rFilter = new SlewRateLimiter(0.9);
 
   
 

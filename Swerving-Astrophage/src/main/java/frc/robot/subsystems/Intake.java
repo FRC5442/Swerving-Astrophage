@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
@@ -24,9 +25,9 @@ public class Intake extends SubsystemBase {
   }
 
   public void moveIntake(double speed){
-    intakeMotorField.set(speed);
-    intakeMotorElevator1.set(speed);
-    intakeMotorElevator2.set(speed);
+    // intakeMotorField.set(speed);
+    intakeMotorElevator1.set(speed * Constants.IntakeConstants.INTAKE_FIELD_SPEED);
+    intakeMotorElevator2.set(speed * Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED);
   }
 
   public void moveIntakeField(double speed) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed

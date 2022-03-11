@@ -17,10 +17,10 @@ public final class Constants {
     
   /************************* DRIVE *************************/
     public static final class SwerveConstants {
-        public static final double FL_OFFSET = 100;
-        public static final double FR_OFFSET = 179;
+        public static final double FL_OFFSET = 91;
+        public static final double FR_OFFSET = 348;
         public static final double BL_OFFSET = 94;
-        public static final double BR_OFFSET = 67;
+        public static final double BR_OFFSET = 61;
         public static final boolean FL_INVERTED = true;
         public static final boolean FR_INVERTED = false;
         public static final boolean BL_INVERTED = true;
@@ -40,7 +40,7 @@ public final class Constants {
         public static final int SHOOTER_MOTOR_TWO = 20;  //21
         // public static final int SHOOTER_MOTOR_HOOD = 21; //19
 
-        public static final double SHOOTER_RPM = 0.5; //2700
+        public static final double SHOOTER_RPM = 0.42; //2700
         public static final double SHOOTER_RPM_HALF = SHOOTER_RPM / 2;
         public static final double HOOD_HIGH = 15;
         public static final double HOOD_LOW = 0;
@@ -55,7 +55,7 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final double INTAKE_FIELD_SPEED = 0.75;
         public static final double INTAKE_PIVOT_SPEED = 0.5;
-        public static final double INTAKE_ELEVATOR_SPEED = 0.5;
+        public static final double INTAKE_ELEVATOR_SPEED = 0.95;
 
         public static final int INTAKE_MOTOR_FIELD = 18;
         // public static final int INTAKE_MOTOR_PIVOT = 0;
