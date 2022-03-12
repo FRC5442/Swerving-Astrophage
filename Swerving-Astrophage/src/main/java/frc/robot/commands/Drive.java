@@ -65,8 +65,8 @@ public class Drive extends CommandBase {
         // leftX = xFilter.calculate(driveStick.getRawAxis(0)*Constants.SwerveConstants.X_MULTIPLIER * -1); //0
         // leftY = yFilter.calculate(driveStick.getRawAxis(1)*Constants.SwerveConstants.Y_MULTIPLIER) ;  //1
         //rightX = rFilter.calculate(driveStick.getRawAxis(4)*Constants.SwerveConstants.R_MULTIPLIER);
-        leftX = driveStick.getRawAxis(0) * Math.abs(driveStick.getRawAxis(0));
-        leftY = driveStick.getRawAxis(1) * Math.abs(driveStick.getRawAxis(1));
+        leftX = driveStick.getRawAxis(1) * Math.abs(driveStick.getRawAxis(1));
+        leftY = driveStick.getRawAxis(0) * Math.abs(driveStick.getRawAxis(0));
         rightX = driveStick.getRawAxis(4);
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech

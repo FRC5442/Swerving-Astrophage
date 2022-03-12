@@ -18,39 +18,37 @@ public class ClimberCommand extends CommandBase {
   double minPosition;
   double maxPosition;
   double speed;
-  boolean useLimits;
+  boolean isFinished = false;
 
-  public ClimberCommand(TalonFX motor, double minPosition, double maxPosition, double speed, boolean useLimits) {
+  public ClimberCommand(TalonFX motor, double minPosition, double maxPosition, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     // recieve which climber to move and what angle it should be at
     this.motor = motor;
     this.minPosition = minPosition;
     this.maxPosition = maxPosition;
     this.speed = speed;
-    this.useLimits = useLimits;
 
 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isFinished = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (useLimits){
-      if (!Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
+      if (Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
         if (motor.getSelectedSensorPosition() >= maxPosition && speed > 0){
-          speed = 0;
-  
+          RobotContainer.climber.moveClimber(motor, 0);
+          isFinished = true;
         } else if (motor.getSelectedSensorPosition() <= minPosition && speed < 0){
-          speed = 0;  
-        }
-      }
-    }
-    RobotContainer.climber.moveClimber(motor, speed);
-   
+          RobotContainer.climber.moveClimber(motor, 0);
+          isFinished = true;  
+        } else {RobotContainer.climber.moveClimber(motor, speed);}
+      } else {RobotContainer.climber.moveClimber(motor, speed);}
   }
 
 
@@ -65,6 +63,6 @@ public class ClimberCommand extends CommandBase {
   public boolean isFinished() {
     // return false;
     // finish when climber is at desired position
-    return (speed == 0);
+    return (isFinished);
   }
 }

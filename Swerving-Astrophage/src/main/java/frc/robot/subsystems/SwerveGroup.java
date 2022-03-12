@@ -102,7 +102,8 @@ public class SwerveGroup extends SubsystemBase {
     // STR = (-FWD * Math.sin(gyroRadians)) + (STR * Math.cos(gyroRadians));
     // FWD = temp;
     
-    ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(FWD, STR, RCW, Rotation2d.fromDegrees(getConvertedGyroAngle()));
+    // ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(FWD, STR, RCW, Rotation2d.fromDegrees(getConvertedGyroAngle()));
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(FWD, STR, RCW);
     SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
     SwerveModuleState frontLeftState = moduleStates[0];

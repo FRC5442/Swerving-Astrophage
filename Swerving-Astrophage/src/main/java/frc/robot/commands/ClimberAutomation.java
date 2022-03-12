@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -15,11 +16,11 @@ public class ClimberAutomation extends SequentialCommandGroup {
   public ClimberAutomation() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ClimberCommand pivotLeft = RobotContainer.pivotLeftCommand;
-    ClimberCommand reversePivotLeft = RobotContainer.reversePivotLeftCommand;
+    // ClimberCommand pivotLeft = RobotContainer.pivotLeftCommand;
+    // ClimberCommand reversePivotLeft = RobotContainer.reversePivotLeftCommand;
     addCommands(
-      reversePivotLeft,
-      pivotLeft
+      new ClimberCommand(RobotContainer.pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED),
+      new ClimberCommand(RobotContainer.pivotLeft, Constants.ClimberConstants.PIVOT_REAR_POSITION, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED)
     );
   }
 }

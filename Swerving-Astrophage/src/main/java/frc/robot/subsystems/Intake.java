@@ -13,12 +13,12 @@ import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  WPI_VictorSPX intakeMotorField;
+  //WPI_VictorSPX intakeMotorField;
   WPI_VictorSPX intakeMotorPivot;
   WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
 
   public Intake() {
-    intakeMotorField = RobotContainer.intakeMotorField;
+    //intakeMotorField = RobotContainer.intakeMotorField;
     intakeMotorPivot = RobotContainer.intakeMotorPivot;
     intakeMotorElevator1 = RobotContainer.intakeMotorElevator1;
     intakeMotorElevator2 = RobotContainer.intakeMotorElevator2;
@@ -30,8 +30,8 @@ public class Intake extends SubsystemBase {
     intakeMotorElevator2.set(speed * Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED);
   }
 
-  public void moveIntakeField(double speed) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed
-    intakeMotorField.set(speed);
+  public void moveIntakePivot(double speed) {   //A genearic method to set the speed of any parsed intake motor to the parsed speed
+    intakeMotorPivot.set(speed);
   }
 
   public void moveIntakeElevator1(double speed){
@@ -47,5 +47,6 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("Intake Laser Switch", RobotContainer.intakeLaserSwitch.get());
     SmartDashboard.putNumber("Intake Color Sensor", RobotContainer.intakeColorSensor.getVoltage());
+    SmartDashboard.putNumber("Intake Pivot Encoder", RobotContainer.intakePivotEncoder.getDistance());
   }
 }
