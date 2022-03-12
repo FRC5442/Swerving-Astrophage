@@ -251,12 +251,12 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
     turret = new Turret();
     turretRight = new StartEndCommand(
-      () -> turret.moveTurret(0.2),
+      () -> turret.moveTurret(0.6),
       () -> turret.moveTurret(0),
       turret
     );
     turretLeft = new StartEndCommand(
-      () -> turret.moveTurret(-0.2),
+      () -> turret.moveTurret(-0.6),
       () -> turret.moveTurret(0),
       turret
     );
@@ -309,6 +309,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
         pivotRight.setSelectedSensorPosition(Constants.ClimberConstants.PIVOT_RESET_POSITION);
       }
     );
+    SmartDashboard.putData("Calibrate Climbers", calibrateClimbers);
     calibrateEncoders = new InstantCommand(
       () -> {
         intakePivotEncoder.reset();
@@ -334,39 +335,51 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private void configureButtonBindings() {
   // Primary driver controls: intake, drive(not initialized here), climb?
-    xbox1LB.whileHeld(turretLeft);
-    xbox1RB.whileHeld(turretRight);
-    xbox1Back.whenPressed(calibrateClimbers);
+  xbox1A.whileHeld(winchRightCommand);
+  xbox1B.whileHeld(lowerWinchRightCommand);
+  xbox1LB.whileHeld(pivotRightCommand);
+  xbox1RB.whileHeld(reversePivotRightCommand);
 
-    // xbox1LB.whileHeld(pivotLeftCommand);
-    // xbox1RB.whileHeld(reversePivotLeftCommand);
-    // xbox1LB.whileHeld(turretLeft);
-    // xbox1RB.whileHeld(turretRight);
+  xbox1Start.whileHeld(turretLeft);
+  xbox1Back.whileHeld(turretRight);
 
-    xbox1A.whileHeld(winchRightCommand);
-    xbox1B.whileHeld(lowerWinchRightCommand);
-    
-
-    xbox1X.whileHeld(intakeAllCommand);
-    xbox1Y.whileHeld(reverseIntakeAllCommand);
-    xbox1Start.whenPressed(calibrateGyro);
-
-
-  // Secondary driver controls: shooter, turret, and hood
-    // xbox2B.whileHeld(shootCommand);
-    // xbox2X.whileHeld(reverseShootCommand);
-    // xbox2A.whileHeld(lowerHood);
-    // xbox2Y.whileHeld(raiseHood);
   xbox2A.whileHeld(winchLeftCommand);
   xbox2B.whileHeld(lowerWinchLeftCommand);
   xbox2LB.whileHeld(pivotLeftCommand);
   xbox2RB.whileHeld(reversePivotLeftCommand);
+  //   xbox1LB.whileHeld(intakeAllCommand);
+  //   xbox1RB.whileHeld(reverseIntakeAllCommand);
+  //   xbox1Back.whenPressed(calibrateClimbers);
 
-  xbox2Start.whileHeld(intakePivotCommand);
-  xbox2Back.whileHeld(reverseIntakePivotCommand);
+  //   // xbox1LB.whileHeld(pivotLeftCommand);
+  //   // xbox1RB.whileHeld(reversePivotLeftCommand);
+  //   // xbox1LB.whileHeld(turretLeft);
+  //   // xbox1RB.whileHeld(turretRight);
 
-  xbox2X.whileHeld(shootCommand);
-  xbox2Y.whileHeld(reverseShootCommand);
+  //   xbox1A.whileHeld(winchRightCommand);
+  //   xbox1B.whileHeld(lowerWinchRightCommand);
+    
+
+  //   // xbox1X.whileHeld(intakeAllCommand);
+  //   // xbox1Y.whileHeld(reverseIntakeAllCommand);
+  //   xbox1Start.whenPressed(calibrateGyro);
+
+
+  // // Secondary driver controls: shooter, turret, and hood
+  //   // xbox2B.whileHeld(shootCommand);
+  //   // xbox2X.whileHeld(reverseShootCommand);
+  //   // xbox2A.whileHeld(lowerHood);
+  //   // xbox2Y.whileHeld(raiseHood);
+  // xbox2A.whileHeld(shootCommand);
+  // // xbox2B.whileHeld(lowerWinchLeftCommand);
+  // xbox2LB.whileHeld(turretLeft);
+  // xbox2RB.whileHeld(turretRight);
+
+  // xbox2Start.whileHeld(intakePivotCommand);
+  // xbox2Back.whileHeld(reverseIntakePivotCommand);
+
+  // xbox2X.whileHeld(shootCommand);
+  // xbox2Y.whileHeld(reverseShootCommand);
   }
 
   public Command getAutonomousCommand() {

@@ -42,7 +42,7 @@ public final class Constants {
         public static final int SHOOTER_MOTOR_TWO = 20;  //21
         // public static final int SHOOTER_MOTOR_HOOD = 21; //19
 
-        public static final double SHOOTER_RPM = 0.525; //2700
+        public static final double SHOOTER_RPM = 0.575; //2700
         public static final double SHOOTER_RPM_HALF = SHOOTER_RPM / 2;
         public static final double HOOD_HIGH = 15;
         public static final double HOOD_LOW = 0;
@@ -106,9 +106,9 @@ public final class Constants {
         public static final double WINCH_SPEED = 0.5;
         public static final double PIVOT_SPEED = 0.1;
 
-        public static final double PIVOT_FRONT_POSITION = 40000;
+        public static final double PIVOT_FRONT_POSITION = 56000;
         public static final double PIVOT_REAR_POSITION = 0;
-        public static final double PIVOT_RESET_POSITION = 20000;
+        public static final double PIVOT_RESET_POSITION = 28000;
 
 
         public static final double WINCH_HIGH_POSITION = -200000;
