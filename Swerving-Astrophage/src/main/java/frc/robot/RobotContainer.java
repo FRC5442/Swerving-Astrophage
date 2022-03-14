@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -111,6 +112,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
   public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
   public static StartEndCommand turretRight, turretLeft;
+  public static RunCommand moveTurretCommand;
 
   // CLIMBER \\
   public static TalonFX winchLeft, winchRight;
@@ -212,8 +214,10 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
     intake = new Intake();
     
-    intakePivotCommand = new IntakePivotCommand(Constants.IntakeConstants.INTAKE_PIVOT_SPEED);
-    reverseIntakePivotCommand = new IntakePivotCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED);
+    intakePivotCommand = new IntakePivotCommand();
+    // reverseIntakePivotCommand = new IntakePivotCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED);
+
+    intake.setDefaultCommand(intakePivotCommand);
 
     intakeElevator1Command = new StartEndCommand(
       () -> intake.moveIntakeElevator1(Constants.IntakeConstants.INTAKE_ELEVATOR_SPEED), 
@@ -260,6 +264,12 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
       () -> turret.moveTurret(0),
       turret
     );
+    moveTurretCommand = new RunCommand(
+      () -> turret.moveTurret(0.6 * xbox2.getRawAxis(0)),
+      turret
+    );
+
+    turret.setDefaultCommand(moveTurretCommand);
     // turretGyro = new AHRS(SPI.Port.kMXP);
     // turretAutoPositioningCommand = new TurretAutoPositioningCommand();
     // turret.setDefaultCommand(turretAutoPositioningCommand);
@@ -340,13 +350,14 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   xbox1LB.whileHeld(pivotRightCommand);
   xbox1RB.whileHeld(reversePivotRightCommand);
 
-  xbox1Start.whileHeld(turretLeft);
-  xbox1Back.whileHeld(turretRight);
+  // xbox1Start.whileHeld(turretLeft);
+  // xbox1Back.whileHeld(turretRight);
 
-  xbox2A.whileHeld(winchLeftCommand);
-  xbox2B.whileHeld(lowerWinchLeftCommand);
-  xbox2LB.whileHeld(pivotLeftCommand);
-  xbox2RB.whileHeld(reversePivotLeftCommand);
+  // xbox2A.whileHeld(winchLeftCommand);
+  // xbox2B.whileHeld(lowerWinchLeftCommand);
+  // xbox2LB.whileHeld(pivotLeftCommand);
+  // xbox2RB.whileHeld(reversePivotLeftCommand);
+  
   //   xbox1LB.whileHeld(intakeAllCommand);
   //   xbox1RB.whileHeld(reverseIntakeAllCommand);
   //   xbox1Back.whenPressed(calibrateClimbers);
@@ -377,6 +388,9 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // xbox2Start.whileHeld(intakePivotCommand);
   // xbox2Back.whileHeld(reverseIntakePivotCommand);
+  xbox2LB.whileHeld(intakeAllCommand);
+  xbox2RB.whileHeld(reverseIntakeAllCommand);
+  
 
   // xbox2X.whileHeld(shootCommand);
   // xbox2Y.whileHeld(reverseShootCommand);

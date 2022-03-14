@@ -56,7 +56,7 @@ public final class Constants {
   /************************* INTAKE *************************/
     public static final class IntakeConstants {
         public static final double INTAKE_FIELD_SPEED = 0.85;
-        public static final double INTAKE_PIVOT_SPEED = 0.35;
+        public static final double INTAKE_PIVOT_SPEED = 0.2;
         public static final double INTAKE_ELEVATOR_SPEED = 0.95;
 
         public static final int INTAKE_MOTOR_PIVOT = 18;
@@ -65,7 +65,7 @@ public final class Constants {
         public static final int INTAKE_MOTOR_ELEVATOR_TWO = 16; //16
 
         public static final int INTAKE_LASER_SWITCH = 0;
-        public static final int INTAKE_COLOR_SENSOR = 5;
+        public static final int INTAKE_COLOR_SENSOR = 7;
 
         public static final double INTAKE_PIVOT_MIN_POS = 0;
         public static final double INTAKE_PIVOT_MAX_POS = 20000;
@@ -79,7 +79,7 @@ public final class Constants {
   /************************* TURRET *************************/
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 17;
-        public static final int TURRET_ENCODER = 7;
+        public static final int TURRET_ENCODER = 6;
         
         public static final double TURRET_kP = 1;
         public static final double TURRET_kI = 0;

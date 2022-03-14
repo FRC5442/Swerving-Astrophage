@@ -4,18 +4,25 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class IntakePivotCommand extends CommandBase {
   /** Creates a new IntakePivotCommand. */
-  double speed;
+  double speed = 0.2;
+  double returnSpeed = 0.4;
+  double calculatedSpeed;
   boolean isFinished = false;
-  public IntakePivotCommand(double speed) {
+  double posTop = -500;
+  double posBottom = 25000;
+  double posTarget;
+  double triggerValue;
+
+  public IntakePivotCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    // addRequirements(RobotContainer.intake);
-    this.speed = speed;
+    addRequirements(RobotContainer.intake);
   }
 
   // Called when the command is initially scheduled.
@@ -25,21 +32,38 @@ public class IntakePivotCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Constants.IntakeConstants.USE_INTAKE_PIVOT_LIMITS){
-      if (RobotContainer.intakePivotEncoder.getDistance() >= Constants.IntakeConstants.INTAKE_PIVOT_MAX_POS && speed > 0){
-        speed = 0;
-        isFinished = true;
-      } else if (RobotContainer.intakePivotEncoder.getDistance() <= Constants.IntakeConstants.INTAKE_PIVOT_MIN_POS && speed < 0){
-        speed = 0;
-        isFinished = true;  
-      } else {RobotContainer.intake.moveIntakePivot(speed);}
-    } else {RobotContainer.intake.moveIntakePivot(speed);}
+    triggerValue = RobotContainer.xbox2.getRawAxis(3);
+    posTarget = ((posBottom - posTop) * triggerValue) + posTop;
+    SmartDashboard.putNumber("Intake Pivot Target", posTarget);
+
+    if (RobotContainer.intakePivotEncoder.getDistance() > posTarget){ // Moving up
+      calculatedSpeed = returnSpeed * 1 * ((RobotContainer.intakePivotEncoder.getDistance() - posTarget) / 5000);
+    } else if (RobotContainer.intakePivotEncoder.getDistance() < posTarget){ // Moving down
+      calculatedSpeed = speed * -1 * ((posTarget - RobotContainer.intakePivotEncoder.getDistance() / 20000));
+    } else {
+      calculatedSpeed = 0;
+    }
+    if (calculatedSpeed > returnSpeed) calculatedSpeed = returnSpeed;
+    else if (calculatedSpeed < -speed) calculatedSpeed = -speed;
+
+    RobotContainer.intake.moveIntakePivot(calculatedSpeed);
+
+
+  //   if (Constants.IntakeConstants.USE_INTAKE_PIVOT_LIMITS){
+  //     if (RobotContainer.intakePivotEncoder.getDistance() >= Constants.IntakeConstants.INTAKE_PIVOT_MAX_POS && speed > 0){
+  //       speed = 0;
+  //       isFinished = true;
+  //     } else if (RobotContainer.intakePivotEncoder.getDistance() <= Constants.IntakeConstants.INTAKE_PIVOT_MIN_POS && speed < 0){
+  //       speed = 0;
+  //       isFinished = true;  
+  //     } else {RobotContainer.intake.moveIntakePivot(speed);}
+  //   } else {RobotContainer.intake.moveIntakePivot(speed);}
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.intake.moveIntakePivot(0);
+    //RobotContainer.intake.moveIntakePivot(0);
   }
 
   // Returns true when the command should end.
