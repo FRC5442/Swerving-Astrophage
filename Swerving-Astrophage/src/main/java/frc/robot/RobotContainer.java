@@ -16,10 +16,14 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -39,7 +43,7 @@ import frc.robot.commands.*;
 public class RobotContainer {
 
 /************************* VARIABLES *************************/
-private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static AHRS navX;
@@ -47,7 +51,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static ClimberAutomation climberAutomation;
 
   // AUTO \\
-  //private final ComplexAutoPath autoComplex;
+  private final SequentialCommandGroup autoBasic, autoComplex;
   SendableChooser<Command> autoChooser;
 
   // CONTROLLER \\
@@ -108,7 +112,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static WPI_VictorSPX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
-  public static AnalogPotentiometer turretEncoder;
+  public static Encoder turretEncoder;
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
   public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
   public static StartEndCommand turretRight, turretLeft;
@@ -251,7 +255,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
   /************************* TURRET *************************/
-    turretEncoder = new AnalogPotentiometer(Constants.TurretConstants.TURRET_ENCODER, 360, 0);
+    turretEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k1X);
     turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
     turret = new Turret();
     turretRight = new StartEndCommand(
@@ -330,11 +334,43 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
 
   /************************* AUTO *************************/
-    // autoComplex = new ComplexAutoPath();
-    // autoChooser = new SendableChooser<>();
-    // autoChooser.setDefaultOption("Default Auto", autoComplex);
-    // autoChooser.addOption("Complex Auto", autoComplex);
-    // SmartDashboard.putData(autoChooser);
+    autoBasic = new SequentialCommandGroup(
+      new InstantCommand(() -> shooter.shoot(-Constants.ShooterConstants.SHOOTER_RPM)),
+      new WaitCommand(1),  
+      new InstantCommand(() -> intake.moveIntake(-1)),
+      new WaitCommand(2),
+      new ParallelRaceGroup(new Drive(-0.5, 0, 0), new WaitCommand(0.75)),
+      new WaitCommand(0.5),
+      new ParallelRaceGroup(new Drive(0.5, 0, 0), new WaitCommand(0.75)),
+      
+      new WaitCommand(2),
+
+      new InstantCommand(() -> intake.moveIntake(0)),
+      new InstantCommand(() -> shooter.shoot(0))
+    );
+
+    // lowers intake, picks up ball, raises ball, shoots
+    autoComplex = new SequentialCommandGroup(
+      new InstantCommand(() -> intake.moveIntake(-1)),
+      new InstantCommand(() -> shooter.shoot(-Constants.ShooterConstants.SHOOTER_RPM)),
+      new ParallelRaceGroup(
+        new WaitCommand(2),
+        new IntakePivotCommand(0.6)
+      ),
+      new ParallelRaceGroup( 
+        new WaitCommand(2),
+        new IntakePivotCommand(0.6),
+        new Drive(-0.6, 0, 0)
+      ),
+      new WaitCommand(5),
+      new InstantCommand(() -> intake.moveIntake(0)),
+      new InstantCommand(() -> shooter.shoot(0))
+    );
+
+    autoChooser = new SendableChooser<Command>();
+    autoChooser.setDefaultOption("Default Auto", autoBasic);
+    autoChooser.addOption("Complex Auto", autoComplex);
+    SmartDashboard.putData(autoChooser);
   /************************* AUTO *************************/
 
 
@@ -345,18 +381,19 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private void configureButtonBindings() {
   // Primary driver controls: intake, drive(not initialized here), climb?
-  xbox1A.whileHeld(winchRightCommand);
-  xbox1B.whileHeld(lowerWinchRightCommand);
-  xbox1LB.whileHeld(pivotRightCommand);
-  xbox1RB.whileHeld(reversePivotRightCommand);
 
-  // xbox1Start.whileHeld(turretLeft);
-  // xbox1Back.whileHeld(turretRight);
+  //  Climbing Test Controls:
+
+  // xbox1A.whileHeld(winchRightCommand);
+  // xbox1B.whileHeld(lowerWinchRightCommand);
+  // xbox1LB.whileHeld(pivotRightCommand);
+  // xbox1RB.whileHeld(reversePivotRightCommand);
 
   // xbox2A.whileHeld(winchLeftCommand);
   // xbox2B.whileHeld(lowerWinchLeftCommand);
   // xbox2LB.whileHeld(pivotLeftCommand);
   // xbox2RB.whileHeld(reversePivotLeftCommand);
+
   
   //   xbox1LB.whileHeld(intakeAllCommand);
   //   xbox1RB.whileHeld(reverseIntakeAllCommand);
@@ -388,8 +425,7 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   // xbox2Start.whileHeld(intakePivotCommand);
   // xbox2Back.whileHeld(reverseIntakePivotCommand);
-  xbox2LB.whileHeld(intakeAllCommand);
-  xbox2RB.whileHeld(reverseIntakeAllCommand);
+  
   
 
   // xbox2X.whileHeld(shootCommand);
@@ -398,6 +434,6 @@ private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return autoChooser.getSelected();
   }
 }

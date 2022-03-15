@@ -19,10 +19,21 @@ public class IntakePivotCommand extends CommandBase {
   double posBottom = 25000;
   double posTarget;
   double triggerValue;
+  boolean useAuto = false;
+  double height;
+
+  double AUTO_TARGET_HEIGHT = 0.5;
 
   public IntakePivotCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.intake);
+    useAuto = false;
+  }
+  public IntakePivotCommand(double height){
+    this.height = height;
+    useAuto = true;
+    addRequirements(RobotContainer.intake);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +43,8 @@ public class IntakePivotCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    triggerValue = RobotContainer.xbox2.getRawAxis(3);
+    if (!useAuto) triggerValue = RobotContainer.xbox2.getRawAxis(3);
+    else triggerValue = height;
     posTarget = ((posBottom - posTop) * triggerValue) + posTop;
     SmartDashboard.putNumber("Intake Pivot Target", posTarget);
 

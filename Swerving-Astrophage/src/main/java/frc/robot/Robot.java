@@ -91,7 +91,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    SmartDashboard.putNumber("Raw Trigger Value", RobotContainer.xbox1.getRawAxis(3));
+  }
 
   @Override
   public void testInit() {

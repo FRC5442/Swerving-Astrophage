@@ -19,7 +19,7 @@ import frc.robot.RobotContainer;
 public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
   WPI_VictorSPX turretMotor;
-  AnalogPotentiometer turretEncoder;
+  Encoder turretEncoder;
   AHRS robotGyro;
   double gyroOffset;
 
@@ -56,6 +56,6 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler 
-    SmartDashboard.putNumber("Turret Encoder", RobotContainer.turretEncoder.get());
+    SmartDashboard.putNumber("Turret Encoder", RobotContainer.turretEncoder.getDistance());
   }
 }

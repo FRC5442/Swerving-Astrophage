@@ -88,9 +88,8 @@ public class Drive extends CommandBase {
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       //rightX = 0.0;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
-      Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
-      RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
-      
+      Vector2d translation = new Vector2d(leftX, leftY);
+      RobotContainer.swerveGroup.moveSwerveWPILib(translation, rightX * Math.pow(Math.abs(rightX), 1));
     }
 
     /*

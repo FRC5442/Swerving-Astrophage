@@ -106,9 +106,9 @@ public final class Constants {
         public static final double WINCH_SPEED = 0.5;
         public static final double PIVOT_SPEED = 0.1;
 
-        public static final double PIVOT_FRONT_POSITION = 56000;
+        public static final double PIVOT_FRONT_POSITION = 78000;
         public static final double PIVOT_REAR_POSITION = 0;
-        public static final double PIVOT_RESET_POSITION = 28000;
+        public static final double PIVOT_RESET_POSITION = 30000;
 
 
         public static final double WINCH_HIGH_POSITION = -200000;
