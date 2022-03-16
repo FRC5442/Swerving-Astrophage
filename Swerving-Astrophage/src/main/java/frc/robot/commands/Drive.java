@@ -90,6 +90,7 @@ public class Drive extends CommandBase {
       
       Vector2d translation = new Vector2d(leftX, leftY);
       RobotContainer.swerveGroup.moveSwerveWPILib(translation, rightX * Math.pow(Math.abs(rightX), 1));
+
     }
 
     /*

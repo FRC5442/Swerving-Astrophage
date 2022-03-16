@@ -51,7 +51,7 @@ public class RobotContainer {
   public static ClimberAutomation climberAutomation;
 
   // AUTO \\
-  private final SequentialCommandGroup autoBasic, autoComplex;
+  private final SequentialCommandGroup autoBasic, autoComplex, autoNull;
   SendableChooser<Command> autoChooser;
 
   // CONTROLLER \\
@@ -61,7 +61,7 @@ public class RobotContainer {
   public static double xbox1LTrigger, xbox1RTrigger;
 
   public static Joystick xbox2;
-  public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y, xbox2Back, xbox2Start;
+  public static JoystickButton xbox2A, xbox2B, xbox2X, xbox2Y, xbox2Back, xbox2Start, xbox2LS, xbox2RS;
   public static JoystickButton xbox2LB, xbox2RB;
 
   // DRIVE \\
@@ -116,7 +116,8 @@ public class RobotContainer {
   public static TurretAutoPositioningCommand turretAutoPositioningCommand;
   public static TurretCommand turretMoveLeftCommand, turretMoveRightCommand;
   public static StartEndCommand turretRight, turretLeft;
-  public static RunCommand moveTurretCommand;
+  public static TurretCommand moveTurretCommand, returnTurretCommand;
+  public static InstantCommand resetTurretEncoder;
 
   // CLIMBER \\
   public static TalonFX winchLeft, winchRight;
@@ -152,6 +153,8 @@ public class RobotContainer {
     xbox2Back = new JoystickButton(xbox2, Button.kBack.value);
     xbox2LB = new JoystickButton(xbox2, Button.kLeftBumper.value);
     xbox2RB = new JoystickButton(xbox2, Button.kRightBumper.value);
+    xbox2LS = new JoystickButton(xbox2, Button.kLeftStick.value);
+    xbox2RS = new JoystickButton(xbox2, Button.kRightStick.value);
   /************************* JOYSTICKS *************************/
 
 
@@ -268,10 +271,14 @@ public class RobotContainer {
       () -> turret.moveTurret(0),
       turret
     );
-    moveTurretCommand = new RunCommand(
-      () -> turret.moveTurret(0.6 * xbox2.getRawAxis(0)),
-      turret
-    );
+    returnTurretCommand = new TurretCommand();
+    resetTurretEncoder = new InstantCommand(() -> turretEncoder.reset());
+    SmartDashboard.putData("Reset Turret Encoder", resetTurretEncoder);
+    // moveTurretCommand = new RunCommand(
+    //   () -> turret.moveTurret(0.6 * xbox2.getRawAxis(0)),
+    //   turret
+    // );
+    moveTurretCommand = new TurretCommand(0.6);
 
     turret.setDefaultCommand(moveTurretCommand);
     // turretGyro = new AHRS(SPI.Port.kMXP);
@@ -367,9 +374,12 @@ public class RobotContainer {
       new InstantCommand(() -> shooter.shoot(0))
     );
 
+    autoNull = new SequentialCommandGroup();
+
     autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("Default Auto", autoBasic);
+    autoChooser.setDefaultOption("NO AUTO", autoNull);
     autoChooser.addOption("Complex Auto", autoComplex);
+    autoChooser.addOption("Basic Auto", autoBasic);
     SmartDashboard.putData(autoChooser);
   /************************* AUTO *************************/
 
@@ -380,7 +390,41 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-  // Primary driver controls: intake, drive(not initialized here), climb?
+  // Primary driver controls: intake, drive(not initialized here):
+    xbox1LB.whileHeld(intakeAllCommand);
+    xbox1RB.whileHeld(reverseIntakeAllCommand);
+
+  // Secondary Driver Controls:
+    // Climber Controls
+    xbox2A.whileHeld(lowerWinchRightCommand);
+    xbox2B.whileHeld(lowerWinchLeftCommand);
+    xbox2Y.whileHeld(winchLeftCommand);
+    xbox2X.whileHeld(winchRightCommand);
+    xbox2LB.whileHeld(reversePivotRightCommand);
+    xbox2RB.whileHeld(pivotLeftCommand);
+    xbox2Start.whileHeld(reversePivotLeftCommand);
+    xbox2Back.whileHeld(pivotRightCommand);
+
+    xbox2LS.whileHeld(returnTurretCommand);
+    xbox2RS.whileHeld(shootCommand);
+
+
+    // lb - right pivot - towards back
+    // menu button - right pivot - forward
+    // A - right side down
+    // X - right side up
+    // y - left side extend
+    // b - left side retract
+
+
+
+
+
+
+
+
+
+
 
   //  Climbing Test Controls:
 

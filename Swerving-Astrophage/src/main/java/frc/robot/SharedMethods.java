@@ -17,4 +17,8 @@ public class SharedMethods {
     public static double convertDegreesToRadians(double degrees){
         return (degrees * Math.PI) / 180;
     }
+    public static int positiveOrNegative(double number){
+        if (number >= 0) return 1;
+        else return -1;
+    }
 }
