@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.SharedMethods;
+import frc.robot.Constants.RobotConstants;
 
 // The SwerveGroup subsystem tells each individuall swerve module how to work together to move the robot.
 // This is where the complicated math and swerve programming lies
@@ -95,17 +96,20 @@ public class SwerveGroup extends SubsystemBase {
     if (Math.abs(rotation) <= Constants.RobotConstants.JOYSTICK_DEAD_ZONE) RCW = 0;
 
     // field/robot oriented drive system.
-    
-    // double gyroRadians = getConvertedGyroAngle() * (Math.PI / 180); //in radians
     SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle()); 
+
+
+    // double gyroRadians = getConvertedGyroAngle() * (Math.PI / 180); //in radians
     // double temp = (FWD * Math.cos(gyroRadians)) + (STR * Math.sin(gyroRadians));
     // STR = (-FWD * Math.sin(gyroRadians)) + (STR * Math.cos(gyroRadians));
     // FWD = temp;
     
     // Code for Field Oriented drive, dosn't work
-    // ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(FWD, STR, RCW, Rotation2d.fromDegrees(getConvertedGyroAngle()));
     ChassisSpeeds chassisSpeeds = new ChassisSpeeds(FWD, STR, RCW);
+    // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(FWD, STR, RCW, Rotation2d.fromDegrees(RobotContainer.navX.getRotation2d().getDegrees() + Constants.RobotConstants.GYRO_OFFSET));
+    
     SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    //SmartDashboard.putNumber("Field Angle", RobotContainer.navX.getRotation2d().getDegrees());
 
     SwerveModuleState frontLeftState = moduleStates[0];
     SwerveModuleState frontRightState = moduleStates[1];
@@ -248,6 +252,7 @@ public class SwerveGroup extends SubsystemBase {
 
   public double getConvertedGyroAngle() {
     double rawGyroAngle = (RobotContainer.navX.getAngle() + Constants.RobotConstants.GYRO_OFFSET); //in degrees
+    SmartDashboard.putNumber("Raw Gyro Angle", rawGyroAngle);
     double convertedRawGyroAngle = ((360 - rawGyroAngle + 90) % 360);
     if (convertedRawGyroAngle < 0) {
       return SharedMethods.roundTo(360 + convertedRawGyroAngle, 0);

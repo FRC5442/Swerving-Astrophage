@@ -65,15 +65,15 @@ public class Drive extends CommandBase {
         // leftX = xFilter.calculate(driveStick.getRawAxis(0)*Constants.SwerveConstants.X_MULTIPLIER * -1); //0
         // leftY = yFilter.calculate(driveStick.getRawAxis(1)*Constants.SwerveConstants.Y_MULTIPLIER) ;  //1
         //rightX = rFilter.calculate(driveStick.getRawAxis(4)*Constants.SwerveConstants.R_MULTIPLIER);
-        leftX = driveStick.getRawAxis(1) * Math.abs(driveStick.getRawAxis(1));
-        leftY = driveStick.getRawAxis(0) * Math.abs(driveStick.getRawAxis(0));
-        rightX = driveStick.getRawAxis(4) * Math.abs(driveStick.getRawAxis(4)) * 1.5;
+        leftX = driveStick.getRawAxis(1);
+        leftY = driveStick.getRawAxis(0);
+        rightX = driveStick.getRawAxis(4);
 
       //double rightX = driveStick.getRawAxis(2)*-1;   //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
        //.getRawAxis(4) for xboxController     //.getRawAxis(2) for logitech
       
-      // Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
-      Vector2d translation = new Vector2d(leftX, leftY);
+      Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
+      // Vector2d translation = new Vector2d(leftX, leftY);
       RobotContainer.swerveGroup.moveSwerveWPILib(translation, rightX * Math.pow(Math.abs(rightX), 1));
       // RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
 

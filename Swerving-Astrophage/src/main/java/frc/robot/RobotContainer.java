@@ -320,6 +320,7 @@ public class RobotContainer {
   /************************* OTHER *************************/
     navX = new AHRS(SerialPort.Port.kMXP);
     calibrateGyro = new InstantCommand(() -> Constants.RobotConstants.GYRO_OFFSET = -navX.getAngle() + 180);
+    SmartDashboard.putData("Calibrate Gyro", calibrateGyro);
     calibrateModules = new InstantCommand(() -> swerveGroup.calibrate());
     SmartDashboard.putData("Calibrate Modules", calibrateModules);
     calibrateClimbers = new InstantCommand(
