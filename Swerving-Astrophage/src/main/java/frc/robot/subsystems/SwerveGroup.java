@@ -97,11 +97,12 @@ public class SwerveGroup extends SubsystemBase {
     // field/robot oriented drive system.
     
     // double gyroRadians = getConvertedGyroAngle() * (Math.PI / 180); //in radians
-    // SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle()); 
+    SmartDashboard.putNumber("Gyro Angle: ", getConvertedGyroAngle()); 
     // double temp = (FWD * Math.cos(gyroRadians)) + (STR * Math.sin(gyroRadians));
     // STR = (-FWD * Math.sin(gyroRadians)) + (STR * Math.cos(gyroRadians));
     // FWD = temp;
     
+    // Code for Field Oriented drive, dosn't work
     // ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(FWD, STR, RCW, Rotation2d.fromDegrees(getConvertedGyroAngle()));
     ChassisSpeeds chassisSpeeds = new ChassisSpeeds(FWD, STR, RCW);
     SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
@@ -258,5 +259,6 @@ public class SwerveGroup extends SubsystemBase {
 
   @Override
   public void periodic() {
+
   }
 }
