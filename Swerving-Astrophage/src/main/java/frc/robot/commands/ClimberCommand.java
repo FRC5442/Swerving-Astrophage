@@ -40,7 +40,7 @@ public class ClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (Constants.ClimberConstants.CLIMBER_RESET_LIMITS){
+      if (RobotContainer.climber.useClimberLimits){
         if (motor.getSelectedSensorPosition() >= maxPosition && speed > 0){
           RobotContainer.climber.moveClimber(motor, 0);
           isFinished = true;

@@ -16,13 +16,13 @@ public class IntakePivotCommand extends CommandBase {
   double calculatedSpeed;
   boolean isFinished = false;
   double posTop = -500;
-  double posBottom = 25000;
+  double posBottom = 18000;
   double posTarget;
   double triggerValue;
   boolean useAuto = false;
   double height;
 
-  double AUTO_TARGET_HEIGHT = 0.5;
+  double AUTO_TARGET_HEIGHT = 0.7;
 
   public IntakePivotCommand() {
     // Use addRequirements() here to declare subsystem dependencies.

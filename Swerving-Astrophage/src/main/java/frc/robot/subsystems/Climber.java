@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
   TalonFX winchRight, winchLeft, pivotRight, pivotLeft;
+  public boolean useClimberLimits = true;
 
   public Climber() {  
     winchRight = RobotContainer.winchRight;
@@ -40,5 +41,6 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Winch Left Encoder", winchLeft.getSelectedSensorPosition());
     SmartDashboard.putNumber("Pivot Left Encoder", pivotLeft.getSelectedSensorPosition());
     SmartDashboard.putNumber("Pivot Right Encoder", pivotRight.getSelectedSensorPosition());
+    useClimberLimits = SmartDashboard.getBoolean("Using Climber Limits", true);
   }
 }

@@ -19,10 +19,10 @@ public final class Constants {
     
   /************************* DRIVE *************************/
     public static final class SwerveConstants {
-        public static final double FL_OFFSET = Preferences.getDouble("FL_OFFSET", 0);//91;
-        public static final double FR_OFFSET = Preferences.getDouble("FR_OFFSET", 0);//348;
-        public static final double BL_OFFSET = Preferences.getDouble("BL_OFFSET",0);//94;
-        public static final double BR_OFFSET = Preferences.getDouble("BR_OFFSET",0);//61;
+        public static final double FL_OFFSET = 219; //Preferences.getDouble("FL_OFFSET", 0);//91;
+        public static final double FR_OFFSET = 155; //Preferences.getDouble("FR_OFFSET", 0);//348;
+        public static final double BL_OFFSET = 115; //Preferences.getDouble("BL_OFFSET",0);//94;
+        public static final double BR_OFFSET = 64; //Preferences.getDouble("BR_OFFSET",0);//61;
         public static final boolean FL_INVERTED = true;
         public static final boolean FR_INVERTED = false;
         public static final boolean BL_INVERTED = true;
@@ -30,7 +30,7 @@ public final class Constants {
 
         public static final double X_MULTIPLIER = 1.3;
         public static final double Y_MULTIPLIER = 1.3;
-        public static final double R_MULTIPLIER = 1.1;
+        public static final double R_MULTIPLIER = 1.5;
     }
   /************************* DRIVE *************************/
 
@@ -38,11 +38,11 @@ public final class Constants {
 
   /************************* SHOOTER *************************/
     public static final class ShooterConstants {
-        public static final int SHOOTER_MOTOR_ONE = 19; //20
-        public static final int SHOOTER_MOTOR_TWO = 20;  //21
+        public static final int SHOOTER_MOTOR_ONE = 0; //20
+        public static final int SHOOTER_MOTOR_TWO = 1;  //21
         // public static final int SHOOTER_MOTOR_HOOD = 21; //19
 
-        public static final double SHOOTER_RPM = 0.575; //2700
+        public static final double SHOOTER_RPM = 0.5; //2700
         public static final double SHOOTER_RPM_HALF = SHOOTER_RPM / 2;
         public static final double HOOD_HIGH = 15;
         public static final double HOOD_LOW = 0;
@@ -103,8 +103,8 @@ public final class Constants {
         public static final int WINCH_LEFT = 12;
         public static final int WINCH_RIGHT = 11;
 
-        public static final double WINCH_SPEED = 0.5;
-        public static final double PIVOT_SPEED = 0.1;
+        public static final double WINCH_SPEED = 0.4;
+        public static final double PIVOT_SPEED = 0.2;
 
         public static final double PIVOT_FRONT_POSITION = 78000;
         public static final double PIVOT_REAR_POSITION = 0;
@@ -117,7 +117,7 @@ public final class Constants {
 
         public static final double CLIMBER_kP = 20000;
 
-        public static final boolean CLIMBER_RESET_LIMITS = Preferences.getBoolean("CLIMBER_LIMITS", true);
+        public static boolean CLIMBER_RESET_LIMITS = true;
     }
   /************************* CLIMBER *************************/
 

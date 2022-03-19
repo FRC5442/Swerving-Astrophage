@@ -10,6 +10,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -18,7 +19,7 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
 
-  CANSparkMax shooterWheel1, shooterWheel2;
+  PWMSparkMax shooterWheel1, shooterWheel2;
   // WPI_VictorSPX shooterHood;
 
   RelativeEncoder wheel1Encoder, wheel2Encoder;
