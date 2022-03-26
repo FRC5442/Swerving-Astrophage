@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.Preferences;
 
 /**
@@ -31,6 +33,28 @@ public final class Constants {
         public static final double X_MULTIPLIER = 1.35;
         public static final double Y_MULTIPLIER = 1.35;
         public static final double R_MULTIPLIER = 1.5;
+
+        public static final double ROBOT_WIDTH = 27; //in inches
+        public static final double ROBOT_LENGTH = 19.5; //in inches
+
+        Translation2d frontLeftLocation = new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / 2);
+        Translation2d frontRightLocation = new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / -2);
+        Translation2d backLeftLocation = new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / 2);
+        Translation2d backRightLocation = new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / -2);
+
+        public static final SwerveDriveKinematics kDriveKinematics = 
+          new SwerveDriveKinematics(
+            new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / 2),  // Front Left Location
+            new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / 2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / -2), // Front Right Location
+            new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / 2), // Back Left Location
+            new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / -2) // Back Right Location
+          );
+        public static final double kMaxSpeedMetersPerSecond = 3;
+
+        public static final double kTopGearController = 0.5;
+        public static final double kBottomGearController = 0.5;
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2;
+        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2;
     }
   /************************* DRIVE *************************/
 
@@ -127,9 +151,7 @@ public final class Constants {
         public static double GYRO_OFFSET = 0; //in degrees
         public static final double TRIGGER_DEADZONE = 0.1;
         public static final double JOYSTICK_DEAD_ZONE = 0.1; //joystick values 0-1
-        public static final double ROBOT_WIDTH = 27; //in inches
-        public static final double ROBOT_LENGTH = 19.5; //in inches
-        public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
+        // public static final double ROBOT_RADIUS = Math.sqrt(Math.pow(ROBOT_WIDTH, 2) + Math.pow(ROBOT_LENGTH, 2));
     }
 
 

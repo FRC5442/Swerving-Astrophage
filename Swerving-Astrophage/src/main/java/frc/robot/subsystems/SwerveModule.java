@@ -11,6 +11,8 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,16 +41,30 @@ public class SwerveModule extends SubsystemBase {
   // private final PIDController drivePIDController = new PIDController(1, 0, 0);
   // private final ProfiledPIDController turningPIDController = new ProfiledPIDController.Constraints(1, 0, 0, new TrapezoidProfile(Math.PI, 2 * Math.PI));
 
+  private final PIDController m_topGearController =
+      new PIDController(Constants.SwerveConstants.kTopGearController, 0, 0);
+
+  // Using a TrapezoidProfile PIDController to allow for smooth turning
+  private final ProfiledPIDController m_bottomGearController =
+      new ProfiledPIDController(
+        Constants.SwerveConstants.kBottomGearController,
+          0,
+          0,
+          new TrapezoidProfile.Constraints(
+              Constants.SwerveConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+              Constants.SwerveConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+
   private final SimpleMotorFeedforward topGearFeedForward = new SimpleMotorFeedforward(1, 3);
   private final SimpleMotorFeedforward bottomGearFeedForward = new SimpleMotorFeedforward(1, 0.5);
-
-  // public double topGearSpeed = 0;
-  // public double bottomGearSpeed = 0;
 
   double topGearSpeed = 0;
   double bottomGearSpeed = 0;
 
   String moduleID = "";
+
+
+
+
 
   public SwerveModule(TalonFX topGear, TalonFX bottomGear, AnalogPotentiometer absEncoder, boolean invertedTranslate, double zeroOffset) {
     this.moduleID = moduleID.toUpperCase();
@@ -59,111 +75,52 @@ public class SwerveModule extends SubsystemBase {
     this.bottomGear = bottomGear;
     this.absEncoder = absEncoder;
 
+    m_bottomGearController.enableContinuousInput(-Math.PI, Math.PI);
+
     if (invertedTranslate) {
       TRANSLATE_MOD *= -1;
     }
   }
 
-  public void move(double speed, double angle) {
-    //By rotating both the top gear and the bottom gear at equal and opposite speeds, the wheel will drive in a straight direction.
-    topGearSpeed = 0;
-    bottomGearSpeed = 0;
-    double error = currentAngle - (angle);
-    double desiredAngle = currentAngle + angle;
-
-    //angle = SharedMethods.convertDegreesToRadians(angle);
-
-    topGearSpeed += (-speed * TRANSLATE_MOD);
-    bottomGearSpeed += (speed * TRANSLATE_MOD);
-
-    // topGearSpeed = ((speed * TRANSLATE_MOD) + (SharedMethods.convertDegreesToRadians(angle) * ROTATE_MOD)) / 1;
-    // bottomGearSpeed = -((speed * TRANSLATE_MOD) + (SharedMethods.convertDegreesToRadians(angle) * ROTATE_MOD)) / 1;
-
-  //  topGearSpeed = (speed * TRANSLATE_MOD);
-  //  bottomGearSpeed = -(speed * TRANSLATE_MOD);
 
 
-  //  bottomGearSpeed = -(SharedMethods.convertDegreesToRadians(angle) * ROTATE_MOD);
-   // ROTATE_MOD = 0.3 - (((Math.abs(topGearSpeed) + Math.abs(bottomGearSpeed)) / 2) * 0.15);
 
+
+
+  public void setDesiredState(SwerveModuleState desiredState){
+    SwerveModuleState state = 
+    SwerveModuleState.optimize(desiredState, new Rotation2d(currentAngle));
     
+    final double topGearOutput =
+    m_bottomGearController.calculate(getTopGearSpeed(), state.speedMetersPerSecond);
 
-    // if (angle > currentAngle) angle += currentAngle;
-    // if (angle < currentAngle) angle -= currentAngle;
-    if (angle <= -1) angle = angle + 360;
-    if (Math.abs(currentAngle - angle) >= ERROR_BOUND && Math.abs(currentAngle - angle) <= 360 - ERROR_BOUND) {
-      ROTATE_MOD = 0.3 - (((Math.abs(topGearSpeed) + Math.abs(bottomGearSpeed)) / 2) * 0.15);
-      // if (desiredAngle > currentAngle){
-      //   topGearSpeed = angle * (ROTATE_MOD / 150);
-      //   bottomGearSpeed = angle * (ROTATE_MOD / 150);
-      // } else {
-      // topGearSpeed = error * (ROTATE_MOD / 150);
-      // bottomGearSpeed = error * (ROTATE_MOD / 150);
-      // }
-      turnToAngle(angle);
-    }
+  // Calculate the turning motor output from the turning PID controller.
+    final double bottomGearOutput =
+    m_bottomGearController.calculate(getBottomGearPosition(), state.angle.getRadians());
 
-  }
-
-  public void turnToAngle(double desiredAngle) {
-    //get the error
-    double error = 0;
-
-    // error = currentAngle - desiredAngle;
-
-    // topGearSpeed = Math.abs(currentAngle - desiredAngle) / (1500*ROTATE_MOD);
-    // bottomGearSpeed = Math.abs(currentAngle - desiredAngle) / (1500*ROTATE_MOD);
-
-    // if (desiredAngle < currentAngle){
-    //   error = desiredAngle - currentAngle;
-    //   topGearSpeed += (error) / (1500*ROTATE_MOD);
-    //   bottomGearSpeed += (error) / (1500*ROTATE_MOD);
-    // } else if (desiredAngle > currentAngle){
-    //   error = currentAngle - desiredAngle;
-    //   topGearSpeed -= (error) / (1500*ROTATE_MOD);
-    //   bottomGearSpeed -= (error) / (1500*ROTATE_MOD);
-    // }
-
-    // if (error > 0){
-    //   topGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
-    //   bottomGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
-    // } else if (error < 0){
-    //   topGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
-    //   bottomGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
-    // }
-
-    
-
-    if (desiredAngle > currentAngle) {
-      error = desiredAngle - currentAngle;
-      if (error < 180) {
-        //move D by increasing C
-        topGearSpeed += Math.abs(error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += Math.abs(error) / 150 * ROTATE_MOD;
-      }
-      else if (error >= 180) {
-        //move towards D by decreasing C
-        topGearSpeed += -Math.abs(360 - error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += -Math.abs(360 - error) / 150 * ROTATE_MOD;
-      }
-    }
-    else if (desiredAngle < currentAngle) {
-      error = currentAngle - desiredAngle;
-      if (error < 180) {
-        //move towards D decreasing C
-        topGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += -Math.abs(error) / 150 * ROTATE_MOD;
-      }
-      else if (error >= 180) {
-        //move towards D by increasing C
-        topGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
-        bottomGearSpeed += Math.abs(360 - error) / 150 * ROTATE_MOD;
-      }
-    }
+  // Calculate the turning motor output from the turning PID controller.
+    topGearSpeed = topGearOutput;
+    bottomGearSpeed = bottomGearOutput;
   }
 
   public void calibrate() {
     zeroOffset = rawAngle;
+  }
+
+  public double getTopGearPosition(){
+    return topGear.getSelectedSensorPosition();
+  }
+
+  public double getBottomGearPosition(){
+    return bottomGear.getSelectedSensorPosition();
+  }
+
+  public double getTopGearSpeed(){
+    return topGear.getSelectedSensorVelocity();
+  }
+
+  public double getBottomGearSpeed(){
+    return bottomGear.getSelectedSensorVelocity();
   }
 
   public void switchTranslationMod(double value) {

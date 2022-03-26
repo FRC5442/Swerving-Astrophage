@@ -34,6 +34,7 @@ import com.kauailabs.navx.frc.AHRS;
 // import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
@@ -70,6 +71,14 @@ public class RobotContainer {
   public static TalonFX driveMotor3, driveMotor4; //front left
   public static TalonFX driveMotor5, driveMotor6; //back left
   public static TalonFX driveMotor7, driveMotor8; //back right
+
+  public static RelativeEncoder FL_TopEncoder, FL_BottomEncoder;
+  public static RelativeEncoder FR_TopEncoder, FR_BottomEncoder;
+  public static RelativeEncoder BL_TopEncoder, BL_BottomEncoder;
+  public static RelativeEncoder BR_TopEncoder, BR_BottomEncoder; 
+
+
+
 
   public static AnalogPotentiometer frontRightAbsEncoder;
   public static AnalogPotentiometer frontLeftAbsEncoder;
@@ -187,11 +196,10 @@ public class RobotContainer {
     frontLeftAbsEncoder = new AnalogPotentiometer(1, 360, 0);
     backLeftAbsEncoder = new AnalogPotentiometer(3, 360, 0);
     backRightAbsEncoder = new AnalogPotentiometer(2, 360, 0);
-
-    frontRightModule = new FrontRightModule(driveMotor1, driveMotor2, frontRightAbsEncoder);
-    frontLeftModule = new FrontLeftModule(driveMotor3, driveMotor4, frontLeftAbsEncoder);
-    backLeftModule = new BackLeftModule(driveMotor5, driveMotor6, backLeftAbsEncoder);
-    backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
+    // frontRightModule = new FrontRightModule(driveMotor1, driveMotor2, frontRightAbsEncoder);
+    // frontLeftModule = new FrontLeftModule(driveMotor3, driveMotor4, frontLeftAbsEncoder);
+    // backLeftModule = new BackLeftModule(driveMotor5, driveMotor6, backLeftAbsEncoder);
+    // backRightModule = new BackRightModule(driveMotor7, driveMotor8, backRightAbsEncoder);
     swerveGroup = new SwerveGroup();
     drive = new Drive();
   /************************* DRIVE *************************/
