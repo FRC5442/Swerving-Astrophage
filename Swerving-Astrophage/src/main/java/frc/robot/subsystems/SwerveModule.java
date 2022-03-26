@@ -89,14 +89,14 @@ public class SwerveModule extends SubsystemBase {
 
   public void setDesiredState(SwerveModuleState desiredState){
     SwerveModuleState state = 
-    SwerveModuleState.optimize(desiredState, new Rotation2d(currentAngle));
+      SwerveModuleState.optimize(desiredState, new Rotation2d(currentAngle));
     
     final double topGearOutput =
-    m_topGearController.calculate(getTopGearSpeed(), state.speedMetersPerSecond);
+      m_topGearController.calculate(getTopGearSpeed(), state.speedMetersPerSecond);
 
   // Calculate the turning motor output from the turning PID controller.
     final double bottomGearOutput =
-    m_bottomGearController.calculate(getBottomGearPosition(), state.angle.getRadians());
+      m_bottomGearController.calculate(getBottomGearPosition(), state.angle.getRadians());
 
   // Calculate the turning motor output from the turning PID controller.
     // topGearSpeed = topGearOutput * bottomGearOutput;
@@ -105,8 +105,8 @@ public class SwerveModule extends SubsystemBase {
     // topGearSpeed = state.speedMetersPerSecond * state.angle.getRadians();
     // bottomGearSpeed = -state.speedMetersPerSecond * state.angle.getRadians();
 
-    topGearSpeed = state.speedMetersPerSecond;
-    bottomGearSpeed = state.angle.getRadians();
+    topGearSpeed = state.speedMetersPerSecond + state.angle.getRadians();
+    bottomGearSpeed = -state.speedMetersPerSecond + state.angle.getRadians();
   }
 
   public void moveSwerveTheOldWay(double speed, double angle) {
@@ -211,15 +211,15 @@ public class SwerveModule extends SubsystemBase {
     zeroOffset = rawAngle;
   }
 
-  public double getModuleSpeed(){
-    double speed = ((topGear.getSelectedSensorVelocity() - bottomGear.getSelectedSensorVelocity()) / 2.0) 
-    * (10.0 / 2048) * ((10  / 88.0) * (54 / 14.0) * (1 / 3.0)) * (4 * 0.0254 * Math.PI * 1.10);
-    return speed;
-  }
+  // public double getModuleSpeed(){
+  //   double speed = ((topGear.getSelectedSensorVelocity() - bottomGear.getSelectedSensorVelocity()) / 2.0) 
+  //   * (10.0 / 2048) * ((10  / 88.0) * (54 / 14.0) * (1 / 3.0)) * (4 * 0.0254 * Math.PI * 1.10);
+  //   return speed;
+  // }
 
-  public double getTopGearPosition(){
-    return (topGear.getSelectedSensorPosition() / 2048) * 2 * Math.PI;
-  }
+  // public double getTopGearPosition(){
+  //   return (topGear.getSelectedSensorPosition() / 2048) * 2 * Math.PI;
+  // }
 
   public double getBottomGearPosition(){
     return (bottomGear.getSelectedSensorPosition() / 2048) * 2 * Math.PI;
@@ -229,9 +229,9 @@ public class SwerveModule extends SubsystemBase {
     return (topGear.getSelectedSensorVelocity() / 2048) * 2 * Math.PI;
   }
 
-  public double getBottomGearSpeed(){
-    return (bottomGear.getSelectedSensorVelocity() / 2048) * 2 * Math.PI;
-  }
+  // public double getBottomGearSpeed(){
+  //   return (bottomGear.getSelectedSensorVelocity() / 2048) * 2 * Math.PI;
+  // }
 
   public void switchTranslationMod(double value) {
     TRANSLATE_MOD = value;

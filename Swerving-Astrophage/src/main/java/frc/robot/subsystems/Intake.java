@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,8 +15,8 @@ import frc.robot.RobotContainer;
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   //WPI_VictorSPX intakeMotorField;
-  WPI_VictorSPX intakeMotorPivot;
-  WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
+  PWMVictorSPX intakeMotorPivot;
+  PWMVictorSPX intakeMotorElevator1, intakeMotorElevator2;
 
   public Intake() {
     //intakeMotorField = RobotContainer.intakeMotorField;

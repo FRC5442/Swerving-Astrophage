@@ -102,6 +102,10 @@ public class SwerveGroup extends SubsystemBase {
   }
 
   public void stopSwerve(){
+    frontLeftModule.stop();
+    frontRightModule.stop();
+    backLeftModule.stop();
+    backRightModule.stop();
   }
 
 
