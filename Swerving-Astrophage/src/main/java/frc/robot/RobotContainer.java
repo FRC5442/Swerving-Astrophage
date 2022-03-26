@@ -7,6 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -103,9 +104,9 @@ public class RobotContainer {
   public static Encoder hoodEncoder;
 
   // INTAKE \\
-  public static WPI_VictorSPX intakeMotorField;
-  public static WPI_VictorSPX intakeMotorPivot;
-  public static WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
+  public static PWMVictorSPX intakeMotorField;
+  public static PWMVictorSPX intakeMotorPivot;
+  public static PWMVictorSPX intakeMotorElevator1, intakeMotorElevator2;
   public static Intake intake;
   public static StartEndCommand intakeFieldCommand, reverseIntakeFieldCommand;
   public static IntakePivotCommand intakePivotCommand, reverseIntakePivotCommand;
@@ -120,7 +121,7 @@ public class RobotContainer {
   public static AnalogInput intakeColorSensor;
 
   // TURRET \\
-  public static WPI_VictorSPX turretMotor;
+  public static PWMVictorSPX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
   public static Encoder turretEncoder;
@@ -226,9 +227,9 @@ public class RobotContainer {
 
 
   /************************* INTAKE *************************/
-    intakeMotorPivot = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
-    intakeMotorElevator1 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
-    intakeMotorElevator2 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
+    intakeMotorPivot = new PWMVictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
+    intakeMotorElevator1 = new PWMVictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
+    intakeMotorElevator2 = new PWMVictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
     intakeColorSensor = new AnalogInput(Constants.IntakeConstants.INTAKE_COLOR_SENSOR);
     intakePivotEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k1X);
 
@@ -278,7 +279,7 @@ public class RobotContainer {
 
   /************************* TURRET *************************/
     turretEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k1X);
-    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
+    turretMotor = new PWMVictorSPX(Constants.TurretConstants.TURRET_MOTOR);
     turret = new Turret();
     turretRight = new StartEndCommand(
       () -> turret.moveTurret(0.6),
@@ -408,7 +409,7 @@ public class RobotContainer {
     autoNull = new SequentialCommandGroup();
 
     autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("NO AUTO", autoBasic);
+    autoChooser.setDefaultOption("NO AUTO", autoNull);
     autoChooser.addOption("Complex Auto", autoComplex);
     autoChooser.addOption("Basic Auto", autoBasic);
     SmartDashboard.putData(autoChooser);

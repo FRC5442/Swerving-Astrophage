@@ -21,10 +21,10 @@ public final class Constants {
     
   /************************* DRIVE *************************/
     public static final class SwerveConstants {
-        public static final double FL_OFFSET = 214; //Preferences.getDouble("FL_OFFSET", 0);//91;
-        public static final double FR_OFFSET = 145; //Preferences.getDouble("FR_OFFSET", 0);//348;
-        public static final double BL_OFFSET = 153; //Preferences.getDouble("BL_OFFSET",0);//94;
-        public static final double BR_OFFSET = 52; //Preferences.getDouble("BR_OFFSET",0);//61;
+        public static final double FL_OFFSET = 223; //Preferences.getDouble("FL_OFFSET", 0);//91;
+        public static final double FR_OFFSET = 242; //Preferences.getDouble("FR_OFFSET", 0);//348;
+        public static final double BL_OFFSET = 221; //Preferences.getDouble("BL_OFFSET",0);//94;
+        public static final double BR_OFFSET = 48; //Preferences.getDouble("BR_OFFSET",0);//61;
         public static final boolean FL_INVERTED = true;
         public static final boolean FR_INVERTED = false;
         public static final boolean BL_INVERTED = true;
@@ -49,12 +49,12 @@ public final class Constants {
             new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / 2), // Back Left Location
             new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / -2) // Back Right Location
           );
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 0.5;
 
-        public static final double kTopGearController = 0.5;
-        public static final double kBottomGearController = 0.5;
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2;
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2;
+        public static final double kTopGearController = 1;
+        public static final double kBottomGearController = 1;
+        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 0.5;
+        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 0.5;
     }
   /************************* DRIVE *************************/
 
@@ -83,10 +83,10 @@ public final class Constants {
         public static final double INTAKE_PIVOT_SPEED = 0.2;
         public static final double INTAKE_ELEVATOR_SPEED = 0.95;
 
-        public static final int INTAKE_MOTOR_PIVOT = 18;
+        public static final int INTAKE_MOTOR_PIVOT = 2;
         // public static final int INTAKE_MOTOR_PIVOT = 0;
-        public static final int INTAKE_MOTOR_ELEVATOR_ONE = 15;
-        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 16; //16
+        public static final int INTAKE_MOTOR_ELEVATOR_ONE = 3;
+        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 4; //16
 
         public static final int INTAKE_LASER_SWITCH = 0;
         public static final int INTAKE_COLOR_SENSOR = 7;
@@ -102,7 +102,7 @@ public final class Constants {
 
   /************************* TURRET *************************/
     public static final class TurretConstants {
-        public static final int TURRET_MOTOR = 17;
+        public static final int TURRET_MOTOR = 1;
         public static final int TURRET_ENCODER = 6;
         
         public static final double TURRET_kP = 1;

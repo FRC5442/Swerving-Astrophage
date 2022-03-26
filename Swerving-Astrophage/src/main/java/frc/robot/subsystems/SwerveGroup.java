@@ -71,17 +71,34 @@ public class SwerveGroup extends SubsystemBase {
   // Swerve control using the built in WPILib kinematics calculations, see WPILib documentation for instructions
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative){
 
+    double xValue;
+    double yValue;
+    double rValue;
+
+    if (Math.abs(xSpeed) >= Constants.RobotConstants.JOYSTICK_DEAD_ZONE) xValue = 0; else xValue = xSpeed;
+    if (Math.abs(ySpeed) >= Constants.RobotConstants.JOYSTICK_DEAD_ZONE) yValue = 0; else yValue = ySpeed;
+    if (Math.abs(rot) >= Constants.RobotConstants.JOYSTICK_DEAD_ZONE) rValue = 0; else rValue = rot;
+
     var swerveModuleStates =
         Constants.SwerveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, RobotContainer.navX.getRotation2d())
-                : new ChassisSpeeds(xSpeed, ySpeed, rot));
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(xValue, yValue, rValue, RobotContainer.navX.getRotation2d())
+                : new ChassisSpeeds(xValue, yValue, rValue));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.SwerveConstants.kMaxSpeedMetersPerSecond);
-    frontLeftModule.setDesiredState(swerveModuleStates[0]);
-    frontRightModule.setDesiredState(swerveModuleStates[1]);
-    backLeftModule.setDesiredState(swerveModuleStates[2]);
-    backRightModule.setDesiredState(swerveModuleStates[3]);
+    // frontLeftModule.setDesiredState(swerveModuleStates[0]);
+    // frontRightModule.setDesiredState(swerveModuleStates[1]);
+    // backLeftModule.setDesiredState(swerveModuleStates[2]);
+    // backRightModule.setDesiredState(swerveModuleStates[3]);
+    
+    frontLeftModule.moveSwerveTheOldWay(swerveModuleStates[0].speedMetersPerSecond, swerveModuleStates[0].angle.getRadians());
+    frontRightModule.moveSwerveTheOldWay(swerveModuleStates[1].speedMetersPerSecond, swerveModuleStates[1].angle.getRadians());
+    backLeftModule.moveSwerveTheOldWay(swerveModuleStates[2].speedMetersPerSecond, swerveModuleStates[2].angle.getRadians());
+    backRightModule.moveSwerveTheOldWay(swerveModuleStates[3].speedMetersPerSecond, swerveModuleStates[3].angle.getRadians());
+
+
+
+
   }
 
   public void stopSwerve(){
@@ -117,7 +134,5 @@ public class SwerveGroup extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-
-  }
+  public void periodic() {}
 }
