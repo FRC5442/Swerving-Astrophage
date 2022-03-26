@@ -362,32 +362,32 @@ public class RobotContainer {
   /************************* AUTO *************************/
     autoBasic = new SequentialCommandGroup(
       new InstantCommand(() -> shooter.shoot(-Constants.ShooterConstants.SHOOTER_RPM)),
-      new WaitCommand(1),  
+      new WaitCommand(0.5),  
       new InstantCommand(() -> intake.moveIntake(-1)),
-      new WaitCommand(2),
-      new ParallelRaceGroup(new Drive(-0.5, 0, 0), new WaitCommand(0.75)),
+      new WaitCommand(1.5),
+      new ParallelRaceGroup(new Drive(-0.5, 0, 0), new WaitCommand(0.5)),
       new WaitCommand(0.5),
-      new ParallelRaceGroup(new Drive(0.5, 0, 0), new WaitCommand(0.75)),
+      new ParallelRaceGroup(new Drive(0.5, 0, 0), new WaitCommand(0.5)),
       
       new WaitCommand(2),
 
       //new InstantCommand(() -> intake.moveIntake(-1)),
       //new InstantCommand(() -> shooter.shoot(-Constants.ShooterConstants.SHOOTER_RPM)),
-      new ParallelRaceGroup(
-        new WaitCommand(2),
-        new IntakePivotCommand(0.6)
-      ),
+      // new ParallelRaceGroup(
+      //   new WaitCommand(2),
+      //   new IntakePivotCommand(0.8)
+      // ),
       new ParallelRaceGroup( 
         new WaitCommand(3),
-        new IntakePivotCommand(0.6),
+        //new IntakePivotCommand(0.6),
         new Drive(-0.6, 0, 0)
       ),
-      new WaitCommand(0.5),
-      new ParallelRaceGroup(
-        new WaitCommand(1),
-        new Drive(0.6, 0, 0)
-      ),
-      new WaitCommand(2),
+      // new WaitCommand(0.5),
+      // new ParallelRaceGroup(
+      //   new WaitCommand(1),
+      //   new Drive(0.6, 0, 0)
+      // ),
+      //new WaitCommand(1),
       new InstantCommand(() -> intake.moveIntake(0)),
       new InstantCommand(() -> shooter.shoot(0))
     );
@@ -400,7 +400,7 @@ public class RobotContainer {
     autoNull = new SequentialCommandGroup();
 
     autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("NO AUTO", autoNull);
+    autoChooser.setDefaultOption("NO AUTO", autoBasic);
     autoChooser.addOption("Complex Auto", autoComplex);
     autoChooser.addOption("Basic Auto", autoBasic);
     SmartDashboard.putData(autoChooser);
