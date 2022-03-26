@@ -49,7 +49,7 @@ public final class Constants {
             new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / 2), // Back Left Location
             new Translation2d(SharedMethods.convertInchesToMeters(ROBOT_WIDTH) / -2, SharedMethods.convertInchesToMeters(ROBOT_LENGTH) / -2) // Back Right Location
           );
-        public static final double kMaxSpeedMetersPerSecond = 0.5;
+        public static final double kMaxSpeedMetersPerSecond = 0.1;
 
         public static final double kTopGearController = 1;
         public static final double kBottomGearController = 1;
