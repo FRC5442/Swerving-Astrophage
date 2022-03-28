@@ -7,6 +7,7 @@ package frc.robot;
 /************************* IMPORTS *************************/
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -87,6 +88,7 @@ public class RobotContainer {
   public static Shooter shooter;
   public static ShootCommand shootCommand, reverseShootCommand;
   public static PWMSparkMax shooterWheel1, shooterWheel2;
+  public static PWMVictorSPX shooterBackWheel;
   // public static WPI_VictorSPX shooterHood;
 
   // HOOD \\
@@ -94,9 +96,9 @@ public class RobotContainer {
   public static Encoder hoodEncoder;
 
   // INTAKE \\
-  public static WPI_VictorSPX intakeMotorField;
-  public static WPI_VictorSPX intakeMotorPivot;
-  public static WPI_VictorSPX intakeMotorElevator1, intakeMotorElevator2;
+  public static PWMVictorSPX intakeMotorField;
+  public static PWMVictorSPX intakeMotorPivot;
+  public static PWMVictorSPX intakeMotorElevator1, intakeMotorElevator2;
   public static Intake intake;
   public static StartEndCommand intakeFieldCommand, reverseIntakeFieldCommand;
   public static IntakePivotCommand intakePivotCommand, reverseIntakePivotCommand;
@@ -111,7 +113,7 @@ public class RobotContainer {
   public static AnalogInput intakeColorSensor;
 
   // TURRET \\
-  public static WPI_VictorSPX turretMotor;
+  public static PWMVictorSPX turretMotor;
   public static AHRS turretGyro;
   public static Turret turret;
   public static Encoder turretEncoder;
@@ -200,6 +202,7 @@ public class RobotContainer {
   /************************* SHOOTER *************************/
     shooterWheel1 = new PWMSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_ONE);
     shooterWheel2 = new PWMSparkMax(Constants.ShooterConstants.SHOOTER_MOTOR_TWO);
+    shooterBackWheel = new PWMVictorSPX(Constants.ShooterConstants.SHOOTER_BACK_WHEEL);
     shooter = new Shooter();
 
     // shooterWheel1.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 500);
@@ -207,6 +210,8 @@ public class RobotContainer {
 
     shootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM);
     reverseShootCommand = new ShootCommand(-Constants.ShooterConstants.SHOOTER_RPM_HALF);
+
+
   /************************* SHOOTER *************************/
 
 
@@ -218,9 +223,9 @@ public class RobotContainer {
 
 
   /************************* INTAKE *************************/
-    intakeMotorPivot = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
-    intakeMotorElevator1 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
-    intakeMotorElevator2 = new WPI_VictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
+    intakeMotorPivot = new PWMVictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_PIVOT);
+    intakeMotorElevator1 = new PWMVictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_ONE);
+    //intakeMotorElevator2 = new PWMVictorSPX(Constants.IntakeConstants.INTAKE_MOTOR_ELEVATOR_TWO);
     intakeColorSensor = new AnalogInput(Constants.IntakeConstants.INTAKE_COLOR_SENSOR);
     intakePivotEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k1X);
 
@@ -264,13 +269,12 @@ public class RobotContainer {
       );
     intake.setDefaultCommand(intakePivotUpCommand);
 
-
   /************************* INTAKE *************************/
 
 
   /************************* TURRET *************************/
     turretEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k1X);
-    turretMotor = new WPI_VictorSPX(Constants.TurretConstants.TURRET_MOTOR);
+    turretMotor = new PWMVictorSPX(Constants.TurretConstants.TURRET_MOTOR);
     turret = new Turret();
     turretRight = new StartEndCommand(
       () -> turret.moveTurret(0.6),
@@ -313,16 +317,22 @@ public class RobotContainer {
 
     climber = new Climber();
 
-    winchLeftCommand = new ClimberCommand(winchLeft, -158000, 0, -Constants.ClimberConstants.WINCH_SPEED);
-    lowerWinchLeftCommand = new ClimberCommand(winchLeft, -159000, 0, Constants.ClimberConstants.WINCH_SPEED);
+    //double limit = 310000;
+    // double limit = 300000;
 
-    winchRightCommand = new ClimberCommand(winchRight, 0, 191000, Constants.ClimberConstants.WINCH_SPEED);
-    lowerWinchRightCommand = new ClimberCommand(winchRight, 0, 191000, -Constants.ClimberConstants.WINCH_SPEED);
+    winchLeftCommand = new ClimberCommand(winchLeft, -Constants.ClimberConstants.WINCH_HIGH_POSITION, 0, -Constants.ClimberConstants.WINCH_SPEED);
+    lowerWinchLeftCommand = new ClimberCommand(winchLeft, -Constants.ClimberConstants.WINCH_HIGH_POSITION, 0, Constants.ClimberConstants.WINCH_SPEED);
+
+    winchRightCommand = new ClimberCommand(winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_SPEED);
+    lowerWinchRightCommand = new ClimberCommand(winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, -Constants.ClimberConstants.WINCH_SPEED);
     
-    pivotLeftCommand = new ClimberCommand(pivotLeft, -70000, 0, Constants.ClimberConstants.PIVOT_SPEED);
-    reversePivotLeftCommand = new ClimberCommand(pivotLeft, -70000, 0, -Constants.ClimberConstants.PIVOT_SPEED);
-    pivotRightCommand = new ClimberCommand(pivotRight, 0, 70000, -Constants.ClimberConstants.PIVOT_SPEED);
-    reversePivotRightCommand = new ClimberCommand(pivotRight, 0, 70000, Constants.ClimberConstants.PIVOT_SPEED);
+
+    pivotLeftCommand = new ClimberCommand(pivotLeft, -Constants.ClimberConstants.PIVOT_FRONT_POSITION, 0, Constants.ClimberConstants.PIVOT_SPEED);
+    reversePivotLeftCommand = new ClimberCommand(pivotLeft, -Constants.ClimberConstants.PIVOT_FRONT_POSITION, 0, -Constants.ClimberConstants.PIVOT_SPEED);
+
+    pivotRightCommand = new ClimberCommand(pivotRight, 0, Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED);
+    reversePivotRightCommand = new ClimberCommand(pivotRight, 0, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED);
+
 
     switchClimberEncoderLimitUse = new InstantCommand(
       () -> climber.useClimberLimits = !climber.useClimberLimits
@@ -416,6 +426,8 @@ public class RobotContainer {
   // Primary driver controls: intake, drive(not initialized here):
     xbox1LB.whileHeld(intakeAllCommand);
     xbox1RB.whileHeld(reverseIntakeAllCommand);
+
+    xbox1A.whileHeld(climberAutomation);
 
   // Secondary Driver Controls:
     // Climber Controls

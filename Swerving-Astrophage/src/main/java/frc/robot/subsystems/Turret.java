@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,7 +19,7 @@ import frc.robot.RobotContainer;
 
 public class Turret extends SubsystemBase {
   /** Creates a new Turret. */
-  WPI_VictorSPX turretMotor;
+  PWMVictorSPX turretMotor;
   Encoder turretEncoder;
   AHRS robotGyro;
   double gyroOffset;

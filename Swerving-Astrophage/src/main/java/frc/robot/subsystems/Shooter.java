@@ -11,8 +11,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.RobotConstants;
 
 public class Shooter extends SubsystemBase {
   /**
@@ -20,6 +22,7 @@ public class Shooter extends SubsystemBase {
    */
 
   PWMSparkMax shooterWheel1, shooterWheel2;
+  PWMVictorSPX shooterBackWheel;
   // WPI_VictorSPX shooterHood;
 
   RelativeEncoder wheel1Encoder, wheel2Encoder;
@@ -30,12 +33,17 @@ public class Shooter extends SubsystemBase {
     //Shooter Wheel 1
     shooterWheel1 = RobotContainer.shooterWheel1;
     shooterWheel2 = RobotContainer.shooterWheel2;
+    shooterBackWheel = RobotContainer.shooterBackWheel;
     // wheel1Encoder = RobotContainer.shooterWheel1.getEncoder();
   }
 
   public void shoot(double speed) {
     shooterWheel1.set(speed);
     shooterWheel2.set(-speed);
+  }
+
+  public void removeBackSpin(double speed) {
+    shooterBackWheel.set(speed);
   }
 
   // public void moveHood(double speed) {

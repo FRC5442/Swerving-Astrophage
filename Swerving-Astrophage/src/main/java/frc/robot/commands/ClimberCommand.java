@@ -48,7 +48,7 @@ public class ClimberCommand extends CommandBase {
           RobotContainer.climber.moveClimber(motor, 0);
           isFinished = true;  
         } else {RobotContainer.climber.moveClimber(motor, speed);}
-      } else {RobotContainer.climber.moveClimber(motor, speed);}
+      } else {RobotContainer.climber.moveClimber(motor, (speed * 0.75));}
   }
 
 

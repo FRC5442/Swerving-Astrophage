@@ -48,6 +48,8 @@ public final class Constants {
         public static final double HOOD_LOW = 0;
 
         public static final double HOOD_kP = 1;
+
+        public static final int SHOOTER_BACK_WHEEL = 3;
     }
   /************************* SHOOTER *************************/
 
@@ -59,10 +61,10 @@ public final class Constants {
         public static final double INTAKE_PIVOT_SPEED = 0.2;
         public static final double INTAKE_ELEVATOR_SPEED = 0.95;
 
-        public static final int INTAKE_MOTOR_PIVOT = 18;
+        public static final int INTAKE_MOTOR_PIVOT = 5;
         // public static final int INTAKE_MOTOR_PIVOT = 0;
-        public static final int INTAKE_MOTOR_ELEVATOR_ONE = 15;
-        public static final int INTAKE_MOTOR_ELEVATOR_TWO = 16; //16
+        public static final int INTAKE_MOTOR_ELEVATOR_ONE = 2;
+        // public static final int INTAKE_MOTOR_ELEVATOR_TWO = 3; //16
 
         public static final int INTAKE_LASER_SWITCH = 0;
         public static final int INTAKE_COLOR_SENSOR = 7;
@@ -78,7 +80,7 @@ public final class Constants {
 
   /************************* TURRET *************************/
     public static final class TurretConstants {
-        public static final int TURRET_MOTOR = 17;
+        public static final int TURRET_MOTOR = 4;
         public static final int TURRET_ENCODER = 6;
         
         public static final double TURRET_kP = 1;
@@ -103,15 +105,15 @@ public final class Constants {
         public static final int WINCH_LEFT = 12;
         public static final int WINCH_RIGHT = 11;
 
-        public static final double WINCH_SPEED = 0.5;
+        public static final double WINCH_SPEED = 0.9;
         public static final double PIVOT_SPEED = 0.2;
 
-        public static final double PIVOT_FRONT_POSITION = 78000;
+        public static final double PIVOT_FRONT_POSITION = 70000;
         public static final double PIVOT_REAR_POSITION = 0;
         public static final double PIVOT_RESET_POSITION = 30000;
 
 
-        public static final double WINCH_HIGH_POSITION = -200000;
+        public static final double WINCH_HIGH_POSITION = 300000;
         public static final double WINCH_LOW_POSITION = 0;
         public static final double WINCH_RESET_POSITION = 0;
 
