@@ -56,7 +56,8 @@ public class ClimberAutomation extends SequentialCommandGroup {
         new ClimberCommand(RobotContainer.winchLeft, -Constants.ClimberConstants.WINCH_HIGH_POSITION, 0, -Constants.ClimberConstants.WINCH_SPEED) // raiseLeftWinch
         ),
       new ClimberCommand(RobotContainer.pivotLeft, -Constants.ClimberConstants.PIVOT_FRONT_POSITION, 0 + (-Constants.ClimberConstants.PIVOT_FRONT_POSITION / 2), Constants.ClimberConstants.PIVOT_SPEED),
-      
+      new ClimberCommand(RobotContainer.pivotRight, 0, (Constants.ClimberConstants.PIVOT_FRONT_POSITION / 2), Constants.ClimberConstants.PIVOT_SPEED),
+
       new ParallelCommandGroup(
         new ClimberCommand(RobotContainer.winchLeft, -Constants.ClimberConstants.WINCH_HIGH_POSITION, 0, Constants.ClimberConstants.WINCH_SPEED), // lowerLeftWinch,
         new SequentialCommandGroup(new WaitCommand(1), new ClimberCommand(RobotContainer.winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_SPEED)) // raise right winch
@@ -65,7 +66,9 @@ public class ClimberAutomation extends SequentialCommandGroup {
       new ClimberCommand(RobotContainer.winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, -Constants.ClimberConstants.WINCH_SPEED), // lowerRightWinch,,
       new ClimberCommand(RobotContainer.pivotRight, 0, Constants.ClimberConstants.PIVOT_FRONT_POSITION, Constants.ClimberConstants.PIVOT_SPEED), // moveRightForward,
       new ClimberCommand(RobotContainer.winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_SPEED), // raiseRightWinch,
+
       new ClimberCommand(RobotContainer.pivotRight, 0 + (Constants.ClimberConstants.PIVOT_FRONT_POSITION / 3), Constants.ClimberConstants.PIVOT_FRONT_POSITION, -Constants.ClimberConstants.PIVOT_SPEED), // Pivot Right Backwards
+      new ClimberCommand(RobotContainer.pivotLeft, -Constants.ClimberConstants.PIVOT_FRONT_POSITION, 0 + (-Constants.ClimberConstants.PIVOT_FRONT_POSITION /2), Constants.ClimberConstants.PIVOT_SPEED), // pivot left backwards
       
       new ParallelCommandGroup(
         new ClimberCommand(RobotContainer.winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, -Constants.ClimberConstants.WINCH_SPEED), // lowerRightWinch,,
