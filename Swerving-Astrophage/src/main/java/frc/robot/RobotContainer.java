@@ -58,7 +58,7 @@ public class RobotContainer {
 
   // CONTROLLER \\
   public static Joystick xbox1;
-  public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y, xbox1Back, xbox1Start;
+  public static JoystickButton xbox1A, xbox1B, xbox1X, xbox1Y, xbox1Back, xbox1Start, xbox1LS, xbox1RS;
   public static JoystickButton xbox1LB, xbox1RB;
   public static double xbox1LTrigger, xbox1RTrigger;
 
@@ -101,11 +101,12 @@ public class RobotContainer {
   public static PWMVictorSPX intakeMotorElevator1, intakeMotorElevator2;
   public static Intake intake;
   public static StartEndCommand intakeFieldCommand, reverseIntakeFieldCommand;
-  public static IntakePivotCommand intakePivotCommand, reverseIntakePivotCommand;
+  // public static IntakePivotCommand intakePivotCommand, reverseIntakePivotCommand;
   public static StartEndCommand intakeElevator1Command, reverseIntakeElevator1Command;
   public static StartEndCommand intakeElevator2Command, reverseIntakeElevator2Command;
   public static StartEndCommand intakeAllCommand, reverseIntakeAllCommand;
-  public static RunCommand intakePivotUpCommand, intakePivotDownCommand;
+  public static RunCommand intakePivotCommand;
+  public static StartEndCommand intakePivotUpCommand, intakePivotDownCommand;
 
   public static Encoder intakePivotEncoder;
   
@@ -133,6 +134,7 @@ public class RobotContainer {
   public static ClimberCommand auto_lowerWinchLeftCommand, auto_lowerWinchRightCommand, auto_reversePivotLeftCommand, auto_reversePivotRightCommand;
 
   public static InstantCommand switchClimberEncoderLimitUse;
+  private final SequentialCommandGroup initialClimberAutomation;
 
 /************************* VARIABLES *************************/
 
@@ -150,6 +152,8 @@ public class RobotContainer {
     xbox1Start = new JoystickButton(xbox1, Button.kStart.value);
     xbox1LTrigger = xbox1.getRawAxis(2);
     xbox1RTrigger = xbox1.getRawAxis(3);
+    xbox1LS = new JoystickButton(xbox1, Button.kLeftStick.value);
+    xbox1RS = new JoystickButton(xbox1, Button.kRightStick.value);
 
     xbox2 = new Joystick(1);
     xbox2A = new JoystickButton(xbox2, Button.kA.value);
@@ -231,7 +235,7 @@ public class RobotContainer {
 
     intake = new Intake();
     
-    intakePivotCommand = new IntakePivotCommand();
+    // intakePivotCommand = new IntakePivotCommand();
     // reverseIntakePivotCommand = new IntakePivotCommand(-Constants.IntakeConstants.INTAKE_PIVOT_SPEED);
 
     //intake.setDefaultCommand(intakePivotCommand);
@@ -263,11 +267,20 @@ public class RobotContainer {
       () -> intake.moveIntake(0)
     );
     
-    intakePivotUpCommand = new RunCommand(
-      () -> intake.moveIntakePivot(0.4 * RobotContainer.xbox2.getRawAxis(5)),
-      intake
-      );
-    intake.setDefaultCommand(intakePivotUpCommand);
+    // intakePivotCommand = new RunCommand(
+    //   () -> intake.moveIntakePivot(0.4 * RobotContainer.xbox2.getRawAxis(5)),
+    //   intake
+    //   );
+    
+    intakePivotUpCommand = new StartEndCommand(
+      () -> intake.moveIntakePivot(0.6),
+      () -> intake.moveIntakePivot(0)
+    );
+    intakePivotDownCommand = new StartEndCommand(
+      () -> intake.moveIntakePivot(-0.4),
+      () -> intake.moveIntakePivot(0)
+    );
+    // intake.setDefaultCommand(intakePivotCommand);
 
   /************************* INTAKE *************************/
 
@@ -342,6 +355,12 @@ public class RobotContainer {
 
     climberAutomation = new ClimberAutomation();
     SmartDashboard.putData(climberAutomation);
+
+    initialClimberAutomation = new SequentialCommandGroup(
+      new ClimberCommand(pivotLeft, -Constants.ClimberConstants.PIVOT_FRONT_POSITION, 0, -Constants.ClimberConstants.PIVOT_SPEED), // pivotLeftCommand,
+      new ClimberCommand(winchRight, 0, Constants.ClimberConstants.WINCH_HIGH_POSITION, Constants.ClimberConstants.WINCH_SPEED), // winchRightCommand,
+      new WaitCommand(5)
+    );
   /************************* CLIMBER *************************/
 
 
@@ -404,7 +423,35 @@ public class RobotContainer {
 
     // lowers intake, picks up ball, raises ball, shoots
     autoComplex = new SequentialCommandGroup(
+      new InstantCommand(() -> shooter.shoot(-Constants.ShooterConstants.SHOOTER_RPM)),
+      new WaitCommand(0.5),  
+      new InstantCommand(() -> intake.moveIntake(-1)),
+      new WaitCommand(1.5),
+      new ParallelRaceGroup(new Drive(-0.8, 0, 0), new WaitCommand(0.5)),
+      new WaitCommand(0.5),
+      new ParallelRaceGroup(new Drive(0.8, 0, 0), new WaitCommand(0.5)),
       
+      new WaitCommand(2),
+
+      new InstantCommand(() -> intake.moveIntake(-1)),
+      new InstantCommand(() -> shooter.shoot(-Constants.ShooterConstants.SHOOTER_RPM)),
+      new ParallelRaceGroup(
+        new WaitCommand(1),
+        new IntakePivotCommand(0.8)
+      ),
+      new ParallelRaceGroup( 
+        new WaitCommand(3),
+        //new IntakePivotCommand(0.6),
+        new Drive(-0.8, 0, 0.2)
+      ),
+      new WaitCommand(0.5),
+      new ParallelRaceGroup(
+        new WaitCommand(1),
+        new Drive(0.8, 0, -0.2)
+      ),
+      new WaitCommand(1),
+      new InstantCommand(() -> intake.moveIntake(0)),
+      new InstantCommand(() -> shooter.shoot(0))
     );
 
     autoNull = new SequentialCommandGroup();
@@ -428,6 +475,10 @@ public class RobotContainer {
     xbox1RB.whileHeld(reverseIntakeAllCommand);
 
     xbox1A.whileHeld(climberAutomation);
+    xbox1B.whileHeld(initialClimberAutomation);
+
+    xbox1LS.whileHeld(intakePivotDownCommand);
+    xbox1RS.whileHeld(intakePivotUpCommand);
 
   // Secondary Driver Controls:
     // Climber Controls

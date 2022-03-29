@@ -74,7 +74,8 @@ public class Drive extends CommandBase {
       
       //Vector2d translation = new Vector2d(leftX * Math.pow(Math.abs(leftX), 1), leftY * Math.pow(Math.abs(leftY), 1));
       Vector2d translation = new Vector2d(leftX, leftY);
-      RobotContainer.swerveGroup.moveSwerveWPILib(translation, rightX * Math.pow(Math.abs(rightX), 1));
+      RobotContainer.swerveGroup.moveSwerveWPILib(translation, ((rightX * Math.pow(Math.abs(rightX), 1))//  - (0.2 * Math.abs(rightX) / rightX)) 
+      ));
       // RobotContainer.swerveGroup.moveSwerve(translation, rightX * Math.pow(Math.abs(rightX), 1));
 
 

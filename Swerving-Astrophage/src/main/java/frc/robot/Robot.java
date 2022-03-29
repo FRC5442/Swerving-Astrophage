@@ -83,7 +83,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    RobotContainer.shooter.shoot(0);
+    RobotContainer.intake.moveIntake(0);
     RobotContainer.drive.schedule();
     //RobotContainer.turretAutoPositioningCommand.schedule();
     

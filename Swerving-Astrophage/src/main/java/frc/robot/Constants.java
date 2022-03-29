@@ -28,8 +28,8 @@ public final class Constants {
         public static final boolean BL_INVERTED = true;
         public static final boolean BR_INVERTED = false;
 
-        public static final double X_MULTIPLIER = 1.35;
-        public static final double Y_MULTIPLIER = 1.35;
+        public static final double X_MULTIPLIER = 1.5;
+        public static final double Y_MULTIPLIER = 1.5;
         public static final double R_MULTIPLIER = 1.5;
     }
   /************************* DRIVE *************************/
@@ -42,7 +42,7 @@ public final class Constants {
         public static final int SHOOTER_MOTOR_TWO = 1;  //21
         // public static final int SHOOTER_MOTOR_HOOD = 21; //19
 
-        public static final double SHOOTER_RPM = 0.51; //2700
+        public static final double SHOOTER_RPM = 0.53;
         public static final double SHOOTER_RPM_HALF = SHOOTER_RPM / 2;
         public static final double HOOD_HIGH = 15;
         public static final double HOOD_LOW = 0;
@@ -105,8 +105,8 @@ public final class Constants {
         public static final int WINCH_LEFT = 12;
         public static final int WINCH_RIGHT = 11;
 
-        public static final double WINCH_SPEED = 0.9;
-        public static final double PIVOT_SPEED = 0.2;
+        public static final double WINCH_SPEED = 0.98;
+        public static final double PIVOT_SPEED = 0.25;
 
         public static final double PIVOT_FRONT_POSITION = 70000;
         public static final double PIVOT_REAR_POSITION = 0;
